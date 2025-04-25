@@ -5,14 +5,13 @@ import java.util.*;
 
     public class AgentE extends Employe {
 
-        public Vector<Intervention> listInter = new Vector<Intervention>();
+        public Vector<Intervention> listInter ;
 
-        public AgentE() {
-        }
 
-        public AgentE(int id_Emp, double salaire, Hotel hotel, Vector<Intervention> listInter) {
-            super(id_Emp, salaire, hotel); // Appelle le constructeur de la classe parente Employe
-            this.listInter = listInter;
+
+        public AgentE(int id_Emp, String nom, String prenom, String email, String tel,String adresse ,  double salaire, Hotel hotel) {
+            super( nom, prenom, email, tel, adresse , salaire, hotel);
+                listInter = new Vector<>();
         }
 
         public Vector<Intervention> getListInter() {

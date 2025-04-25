@@ -13,10 +13,10 @@ import java.time.LocalDate;
         public Intervention() {
         }
 
-        public Intervention(LocalDate date, AgentE agent, Chambre chambre) {
-            this.date = date;
-            this.agent = agent;
-            this.chambre = chambre;
+        public Intervention(LocalDate d, AgentE a, Chambre c) {
+            date = d;
+            agent = a;
+            chambre = c;
         }
 
         public LocalDate getDate() {

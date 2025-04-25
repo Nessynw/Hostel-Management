@@ -6,12 +6,10 @@ public class Receptionniste extends Employe {
 
     public Vector<Reservation> Res = new Vector<Reservation>();
 
-    public Receptionniste() {
-    }
 
-    public Receptionniste(int id_Emp, double salaire, Hotel hotel, Vector<Reservation> Res) {
-        super(id_Emp, salaire, hotel); // Appelle le constructeur de la classe parente Employe
-        this.Res = Res;
+
+    public Receptionniste( String nom, String prenom, String email, String tel,String a , double salaire, Hotel hotel) {
+        super( nom, prenom, email, tel,a, salaire, hotel);
     }
 
     public Vector<Reservation> getRes() {

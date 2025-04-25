@@ -3,19 +3,18 @@ package Model;
 
 public class Employe extends Personne {
 
-        public int id_Emp;
-        public double salaire;
-        public Hotel hotel;
+    private  static int id_Emp=0;
+    private double salaire;
+    private Hotel hotel;
 
-        public Employe() {
-        }
 
-        public Employe(int id_Emp, double salaire, Hotel hotel) {
-            this.id_Emp = id_Emp;
-            this.salaire = salaire;
-            this.hotel = hotel;
-        }
 
+    public Employe(String nom, String prenom, String email, String tel,String adr ,  double s, Hotel h) {
+        super( nom, prenom, email, tel,adr);
+        id_Emp ++;
+        salaire = s;
+        hotel = h;
+    }
         public int getId_Emp() {
             return id_Emp;
         }

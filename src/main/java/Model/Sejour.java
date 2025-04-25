@@ -1,4 +1,5 @@
 package Model;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -11,9 +12,8 @@ import java.util.*;
         public Sejour() {
         }
 
-        public Sejour(Reservation res, Vector<Consommation> listCons) {
-            this.res = res;
-            this.listCons = listCons;
+        public Sejour(int id_res, LocalDate date_deb, LocalDate date_fin, Chambre chambre, Client client, Sejour sej, Receptionniste recept) {
+            super(id_res, date_deb, date_fin, chambre, client, sej, recept);
         }
 
         public Reservation getRes() {
@@ -32,17 +32,16 @@ import java.util.*;
             this.listCons = listCons;
         }
 
-        public void addConsommation(Consommation consommation) {
-            this.listCons.add(consommation);
-        }
 
         public void afficherDetails() {
             System.out.println("Réservation ID: " + this.res.getId_res());
             System.out.println("Nombre de consommations: " + this.listCons.size());
         }
+
         public void ajouterConsommation(Consommation c) {
             listCons.add(c);
         }
+
         public double calculerConsommation() {
             double total = 0;
             for (Consommation c : listCons) {
@@ -50,15 +49,15 @@ import java.util.*;
             }
             return total;
         }
+
         public double calculerPrixTotal() {
             double total = 0;
 
-            total = chambre.getTarif(); // Pas besoin de instanceof
+            total = chambre.getTarif();
             total += calculerConsommation();
 
 
             return total;
         }
-
     }
 

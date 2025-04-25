@@ -3,6 +3,7 @@ package Model;
 import Vue.ListClient;
 
 import java.util.*;
+import java.time.*;
 
 /**
  *
@@ -14,11 +15,11 @@ public class Hotel {
     private String telephone;
     private String email;
     private int nbEtoiles;
-    private Vector<Chambre> listChambre;
-    private Vector<Client> listClient ;
+    private Vector<Chambre> listChambre = new Vector<Chambre>();
+    private Vector<Client> listClient = new Vector<Client>();
+    private Vector<Produit> listProduit = new Vector<Produit>();
+    private Vector<Employe> listEmploye = new Vector<Employe>();
 
-    private Vector<Produit> listProduit ;
-    private Vector<Employe> listEmploye ;
 
     public Hotel(String n, String adrs, String tel, String eml, int nbrEt) {
         nom = n;
@@ -26,10 +27,7 @@ public class Hotel {
         telephone = tel;
         email = eml;
         nbEtoiles = nbrEt ;
-        listClient= new Vector<>();
-        listProduit = new Vector<>();
-        listEmploye = new Vector<>();
-        listChambre = new Vector<>();
+
     }
 
     public String getNom() {
@@ -128,6 +126,19 @@ public class Hotel {
                 System.out.println(client); // suppose que toString() est bien défini dans Client
             }
         }
+    }
+    public Chambre rechercherChambreDisponible(LocalDate debut, LocalDate fin) {
+        for (Chambre c : listChambre) {
+            boolean disponible = true;
+            for (Reservation r : c.getListReservation()) {
+                if (!(fin.isBefore(r.getDate_deb()) || debut.isAfter(r.getDate_fin()))) {
+                    disponible = false;
+                    break;
+                }
+            }
+            if (disponible) return c;
+        }
+        return null;
     }
 
 

@@ -2,6 +2,7 @@ package Model;
 
 
 public class Personne {
+
        private String nom;
        private String prenom;
         private String email;
@@ -13,14 +14,14 @@ public class Personne {
             this.email = "";
             this.tel = "";
         }
-        public Personne(String nom, String prenom, String email, String tel, String a ) {
-            this.nom = nom;
-            this.prenom = prenom;
-            this.email = email;
-            this.tel = tel;
-            this.adresse = a;
-        }
+    public Personne( String n, String pr , String eml, String tl,String adr) {
+        nom = n;
 
+        prenom = pr;
+        email = eml;
+        tel = tl;
+        adresse = adr;
+    }
         public String getEmail() {
             return email;
         }

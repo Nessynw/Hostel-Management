@@ -13,11 +13,11 @@ import java.util.*;
         public Produit() {
         }
 
-        public Produit(String nom, double prix, Hotel hotel, Vector<Consommation> listCon) {
+        public Produit(String nom, double prix, Hotel hotel) {
             this.nom = nom;
             this.prix = prix;
             this.hotel = hotel;
-            this.listCon = listCon;
+
         }
 
         public String getNom() {

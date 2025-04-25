@@ -14,8 +14,6 @@ public class Client extends Personne {
     public Client( String nom, String prenom, String email, String tel,String a , Hotel hotel) {
         super(nom, prenom, email, tel, a);
         this.id_client ++;
-       this.listReservation = new Vector<>();
-
         this.hotel = hotel;
     }
 

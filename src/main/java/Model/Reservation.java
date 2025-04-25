@@ -88,4 +88,7 @@ public class Reservation {
         System.out.println("Chambre réservée: " + (this.chambre != null ? this.chambre.getNum_chambre() : "Aucune chambre"));
         System.out.println("Client: " + (this.client != null ? this.client.getNom() : "Aucun client"));
     }
+    public boolean estConfirmee() {
+        return sej != null;
+    }
 }
