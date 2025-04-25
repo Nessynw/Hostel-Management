@@ -11,12 +11,14 @@ public class Main {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+        Hotel hotel = new Hotel("BlueCastel","11 e Paris 75001","0104010504","BlueCastle@gmail.fr", 4);
+
         // Créer la fenêtre principale (JFrame)
         JFrame frame = new JFrame("Hôtel Blue Castle");
 
 
         // Ajouter le panneau Accueil à la fenêtre
-        frame.setContentPane(new Accueil(frame));  // Remplacer par le panneau Accueil
+        frame.setContentPane(new Accueil(frame,hotel));  // Remplacer par le panneau Accueil
 
         // Maximiser la fenêtre à l'ouverture pour plein écran
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Maximiser la fenêtre
@@ -26,5 +28,6 @@ public class Main {
 
         // Rendre la fenêtre visible
         frame.setVisible(true);
+
     }
 }

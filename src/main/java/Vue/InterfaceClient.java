@@ -1,5 +1,5 @@
 package Vue;
-
+import Model .*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,10 +12,10 @@ public class InterfaceClient extends JPanel {
     private static final Color side_COLOR = new Color(9, 0, 91);
     private static final Color hover = new Color(58, 51, 124, 255); // Couleur du survol
     private JPanel mainPanel;  // Panneau principal où le contenu changera
-
-    public InterfaceClient() {
+    private Hotel hotel;
+    public InterfaceClient( Hotel hotel) {
         this.setLayout(new BorderLayout());
-
+        this.hotel = hotel;
         // Barre latérale (Sidebar)
         JPanel sidebar = new JPanel(new GridBagLayout());
         sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height)); // Modification pour la hauteur
@@ -75,15 +75,15 @@ public class InterfaceClient extends JPanel {
         mainPanel.setLayout(new BorderLayout());  // Utilisation de BorderLayout pour le contenu
         mainPanel.setBackground(main_color);
         this.add(mainPanel, BorderLayout.CENTER);
-    }
 
+    }
     // Méthode pour afficher le formulaire du client ou la liste des clients
     private void showClientForm(String buttonText) {
         mainPanel.removeAll();  // Clear any existing content
 
         if (buttonText.equals("Client")) {
             // Show the client form
-            NewClient clientForm = new NewClient();  // Créer une instance du formulaire client
+            NewClient clientForm = new NewClient(hotel);  // Créer une instance du formulaire client
             mainPanel.add(clientForm, BorderLayout.CENTER);  // Ajouter le formulaire du client
         }
         else if (buttonText.equals("list client")) {

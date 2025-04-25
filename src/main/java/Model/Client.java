@@ -4,16 +4,18 @@ import java.util.*;
 
 public class Client extends Personne {
 
-    public int id_client;
-    public Vector<Reservation> listReservation = new Vector<Reservation>();
+    public static  int id_client;
+    public Vector<Reservation> listReservation ;
     public Hotel hotel;
 
     public Client() {
     }
 
-    public Client(int id_client, Vector<Reservation> listReservation, Hotel hotel) {
-        this.id_client = id_client;
-        this.listReservation = listReservation;
+    public Client( String nom, String prenom, String email, String tel,String a , Hotel hotel) {
+        super(nom, prenom, email, tel, a);
+        this.id_client ++;
+       this.listReservation = new Vector<>();
+
         this.hotel = hotel;
     }
 
@@ -55,5 +57,8 @@ public class Client extends Personne {
     }
     public void annulerReservation(Reservation r) {
         listReservation.remove(r);
+    }
+    public String toString() {
+        return super.toString() ;
     }
 }

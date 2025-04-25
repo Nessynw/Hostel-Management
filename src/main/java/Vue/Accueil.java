@@ -1,6 +1,6 @@
 package Vue;
 
-
+import Model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +13,7 @@ public class Accueil extends JPanel {
 
     private CardLayout cardLayout;
 
-    public Accueil(JFrame parentFrame) { // Passer la référence de la fenêtre parent
+    public Accueil(JFrame parentFrame , Hotel hotel) { // Passer la référence de la fenêtre parent
         this.setLayout(new BorderLayout());
 
         // Barre latérale (Sidebar)
@@ -89,7 +89,7 @@ public class Accueil extends JPanel {
                 clientFrame.setLocationRelativeTo(null);  // Centrer la fenêtre à l'écran
 
                 // Ajouter l'interface client à la fenêtre
-                InterfaceClient intrfaceClientPanel = new InterfaceClient();
+                InterfaceClient intrfaceClientPanel = new InterfaceClient(hotel);
                 clientFrame.add(intrfaceClientPanel);
                 clientFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 // Rendre la fenêtre visible

@@ -1,3 +1,4 @@
+import Model.Hotel;
 import Vue.*;
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -12,9 +13,9 @@ public class Main {
         // Créer la fenêtre principale (JFrame)
         JFrame frame = new JFrame("Hôtel Blue Castle");
 
-
+        Hotel hotel = new Hotel("BlueCastel","11 e Paris 75001","0104010504","BlueCastle@gmail.fr", 4);
         // Ajouter le panneau Accueil à la fenêtre
-        frame.setContentPane(new Accueil(frame));  // Remplacer par le panneau Accueil
+        frame.setContentPane(new Accueil(frame , hotel));  // Remplacer par le panneau Accueil
 
         // Maximiser la fenêtre à l'ouverture pour plein écran
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Maximiser la fenêtre
@@ -24,5 +25,6 @@ public class Main {
 
         // Rendre la fenêtre visible
         frame.setVisible(true);
-    }
-}
+
+
+}}

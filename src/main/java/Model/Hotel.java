@@ -1,5 +1,7 @@
 package Model;
 
+import Vue.ListClient;
+
 import java.util.*;
 
 /**
@@ -12,10 +14,11 @@ public class Hotel {
     private String telephone;
     private String email;
     private int nbEtoiles;
-    private Vector<Chambre> listChambre = new Vector<Chambre>();
-    private Vector<Client> listClient = new Vector<Client>();
-    private Vector<Produit> listProduit = new Vector<Produit>();
-    private Vector<Employe> listEmploye = new Vector<Employe>();
+    private Vector<Chambre> listChambre;
+    private Vector<Client> listClient ;
+
+    private Vector<Produit> listProduit ;
+    private Vector<Employe> listEmploye ;
 
     public Hotel(String n, String adrs, String tel, String eml, int nbrEt) {
         nom = n;
@@ -23,6 +26,10 @@ public class Hotel {
         telephone = tel;
         email = eml;
         nbEtoiles = nbrEt ;
+        listClient= new Vector<>();
+        listProduit = new Vector<>();
+        listEmploye = new Vector<>();
+        listChambre = new Vector<>();
     }
 
     public String getNom() {
@@ -95,6 +102,32 @@ public class Hotel {
 
     public void setListEmploye(Vector<Employe> listEmploye) {
         this.listEmploye = listEmploye;
+    }
+
+    public void ajouterChambre(Chambre c) {
+        listChambre.add(c);
+    }
+
+    public void ajouterClient(Client c) {
+        listClient.add(c);
+    }
+
+    public void ajouterProduit(Produit p) {
+        listProduit.add(p);
+    }
+
+    public void ajouterEmploye(Employe e) {
+        listEmploye.add(e);
+    }
+    public void afficherListeClients() {
+        if (listClient.isEmpty()) {
+            System.out.println("📭 Aucun client enregistré dans l'hôtel " + nom + ".");
+        } else {
+            System.out.println("🧾 Liste des clients de l'hôtel " + nom + " :");
+            for (Client client : listClient) {
+                System.out.println(client); // suppose que toString() est bien défini dans Client
+            }
+        }
     }
 
 

@@ -1,6 +1,8 @@
 package Vue;
-
+import Controler.*;
+import Model.*;
  // Importation de JCalendar pour les champs de date
+import Model.Hotel;
 import com.toedter.calendar.JCalendar;
 import Controler.*;
 import javax.swing.*;
@@ -17,7 +19,7 @@ public class NewClient extends JPanel {
     private static final Color errorColor = new Color(255, 102, 102);  // Couleur rouge pour les champs invalides
     private static final Color validColor = fieldColor;  // Couleur de fond valide
 
-    public NewClient() {
+    public NewClient(Hotel hotel){
         setLayout(new GridBagLayout()); // Utilisation de GridBagLayout pour un meilleur contrôle
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);  // Espacement entre les composants
@@ -139,71 +141,8 @@ public class NewClient extends JPanel {
         submitButton.setForeground(Color.WHITE);
         submitButton.setFont(new Font("Arial", Font.BOLD, 16));
         submitButton.setPreferredSize(new Dimension(150, 40));
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Récupérer les données saisies
-                String name = nameField.getText();
-                String prenom = prenomField.getText();
-                String email = emailField.getText();
-                String phone = phoneField.getText();
-                String adresse = adresseField.getText();
-                LocalDate startDate = (startDateField.getText().isEmpty()) ? null : parseLocalDate(startDateField.getText());
-                LocalDate endDate = (endDateField.getText().isEmpty()) ? null : parseLocalDate(endDateField.getText());
-
-                // Validation des champs
-                boolean valid = true;
-
-                // Vérifier le nom
-                if (!ClientValidator.isValidName(name)) {
-                    nameField.setBackground(errorColor);
-                    valid = false;
-                } else {
-                    nameField.setBackground(validColor);
-                }
-
-                // Vérifier le prénom
-                if (!ClientValidator.isValidName(prenom)) {
-                    prenomField.setBackground(errorColor);
-                    valid = false;
-                } else {
-                    prenomField.setBackground(validColor);
-                }
-
-                // Vérifier l'email
-                if (!ClientValidator.isValidEmail(email)) {
-                    emailField.setBackground(errorColor);
-                    valid = false;
-                } else {
-                    emailField.setBackground(validColor);
-                }
-
-                // Vérifier le numéro de téléphone
-                if (!ClientValidator.isValidPhoneNumber(phone)) {
-                    phoneField.setBackground(errorColor);
-                    valid = false;
-                } else {
-                    phoneField.setBackground(validColor);
-                }
-                if (!ClientValidator.verifierCoherenceDates(startDate, endDate)) {
-                    startDateField.setBackground(errorColor);
-                    endDateField.setBackground(errorColor);
-                    valid = false;
-                } else {
-                    startDateField.setBackground(fieldColor);
-                    endDateField.setBackground(fieldColor);
-                }
-
-
-                // Si tous les champs sont valides, procéder à l'enregistrement
-                if (valid) {
-                    JOptionPane.showMessageDialog(null, "Client enregistré avec succès!");
-                    // Logique d'enregistrement ici
-                } else {
-                    JOptionPane.showMessageDialog(null, "Veuillez corriger les erreurs dans le formulaire.");
-                }
-            }
-        });
+        ButtonEnregistrement b = new ButtonEnregistrement(hotel, nameField, prenomField, emailField, phoneField, adresseField, startDateField, endDateField);
+        submitButton.addActionListener(b);
 
         // Placer le bouton d'enregistrement en bas
         gbc.gridwidth = 4;
