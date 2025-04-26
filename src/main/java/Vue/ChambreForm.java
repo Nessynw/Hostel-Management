@@ -113,10 +113,12 @@ public class ChambreForm extends JPanel {
     }
 
     private void afficherDetailsChambreSimple() {
-        JOptionPane.showMessageDialog(this, "Affichage des détails de la Chambre Simple");
+        ChambreSimple chambreSimpleWindow = new ChambreSimple();
+        chambreSimpleWindow.setVisible(true);
     }
 
+
     private void afficherDetailsChambreDouble() {
-        JOptionPane.showMessageDialog(this, "Affichage des détails de la Chambre Double");
-    }
+        ChambreDouble chambreDoubleWindow = new ChambreDouble();
+        chambreDoubleWindow.setVisible(true);    }
 }
