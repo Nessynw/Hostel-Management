@@ -114,7 +114,10 @@ public class InterfaceClient extends JPanel {
                 break;
             case "Chambres":
                 // Afficher la gestion des chambres
-             //   ChambreForm chambreForm = new ChambreForm(hotel);
+                // Afficher la gestion des chambres
+                ChambreForm chambreForm = new ChambreForm(hotel);
+                mainPanel.add(chambreForm, BorderLayout.CENTER);
+
                 break;
             case "Réservations":
                 // Afficher la gestion des réservations

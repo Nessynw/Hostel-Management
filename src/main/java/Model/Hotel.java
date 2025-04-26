@@ -131,4 +131,8 @@ public class Hotel {
     }
 
 
+    public Vector<Chambre> getChambres() {
+        return listChambre;
+    }
+
 }
