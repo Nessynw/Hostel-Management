@@ -69,10 +69,5 @@ public class Authentification extends JFrame {
         setContentPane(backgroundPanel);
     }
 
-    public static void main(String[] args) throws Exception {
-        UIManager.setLookAndFeel(new NimbusLookAndFeel());
-        Authentification cp = new Authentification();
-        cp.setVisible(true);
 
-    }
 }

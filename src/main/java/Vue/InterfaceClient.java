@@ -1,5 +1,5 @@
 package Vue;
-import Model .*;
+import Model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,14 +8,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class InterfaceClient extends JPanel {
-    private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
-    private static final Color side_COLOR = new Color(9, 0, 91);
-    private static final Color hover = new Color(58, 51, 124, 255); // Couleur du survol
+    private static final Color main_color = new Color(26, 31, 75);  // Couleur de base
+    private static final Color side_COLOR = new Color(46, 59, 142);
+    private static final Color hover = new Color(58, 90, 153); // Couleur du survol
     private JPanel mainPanel;  // Panneau principal où le contenu changera
     private Hotel hotel;
-    public InterfaceClient( Hotel hotel) {
+
+    public InterfaceClient(Hotel hotel) {
         this.setLayout(new BorderLayout());
         this.hotel = hotel;
+
         // Barre latérale (Sidebar)
         JPanel sidebar = new JPanel(new GridBagLayout());
         sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height)); // Modification pour la hauteur
@@ -31,68 +33,105 @@ public class InterfaceClient extends JPanel {
         // Nom de l'hôtel
         JLabel nomHotel = new JLabel("<html><div style='text-align: center;'>" +
                 "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
-                "<span style='color: rgb(171,169,192);'>Blue Castle</span>" +
+                "<span style='color: rgb(171,169,192);'>Blue Castel</span>" +
                 "</div></html>");
-        nomHotel.setFont(new Font("Serif", Font.BOLD, 25));
+        nomHotel.setFont(new Font("Serif", Font.BOLD, 30));
         sidebar.add(nomHotel, gbc);
 
         // Ajouter les boutons du menu avec un espacement vertical
-        String[] buttonMenu = {"Chambre", "Réservation", "Séjour", "Client", "list client"};
+        String[] buttonMenu = {"Chambres", "Réservations", "Séjours", "Clients", "Liste de clients"};
         for (String buttonText : buttonMenu) {
             gbc.gridy++;  // Déplacer vers la ligne suivante
-            JButton button = new JButton(buttonText);
-            button.setFont(new Font("Serif", Font.BOLD, 25));
-            button.setBackground(side_COLOR);
-            button.setForeground(Color.WHITE);
-            button.setFocusPainted(false);
-            button.setBorderPainted(false);
-            button.setSize(290, 60);
-            button.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
-                    button.setBackground(hover);
-                    setCursor(new Cursor(Cursor.HAND_CURSOR));
-                }
-
-                public void mouseExited(MouseEvent e) {
-                    button.setBackground(side_COLOR);
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
-
-            // Action pour chaque bouton du menu
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    showClientForm(buttonText);  // Pass button text to showClientForm
-                }
-            });
-
+            JButton button = createSidebarButton(buttonText);
             sidebar.add(button, gbc);
         }
 
         // Panneau principal (Main panel)
         mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());  // Utilisation de BorderLayout pour le contenu
+        mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(main_color);
+
+        //Texte par défaut
+        JLabel defaultLabel = new JLabel("Blue Castel", SwingConstants.CENTER);
+        defaultLabel.setFont(new Font("Serif", Font.BOLD, 60));
+        defaultLabel.setForeground(new Color(176, 176, 176));
+        mainPanel.add(defaultLabel, BorderLayout.CENTER);
+
         this.add(mainPanel, BorderLayout.CENTER);
 
     }
+
+    // Méthode pour créer un bouton avec effet de survol
+    private JButton createSidebarButton(String buttonText) {
+        JButton button = new JButton(buttonText);
+        button.setFont(new Font("Serif", Font.BOLD, 25));
+        button.setBackground(side_COLOR);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        Dimension buttonSize = new Dimension(200, 60); // Par exemple 250px de large, 60px de haut
+        button.setPreferredSize(buttonSize);
+        button.setMinimumSize(buttonSize);
+        button.setMaximumSize(buttonSize);
+        // Ajouter les effets de survol
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(hover);
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(side_COLOR);
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+        // Action pour chaque bouton du menu
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showClientForm(buttonText);  // Pass button text to showClientForm
+            }
+        });
+
+        return button;
+    }
+
     // Méthode pour afficher le formulaire du client ou la liste des clients
     private void showClientForm(String buttonText) {
         mainPanel.removeAll();  // Clear any existing content
 
-        if (buttonText.equals("Client")) {
-            // Show the client form
-            NewClient clientForm = new NewClient(hotel);  // Créer une instance du formulaire client
-            mainPanel.add(clientForm, BorderLayout.CENTER);  // Ajouter le formulaire du client
-        }
-        else if (buttonText.equals("list client")) {
-            // Show the list of clients
-            ListClient clientList = new ListClient();  // Créer une instance du panneau de liste de clients
-            mainPanel.add(clientList.getListPanel(), BorderLayout.CENTER);  // Add the ListClient content to the main panel
+        switch (buttonText) {
+            case "Client":
+                // Afficher le formulaire client
+                NewClient clientForm = new NewClient(hotel);
+                mainPanel.add(clientForm, BorderLayout.CENTER);
+                break;
+            case "Liste de Clients":
+                // Afficher la liste des clients
+                ListClient clientList = new ListClient();
+                mainPanel.add(clientList.getListPanel(), BorderLayout.CENTER);
+                break;
+            case "Chambres":
+                // Afficher la gestion des chambres
+             //   ChambreForm chambreForm = new ChambreForm(hotel);
+                break;
+            case "Réservations":
+                // Afficher la gestion des réservations
+                //ReservationForm reservationForm = new ReservationForm(hotel);
+                break;
+            case "Séjours":
+                // Afficher la gestion des séjours
+              //  SejourForm sejourForm = new SejourForm(hotel);
+                break;
+            default:
+                // Gérer un texte de bouton inattendu
+                JOptionPane.showMessageDialog(this, "Option non supportée", "Erreur", JOptionPane.ERROR_MESSAGE);
+                break;
         }
 
         mainPanel.revalidate();  // Revalidate the layout
         mainPanel.repaint();     // Repaint to show the new content
     }
 }
+
