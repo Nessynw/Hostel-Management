@@ -102,7 +102,7 @@ public class InterfaceClient extends JPanel {
         mainPanel.removeAll();  // Clear any existing content
 
         switch (buttonText) {
-            case "Client":
+            case "Clients":
                 // Afficher le formulaire client
                 NewClient clientForm = new NewClient(hotel);
                 mainPanel.add(clientForm, BorderLayout.CENTER);
