@@ -120,8 +120,8 @@ public class InterfaceClient extends JPanel {
 
                 break;
             case "Réservations":
-                // Afficher la gestion des réservations
-                //ReservationForm reservationForm = new ReservationForm(hotel);
+               ReservationForm reservationForm=new ReservationForm();
+               mainPanel.add(reservationForm,BorderLayout.CENTER);
                 break;
             case "Séjours":
                 // Afficher la gestion des séjours
