@@ -9,12 +9,9 @@ import java.awt.event.ActionListener;
 public class Accueil extends JPanel {
     private static final Color main_color = new Color(26, 31, 75);  // Couleur de base
     private static final Color side_COLOR = new Color(46, 59, 142);  // Couleur du côté (sidebar)
-    private JPanel mainPanel;     // Panneau principal où le contenu changera
+    private JPanel mainPanel;  // Panneau principal où le contenu changera
 
-    private CardLayout cardLayout;
-
-    public Accueil(JFrame parentFrame , Hotel hotel) { // Passer la référence de la fenêtre parent
-
+    public Accueil(JFrame parentFrame, Hotel hotel) {
         this.setLayout(new BorderLayout());
 
         // Barre latérale (Sidebar)
@@ -80,27 +77,40 @@ public class Accueil extends JPanel {
         welcomeLabel.setForeground(new Color(176, 176, 176));  // Gris clair pour le texte
         mainPanel.add(welcomeLabel, textConstraints);
 
-        // Exemple d'action au clic sur le bouton Client
+        // Action au clic sur le bouton "Client"
         clientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parentFrame.getContentPane().removeAll();  // Enlever tout contenu actuel dans le JFrame
-                parentFrame.getContentPane().add(new InterfaceClient(hotel));  // Ajouter l'interface Client
-                parentFrame.revalidate();  // Revalider le layout
-                parentFrame.repaint();     // Redessiner la fenêtre
+                // Créer et afficher la fenêtre d'authentification avec un callback
+                Authentification authentification = new Authentification(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Si l'authentification est réussie, changer l'interface
+                        parentFrame.getContentPane().removeAll();
+                        parentFrame.getContentPane().add(new InterfaceClient(hotel));
+                        parentFrame.revalidate();
+                        parentFrame.repaint();
+                    }
+                });
+                authentification.setVisible(true);  // Afficher la fenêtre d'authentification
             }
         });
 
-// Exemple d'action au clic sur le bouton Personnel
+        // Action au clic sur le bouton "Personnel"
         personnelButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
-                parentFrame.getContentPane().removeAll();  // Enlever tout contenu actuel dans le JFrame
-                parentFrame.getContentPane().add(new InterfacePersonnel());  // Ajouter l'interface Personnel
-                parentFrame.revalidate();  // Revalider le layout
-                parentFrame.repaint();     // Redessiner la fenêtre
+                // Créer et afficher la fenêtre d'authentification
+                Authentification authentification = new Authentification(new Runnable() {
+                    @Override
+                    public void run() {
+                        parentFrame.getContentPane().removeAll();
+                        parentFrame.getContentPane().add(new InterfacePersonnel());
+                        parentFrame.revalidate();
+                        parentFrame.repaint();
+                    }
+                });
+                authentification.setVisible(true);  // Afficher la fenêtre d'authentification
             }
         });
-
     }
 }
