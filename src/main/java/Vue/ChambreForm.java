@@ -119,6 +119,6 @@ public class ChambreForm extends JPanel {
 
 
     private void afficherDetailsChambreDouble() {
-        ChambreDouble chambreDoubleWindow = new ChambreDouble();
+        ChambreDbl chambreDoubleWindow = new ChambreDbl(hotel);
         chambreDoubleWindow.setVisible(true);    }
 }

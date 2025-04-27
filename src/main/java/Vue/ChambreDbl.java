@@ -2,29 +2,44 @@ package Vue;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Vector;
+import Model.*;
 
-public class ChambreDouble extends JFrame {
+public class ChambreDbl extends JFrame {
     private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
     private static final Color fieldColor = new Color(58, 90, 153); // Hover color
     private static final Color textColor = Color.WHITE;
 
-    public ChambreDouble() {
+    public ChambreDbl(Hotel hotel) {
         setTitle("Chambres Double");
         setSize(600, 400);
         setLocationRelativeTo(null);
         getContentPane().setBackground(main_color);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Création du tableau
-        String[] columnNames = {"Numéro", "Étage", "Prix (€)", "Disponibilité"};
-        Object[][] data = {
-                {"320", "1", "130", "Disponible"},
-                {"323", "1", "130", "Occupée"},
-                {"250", "2", "100", "Disponible"},
-                {"450", "2", "150", "Disponible"},
-                {"300", "3", "100", "Occupée"}
-        };
+        // Colonnes
+        Vector<String> columnNames = new Vector<>();
+        columnNames.add("Numéro");
+        columnNames.add("Étage");
+        columnNames.add("Prix (€)");
+        columnNames.add("Disponibilité");
 
+        // Données
+        Vector<Vector<Object>> data = new Vector<>();
+
+        for (Chambre chambre : hotel.getChambres()) {
+            // Vérifier si c'est une chambre double
+            if (chambre instanceof ChambreDouble) {
+                Vector<Object> row = new Vector<>();
+                row.add(chambre.getNum_chambre());
+                row.add(chambre.getNum_etage());
+                row.add(chambre.getTarif());
+                row.add(chambre.isAvailableNow() ? "Disponible" : "Occupée");  // Utilisation de ta méthode existante
+                data.add(row);
+            }
+        }
+
+        // Création du modèle
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
         JTable table = new JTable(model);
         table.setBackground(fieldColor);
