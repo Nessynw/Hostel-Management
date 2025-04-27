@@ -9,21 +9,18 @@ public class Main {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        }
+        } //
         // Créer la fenêtre principale (JFrame)
         JFrame frame = new JFrame("Hôtel Blue Castle");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         Hotel hotel = new Hotel("BlueCastel","11 e Paris 75001","0104010504","BlueCastle@gmail.fr", 4);
         // Ajouter le panneau Accueil à la fenêtre
         frame.setContentPane(new Accueil(frame , hotel));  // Remplacer par le panneau Accueil
 
-        // Maximiser la fenêtre à l'ouverture pour plein écran
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  // Maximiser la fenêtre
-
-        // Fermer l'application à la fermeture de la fenêtre
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Rendre la fenêtre visible
+        frame.setSize(1000, 700);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
 
