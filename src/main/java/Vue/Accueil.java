@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Controler.ClientButtonControleur ;
 
 public class Accueil extends JPanel {
     private static final Color main_color = new Color(26, 31, 75);  // Couleur de base
@@ -78,23 +79,8 @@ public class Accueil extends JPanel {
         mainPanel.add(welcomeLabel, textConstraints);
 
         // Action au clic sur le bouton "Client"
-        clientButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Créer et afficher la fenêtre d'authentification avec un callback
-                Authentification authentification = new Authentification(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Si l'authentification est réussie, changer l'interface
-                        parentFrame.getContentPane().removeAll();
-                        parentFrame.getContentPane().add(new InterfaceClient(hotel));
-                        parentFrame.revalidate();
-                        parentFrame.repaint();
-                    }
-                });
-                authentification.setVisible(true);  // Afficher la fenêtre d'authentification
-            }
-        });
+        ClientButtonControleur b = new ClientButtonControleur(parentFrame, hotel);
+        clientButton.addActionListener(b);
 
         // Action au clic sur le bouton "Personnel"
         personnelButton.addActionListener(new ActionListener() {
