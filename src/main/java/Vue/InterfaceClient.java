@@ -1,4 +1,5 @@
 package Vue;
+
 import Model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -36,6 +37,40 @@ public class InterfaceClient extends JPanel {
                 "<span style='color: rgb(171,169,192);'>Blue Castel</span>" +
                 "</div></html>");
         nomHotel.setFont(new Font("Serif", Font.BOLD, 30));
+
+        // Add MouseListener to navigate to home page on click and apply hover effect
+        nomHotel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Navigate back to the home page when the hotel name is clicked
+                JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(InterfaceClient.this);
+                parentFrame.getContentPane().removeAll();
+                parentFrame.getContentPane().add(new Accueil(parentFrame, hotel));
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // Change color on hover
+                nomHotel.setForeground(new Color(255, 255, 255)); // White color on hover
+                nomHotel.setText("<html><div style='text-align: center;'>" +
+                        "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
+                        "<span style='color: rgb(255, 255, 255);'>Blue Castel</span>" +
+                        "</div></html>");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Reset the color when mouse exits
+                nomHotel.setForeground(new Color(171, 169, 192)); // Original color
+                nomHotel.setText("<html><div style='text-align: center;'>" +
+                        "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
+                        "<span style='color: rgb(171,169,192);'>Blue Castel</span>" +
+                        "</div></html>");
+            }
+        });
+
         sidebar.add(nomHotel, gbc);
 
         // Ajouter les boutons du menu avec un espacement vertical
@@ -51,14 +86,13 @@ public class InterfaceClient extends JPanel {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(main_color);
 
-        //Texte par défaut
+        // Texte par défaut
         JLabel defaultLabel = new JLabel("Blue Castel", SwingConstants.CENTER);
         defaultLabel.setFont(new Font("Serif", Font.BOLD, 60));
         defaultLabel.setForeground(new Color(176, 176, 176));
         mainPanel.add(defaultLabel, BorderLayout.CENTER);
 
         this.add(mainPanel, BorderLayout.CENTER);
-
     }
 
     // Méthode pour créer un bouton avec effet de survol
@@ -90,7 +124,11 @@ public class InterfaceClient extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showClientForm(buttonText);  // Pass button text to showClientForm
+                try {
+                    showClientForm(buttonText);  // Pass button text to showClientForm
+                } catch (UnsupportedLookAndFeelException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -98,7 +136,7 @@ public class InterfaceClient extends JPanel {
     }
 
     // Méthode pour afficher le formulaire du client ou la liste des clients
-    private void showClientForm(String buttonText) {
+    private void showClientForm(String buttonText) throws UnsupportedLookAndFeelException {
         mainPanel.removeAll();  // Clear any existing content
 
         switch (buttonText) {
@@ -114,18 +152,15 @@ public class InterfaceClient extends JPanel {
                 break;
             case "Chambres":
                 // Afficher la gestion des chambres
-                // Afficher la gestion des chambres
                 ChambreForm chambreForm = new ChambreForm(hotel);
                 mainPanel.add(chambreForm, BorderLayout.CENTER);
-
                 break;
             case "Réservations":
-               ReservationForm reservationForm=new ReservationForm();
-               mainPanel.add(reservationForm,BorderLayout.CENTER);
+                ReservationForm reservationForm = new ReservationForm();
+                mainPanel.add(reservationForm, BorderLayout.CENTER);
                 break;
             case "Séjours":
                 // Afficher la gestion des séjours
-              //  SejourForm sejourForm = new SejourForm(hotel);
                 break;
             default:
                 // Gérer un texte de bouton inattendu
@@ -137,4 +172,3 @@ public class InterfaceClient extends JPanel {
         mainPanel.repaint();     // Repaint to show the new content
     }
 }
-

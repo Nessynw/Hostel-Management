@@ -1,4 +1,5 @@
 package Vue;
+
 import Model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -6,13 +7,8 @@ import java.awt.event.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 public class ChambreForm extends JPanel {
-    private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
+    private static final Color main_color = new Color(18, 11, 61);  // Base color
     private static final Color hoverColor = new Color(58, 90, 153); // Hover color
     private JPanel mainPanel;
     private Hotel hotel;
@@ -23,10 +19,10 @@ public class ChambreForm extends JPanel {
         this.setLayout(new GridBagLayout());
 
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1, 2, 20, 20)); // 1 ligne, 2 colonnes espacées
+        mainPanel.setLayout(new GridLayout(1, 2, 20, 20)); // 1 row, 2 columns with spacing
         mainPanel.setBackground(main_color);
 
-        // Créer les panneaux de chambres
+        // Create room panels
         JPanel simplePanel = createChambrePanel(
                 "Chambre Simple",
                 new ImageIcon("src/main/resources/simpleRoom.jpg"),
@@ -39,13 +35,13 @@ public class ChambreForm extends JPanel {
                 "<html>Une chambre double spacieuse pour deux personnes.<br>Parfaite pour les couples ou les amis.</html>"
         );
 
-        // Ajouter les panels au mainPanel
+        // Add panels to mainPanel
         mainPanel.add(simplePanel);
         mainPanel.add(doublePanel);
 
-        // Ajouter un scroll si la fenêtre est trop petite
+        // Add a scroll pane if the window is too small
         JScrollPane scrollPane = new JScrollPane(mainPanel);
-        scrollPane.setBorder(null); // Pas de bordure moche autour du scroll
+        scrollPane.setBorder(null); // No ugly border around the scroll
         scrollPane.setBackground(main_color);
         scrollPane.getViewport().setBackground(main_color);
 
@@ -61,7 +57,7 @@ public class ChambreForm extends JPanel {
         JPanel chambrePanel = new JPanel();
         chambrePanel.setLayout(new BoxLayout(chambrePanel, BoxLayout.Y_AXIS));
         chambrePanel.setBackground(main_color);
-        chambrePanel.setBorder(BorderFactory.createLineBorder(new Color(29, 42, 97), 0)); // Contour bleu
+        chambrePanel.setBorder(BorderFactory.createLineBorder(new Color(29, 42, 97), 0)); // Blue border
 
         JLabel typeLabel = new JLabel(type, SwingConstants.CENTER);
         typeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -79,7 +75,7 @@ public class ChambreForm extends JPanel {
         description.setForeground(Color.WHITE);
         description.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        chambrePanel.add(Box.createVerticalStrut(10)); // petit espace
+        chambrePanel.add(Box.createVerticalStrut(10)); // Small space
         chambrePanel.add(typeLabel);
         chambrePanel.add(Box.createVerticalStrut(10));
         chambrePanel.add(imageLabel);
@@ -87,15 +83,12 @@ public class ChambreForm extends JPanel {
         chambrePanel.add(description);
         chambrePanel.add(Box.createVerticalStrut(10));
 
-        // Rendre cliquable
+        // Make it clickable
         chambrePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (type.equals("Chambre Simple")) {
-                    afficherDetailsChambreSimple();
-                } else if (type.equals("Chambre Double")) {
-                    afficherDetailsChambreDouble();
-                }
+                ReservationForm1 reservationForm1 = new ReservationForm1();
+                reservationForm1.setVisible(true);
             }
 
             @Override
@@ -111,14 +104,4 @@ public class ChambreForm extends JPanel {
 
         return chambrePanel;
     }
-
-    private void afficherDetailsChambreSimple() {
-        ChambreSimple chambreSimpleWindow = new ChambreSimple();
-        chambreSimpleWindow.setVisible(true);
-    }
-
-
-    private void afficherDetailsChambreDouble() {
-        ChambreDbl chambreDoubleWindow = new ChambreDbl(hotel);
-        chambreDoubleWindow.setVisible(true);    }
 }
