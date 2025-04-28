@@ -1,5 +1,6 @@
 package Vue;
 
+import Controler.personnelButtonControler;
 import Model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -83,20 +84,7 @@ public class Accueil extends JPanel {
         clientButton.addActionListener(b);
 
         // Action au clic sur le bouton "Personnel"
-        personnelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Créer et afficher la fenêtre d'authentification
-                Authentification authentification = new Authentification(new Runnable() {
-                    @Override
-                    public void run() {
-                        parentFrame.getContentPane().removeAll();
-                        parentFrame.getContentPane().add(new InterfacePersonnel());
-                        parentFrame.revalidate();
-                        parentFrame.repaint();
-                    }
-                });
-                authentification.setVisible(true);  // Afficher la fenêtre d'authentification
-            }
-        });
+        personnelButtonControler cnt =  new personnelButtonControler(parentFrame);
+        personnelButton.addActionListener(cnt);
     }
 }
