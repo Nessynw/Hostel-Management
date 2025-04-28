@@ -3,21 +3,25 @@ package Vue;
 import com.toedter.calendar.JCalendar;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Locale;
-
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 public class ReservationForm extends JPanel {
-    private static final Color main_color = new Color(18, 11, 61);  // Couleur principale
-    private static final Color panel_color = new Color(35, 30, 67); // Couleur secondaire
-    private static final Color text_color = Color.WHITE;            // Couleur du texte
 
-    private JTable chambreTable; // Déclaration de la table
 
-    public ReservationForm() {
+    private static final Color main_color = new Color(18, 11, 61);
+    private static final Color panel_color = new Color(35, 30, 67);
+    private static final Color text_color = Color.WHITE;
+
+    private JTable chambreTable;
+
+    public ReservationForm() throws UnsupportedLookAndFeelException {
         setLayout(new GridBagLayout());
         setBackground(main_color);
+        UIManager.setLookAndFeel(new NimbusLookAndFeel());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -41,7 +45,7 @@ public class ReservationForm extends JPanel {
         gbc.gridy = 1;
         gbc.gridx = 0;
         gbc.gridwidth = 1;
-        gbc.weightx = 0.5; // Donne 50% de l'espace horizontal
+        gbc.weightx = 0.5;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         add(chambreList, gbc);
@@ -59,7 +63,7 @@ public class ReservationForm extends JPanel {
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Empêcher l'édition
+                return false;
             }
         };
 
@@ -79,6 +83,9 @@ public class ReservationForm extends JPanel {
             chambreTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
+        // Renderer spécial pour la colonne "État"
+        chambreTable.getColumnModel().getColumn(3).setCellRenderer(new EtatCellRenderer());
+
         JScrollPane scrollPane = new JScrollPane(chambreTable);
         scrollPane.getViewport().setBackground(panel_color);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -90,9 +97,8 @@ public class ReservationForm extends JPanel {
         chambreDisp.setBackground(panel_color);
         chambreDisp.setPreferredSize(new Dimension(500, 600));
 
-        // ATTENTION ici : poids à droite aussi
         gbc.gridx = 1;
-        gbc.weightx = 0.5; // égal à chambreList pour que les deux panneaux partagent l'espace
+        gbc.weightx = 0.5;
         add(chambreDisp, gbc);
 
         // Contraintes internes pour chambreDisp
@@ -128,7 +134,6 @@ public class ReservationForm extends JPanel {
         chambreDisp.add(datefin, dispGbc);
     }
 
-    // Créer un JCalendar stylisé
     private JCalendar createStyledCalendar() {
         JCalendar calendar = new JCalendar(Locale.FRANCE);
         calendar.setPreferredSize(new Dimension(200, 300));
@@ -141,5 +146,33 @@ public class ReservationForm extends JPanel {
         calendar.getYearChooser().setForeground(Color.WHITE);
         calendar.setForeground(Color.WHITE);
         return calendar;
+    }
+
+    // Renderer personnalisé pour changer la couleur de fond en fonction de l'état
+    private static class EtatCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                                                       boolean isSelected, boolean hasFocus,
+                                                       int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            if ("Libre".equals(value)) {
+                c.setBackground(new Color(0, 153, 0)); // Vert
+                c.setForeground(Color.WHITE);
+            } else if ("Occupée".equals(value)) {
+                c.setBackground(new Color(204, 0, 0)); // Rouge
+                c.setForeground(Color.WHITE);
+            } else {
+                c.setBackground(panel_color);
+                c.setForeground(Color.WHITE);
+            }
+
+            if (isSelected) {
+                c.setBackground(new Color(100, 100, 255)); // couleur différente quand sélectionné
+            }
+
+            setHorizontalAlignment(SwingConstants.CENTER);
+            return c;
+        }
     }
 }
