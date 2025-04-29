@@ -5,12 +5,14 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class retourBtnControler implements ActionListener {
-    JFrame f ;
-    public retourBtnControler(JFrame f) {
-        this.f = f;
+    private Runnable action;
+
+    public retourBtnControler(Runnable action) {
+        this.action = action;
     }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
-       f. dispose();  // Fermer la fenêtre d'authentification
+        if (action != null) action.run();
     }
 }
-

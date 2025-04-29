@@ -25,7 +25,7 @@ public class personnelButtonControler implements ActionListener {
             @Override
             public void run() {
                 parentFrame.getContentPane().removeAll();
-                parentFrame.getContentPane().add(new InterfacePersonnel());
+                parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame));
                 parentFrame.revalidate();
                 parentFrame.repaint();
             }

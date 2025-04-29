@@ -2,65 +2,115 @@ package Vue;
 
 import javax.swing.*;
 import java.awt.*;
+import Controler.PersonnelControler;
 
 public class InterfacePersonnel extends JPanel {
+    private static final Color MAIN_COLOR = new Color(18, 11, 61);
+    private static final Color SIDE_COLOR = new Color(9, 0, 91);
 
-    private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
-    private static final Color side_COLOR = new Color(9, 0, 91);    // Couleur du côté (sidebar)
-
-    private JPanel mainPanel;  // Panneau principal où le contenu changera
     private StyledButton btnTousEmployes;
     private StyledButton btnAjouterEmploye;
     private StyledButton btnSupprimerEmploye;
+    private JPanel mainPanel;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+    private JFrame mainFrame;  // Ajout de la référence au JFrame
 
-    public InterfacePersonnel() {
+    public InterfacePersonnel(JFrame frame) {  // Modification du constructeur
+        this.mainFrame = frame;
         this.setLayout(new BorderLayout());
+        setupSidebar();
+        setupMainPanel();
+    }
 
-        // Barre latérale (Sidebar)
+    private void setupSidebar() {
         JPanel sidebar = new JPanel(new GridBagLayout());
         sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height));
-        sidebar.setBackground(side_COLOR);
+        sidebar.setBackground(SIDE_COLOR);
 
-        // Nom de l'hôtel centré
         JLabel nomHotel = new JLabel("<html><div style='text-align: center;'>" +
-                "<br>" + "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
-                "<span style='color: rgb(171,169,192);'>Blue Casel </span>" +
+                "<br><span style='color: #FFFFFF;'>Hôtel</span><br>" +
+                "<span style='color: #ABA9C0;'>Blue Castle</span>" +
                 "</div></html>", SwingConstants.CENTER);
         nomHotel.setFont(new Font("Serif", Font.BOLD, 25));
-        sidebar.add(nomHotel);
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.insets = new Insets(50, 0, 50, 0);
+
+        sidebar.add(nomHotel, gbc);
         this.add(sidebar, BorderLayout.WEST);
+    }
 
-        // Panneau principal
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
-        mainPanel.setBackground(main_color);
+    private void setupMainPanel() {
+        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(MAIN_COLOR);
+
+        // Create button panel
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setBackground(MAIN_COLOR);
+
+        // Create the buttons and add them to button panel
+        createButtons(buttonPanel);
+
+        // Add panels to main panel
+        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+
         this.add(mainPanel, BorderLayout.CENTER);
+    }
 
-        // Création des boutons
+    private void createButtons(JPanel buttonPanel) {
         btnTousEmployes = new StyledButton("Voir tous les employés");
         btnAjouterEmploye = new StyledButton("Ajouter un employé");
         btnSupprimerEmploye = new StyledButton("Supprimer un employé");
 
-        // Modifier la taille des boutons
-        btnTousEmployes.setPreferredSize(new Dimension(400, 60));
-        btnAjouterEmploye.setPreferredSize(new Dimension(400, 60));
-        btnSupprimerEmploye.setPreferredSize(new Dimension(400, 60));
+        Dimension buttonSize = new Dimension(400, 60);
+        btnTousEmployes.setPreferredSize(buttonSize);
+        btnAjouterEmploye.setPreferredSize(buttonSize);
+        btnSupprimerEmploye.setPreferredSize(buttonSize);
 
-        // Ajouter les boutons au panneau principal
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.insets = new Insets(20, 20, 20, 20);
-        constraints.anchor = GridBagConstraints.CENTER;
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(20, 20, 20, 20);
+        gbc.anchor = GridBagConstraints.CENTER;
 
-        mainPanel.add(btnTousEmployes, constraints);
-        constraints.gridy++;
-        mainPanel.add(btnAjouterEmploye, constraints);
-        constraints.gridy++;
-        mainPanel.add(btnSupprimerEmploye, constraints);
+        buttonPanel.add(btnTousEmployes, gbc);
+        gbc.gridy++;
+        buttonPanel.add(btnAjouterEmploye, gbc);
+        gbc.gridy++;
+        buttonPanel.add(btnSupprimerEmploye, gbc);
+
+        // Add action listeners
+        btnTousEmployes.addActionListener(e -> {
+            mainFrame.getContentPane().removeAll();
+            mainFrame.getContentPane().add(new AfficherEmploye(mainFrame));
+            mainFrame.revalidate();
+            mainFrame.repaint();
+        });
+
+        btnAjouterEmploye.addActionListener(e -> {
+            mainFrame.getContentPane().removeAll();
+            mainFrame.getContentPane().add(new AjouterEmploye());
+            mainFrame.revalidate();
+            mainFrame.repaint();
+        });
 
 
+    }
 
+    public AbstractButton getBtnTousEmployes() {
+        return btnTousEmployes;
+    }
+
+    public AbstractButton getBtnAjouterEmploye() {
+        return btnAjouterEmploye;
+    }
+
+    public AbstractButton getBtnSupprimerEmploye() {
+        return btnSupprimerEmploye;
     }
 }
