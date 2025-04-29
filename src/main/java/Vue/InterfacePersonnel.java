@@ -57,7 +57,7 @@ public class InterfacePersonnel extends JPanel {
         createButtons(buttonPanel);
 
         // Add panels to main panel
-        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
 
         this.add(mainPanel, BorderLayout.CENTER);
     }

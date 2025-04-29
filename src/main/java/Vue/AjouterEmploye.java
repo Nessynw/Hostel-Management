@@ -235,7 +235,7 @@ public class AjouterEmploye extends JPanel {
     }
     public String getAdresse() {
         return txtAdresse.getText().trim();
-}
+    }
     public String getPoste() {
         return (String) comboPoste.getSelectedItem();
     }

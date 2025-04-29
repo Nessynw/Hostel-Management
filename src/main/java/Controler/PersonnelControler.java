@@ -76,11 +76,10 @@ public class PersonnelControler implements ActionListener {
         authentification.setVisible(true);
 
         frame.setContentPane(mainContainer);
-          frame.revalidate();
-            frame.repaint();// Afficher la fenêtre d'authentification
+        frame.revalidate();
+        frame.repaint();// Afficher la fenêtre d'authentification
     }
 }
-
 
 
 
