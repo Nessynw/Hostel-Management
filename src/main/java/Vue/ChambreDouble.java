@@ -5,12 +5,12 @@ import java.awt.*;
 import java.util.Vector;
 import Model.*;
 
-public class ChambreDbl extends JFrame {
+public class ChambreDouble extends JFrame {
     private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
     private static final Color fieldColor = new Color(58, 90, 153); // Hover color
     private static final Color textColor = Color.WHITE;
 
-    public ChambreDbl(Hotel hotel) {
+    public ChambreDouble(Hotel hotel) {
         setTitle("Chambres Double");
         setSize(600, 400);
         setLocationRelativeTo(null);
@@ -29,7 +29,7 @@ public class ChambreDbl extends JFrame {
 
         for (Chambre chambre : hotel.getChambres()) {
             // Vérifier si c'est une chambre double
-            if (chambre instanceof ChambreDouble) {
+            if (chambre instanceof Model.ChambreDouble) {
                 Vector<Object> row = new Vector<>();
                 row.add(chambre.getNum_chambre());
                 row.add(chambre.getNum_etage());
