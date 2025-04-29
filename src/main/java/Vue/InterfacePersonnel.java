@@ -94,7 +94,7 @@ public class InterfacePersonnel extends JPanel {
 
         btnAjouterEmploye.addActionListener(e -> {
             mainFrame.getContentPane().removeAll();
-            mainFrame.getContentPane().add(new AjouterEmploye());
+            mainFrame.getContentPane().add(new AjouterEmploye(mainFrame));
             mainFrame.revalidate();
             mainFrame.repaint();
         });

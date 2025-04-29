@@ -1,14 +1,24 @@
 package Vue;
 
+import Controler.retourBtnControler;
+import Model.AgentE;
+import Model.Employe;
+import Model.Hotel;
+import Model.Receptionniste;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.border.*;
+import java.util.List;
 
 public class AjouterEmploye extends JPanel {
     private JTextField txtNom;
     private JTextField txtPrenom;
     private JTextField txtEmail;
+    private JTextField txtTel;
+    private JTextField txtAdresse; // Nouveau champ adresse
     private JComboBox<String> comboPoste;
     private JTextField txtSalaire;
     private JTextArea txtTaches;
@@ -16,18 +26,23 @@ public class AjouterEmploye extends JPanel {
     private StyledButton btnRetour;
     private static final Color MAIN_COLOR = new Color(18, 11, 61);
     private static final Color TEXT_COLOR = new Color(255, 255, 255);
+    private JFrame parentFrame;
+    private List<Employe> listeEmployes;  // Déclaration de la liste
 
-    public AjouterEmploye() {
+    public AjouterEmploye(JFrame frame) {
+        this.parentFrame = frame;
         setLayout(new BorderLayout());
         setBackground(MAIN_COLOR);
+        listeEmployes = new ArrayList<>();  // Initialisation de la liste
         setupComponents();
+
     }
 
     private void setupComponents() {
         // Titre
         JLabel lblTitre = new JLabel("Ajouter un nouvel employé");
         lblTitre.setFont(new Font("Serif", Font.BOLD, 24));
-        lblTitre.setForeground(TEXT_COLOR);
+        lblTitre.setForeground(AjouterEmploye.TEXT_COLOR);
         lblTitre.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblTitre, BorderLayout.NORTH);
 
@@ -42,7 +57,9 @@ public class AjouterEmploye extends JPanel {
         txtNom = createStyledTextField();
         txtPrenom = createStyledTextField();
         txtEmail = createStyledTextField();
-        String[] postes = {"Réceptionniste", "Agent d'entretien", "Manager", "Chef cuisinier", "Serveur"};
+        txtTel = createStyledTextField();
+        txtAdresse = createStyledTextField(); // Champ adresse
+        String[] postes = {"Réceptionniste", "Agent d'entretien"};
         comboPoste = new JComboBox<>(postes);
         styleComboBox(comboPoste);
         txtSalaire = createStyledTextField();
@@ -54,11 +71,13 @@ public class AjouterEmploye extends JPanel {
         addFormField(mainPanel, "Nom:", txtNom, gbc, 0);
         addFormField(mainPanel, "Prénom:", txtPrenom, gbc, 1);
         addFormField(mainPanel, "Email:", txtEmail, gbc, 2);
-        addFormField(mainPanel, "Poste:", comboPoste, gbc, 3);
-        addFormField(mainPanel, "Salaire (€):", txtSalaire, gbc, 4);
+        addFormField(mainPanel, "Téléphone:", txtTel, gbc, 3);
+        addFormField(mainPanel, "Adresse:", txtAdresse, gbc, 4); // Champ adresse
+        addFormField(mainPanel, "Poste:", comboPoste, gbc, 5);
+        addFormField(mainPanel, "Salaire (€):", txtSalaire, gbc, 6);
 
         // Champ tâches avec scroll
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         gbc.gridx = 0;
         JLabel lblTaches = createLabel("Tâches:");
         mainPanel.add(lblTaches, gbc);
@@ -76,6 +95,57 @@ public class AjouterEmploye extends JPanel {
         buttonPanel.setBackground(MAIN_COLOR);
         buttonPanel.add(btnAjouter);
         buttonPanel.add(btnRetour);
+
+        btnAjouter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Vérifier si tous les champs obligatoires sont remplis
+                if (areRequiredFieldsFilled()) {
+                    // Récupérer les valeurs des champs
+                    String nom = getNom();
+                    String prenom = getPrenom();
+                    String email = getEmail();
+                    String tel = getTel();
+                    String adresse = getAdresse(); // Récupérer l'adresse
+                    double salaire = Double.parseDouble(getSalaire());
+                    String taches = getTaches();
+                    String poste = getPoste();
+
+                    Hotel hotel = new Hotel("BlueCastel","11 e Paris 75001","0104010504","BlueCastle@gmail.fr", 4);
+
+                    // Créer l'employé selon le poste sélectionné
+                    Employe nouvelEmploye;
+                    if (poste.equals("Réceptionniste")) {
+                        nouvelEmploye = new Receptionniste(nom, prenom, email,tel,adresse, salaire, taches,hotel);
+                    } else if (poste.equals("Agent d'entretien")) {
+                        nouvelEmploye = new AgentE(nom, prenom, email, tel, adresse, salaire,hotel); // Correction ici
+                    } else {
+                        nouvelEmploye = new Employe(nom, prenom, email, tel, adresse, salaire, hotel);
+                    }
+
+                    // Ajouter l'employé à la liste (ou à la base de données)
+                    listeEmployes.add(nouvelEmploye);
+
+                    // Optionnel : afficher un message de succès
+                    JOptionPane.showMessageDialog(parentFrame, "Employé ajouté avec succès !");
+
+                    // Effacer les champs du formulaire après ajout
+                    clearFields();
+                } else {
+                    // Afficher un message d'erreur si certains champs ne sont pas remplis
+                    JOptionPane.showMessageDialog(parentFrame, "Veuillez remplir tous les champs obligatoires.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        // Code du bouton retour
+        btnRetour.addActionListener(new retourBtnControler(() -> {
+            parentFrame.getContentPane().removeAll();
+            parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame));
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        }));
 
         // Ajout des panels au panel principal
         add(mainPanel, BorderLayout.CENTER);
@@ -154,33 +224,26 @@ public class AjouterEmploye extends JPanel {
     public String getNom() {
         return txtNom.getText().trim();
     }
-
     public String getPrenom() {
         return txtPrenom.getText().trim();
     }
-
     public String getEmail() {
         return txtEmail.getText().trim();
     }
-
+    public String getTel() {
+        return txtTel.getText().trim();
+    }
+    public String getAdresse() {
+        return txtAdresse.getText().trim();
+}
     public String getPoste() {
         return (String) comboPoste.getSelectedItem();
     }
-
     public String getSalaire() {
         return txtSalaire.getText().trim();
     }
-
     public String getTaches() {
         return txtTaches.getText().trim();
-    }
-
-    public StyledButton getBtnAjouter() {
-        return btnAjouter;
-    }
-
-    public StyledButton getBtnRetour() {
-        return btnRetour;
     }
 
     // Méthode pour vider les champs
@@ -203,7 +266,7 @@ public class AjouterEmploye extends JPanel {
 
     // Méthode pour ajouter la validation des champs
     public void addValidationListeners() {
-        // Validation du salaire (nombres uniquement)
+        // Validation du salaire
         txtSalaire.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char c = e.getKeyChar();

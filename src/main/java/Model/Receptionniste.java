@@ -1,22 +1,20 @@
 package Model;
+import Model.*;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Receptionniste extends Employe {
+    private ArrayList<Reservation> Res = new ArrayList<>();
 
-    public Vector<Reservation> Res = new Vector<Reservation>();
-
-
-
-    public Receptionniste( String nom, String prenom, String email, String tel,String a , double salaire, Hotel hotel) {
-        super( nom, prenom, email, tel,a, salaire, hotel);
+    public Receptionniste(String nom, String prenom, String email,String tel, String adresse, double salaire, String taches, Hotel hotel) {
+        super( nom,  prenom,  email,  tel, adresse ,   salaire,  hotel);  // Call the superclass constructor with all arguments
     }
 
-    public Vector<Reservation> getRes() {
+    public ArrayList<Reservation> getRes() {
         return Res;
     }
 
-    public void setRes(Vector<Reservation> Res) {
+    public void setRes(ArrayList<Reservation> Res) {
         this.Res = Res;
     }
 
@@ -25,12 +23,10 @@ public class Receptionniste extends Employe {
     }
 
     public void afficherDetails() {
-        super.afficherDetails(); // Appelle la méthode afficherDetails de la classe parente
+        super.afficherDetails();  // Calls the method from the parent class (Employe)
         System.out.println("Nombre de réservations gérées : " + this.Res.size());
     }
-    public void ajouterReservation(Reservation r) {
-        Res.add(r);
-    }
+
     public String getPoste() {
         return "Réceptionniste";
     }

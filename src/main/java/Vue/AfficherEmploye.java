@@ -54,4 +54,5 @@ public class AfficherEmploye extends JPanel {
     public JButton getBtnRetour() {
         return btnRetour;
     }
+
 }
