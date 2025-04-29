@@ -1,178 +1,147 @@
 package Vue;
 
-import com.toedter.calendar.JCalendar;
-
 import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Locale;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
 public class ReservationForm extends JPanel {
 
+    private static final Color main_color = new Color(18, 11, 61);  // Base color
+    private static final Color text_color = Color.BLACK; // Text color
+    private static final Color buttonColor = new Color(34, 193, 195); // Button color (teal)
+    private static final Color deleteButtonColor = new Color(255, 69, 0); // Delete button color (red)
+    private static final Font fieldFont = new Font("Arial", Font.PLAIN, 16); // Font for labels
 
-    private static final Color main_color = new Color(18, 11, 61);
-    private static final Color panel_color = new Color(35, 30, 67);
-    private static final Color text_color = Color.WHITE;
-
-    private JTable chambreTable;
-
-    public ReservationForm() throws UnsupportedLookAndFeelException {
-        setLayout(new GridBagLayout());
-        setBackground(main_color);
-        UIManager.setLookAndFeel(new NimbusLookAndFeel());
-
+    public ReservationForm() {
+        // Utilisation de BorderLayout pour que le JScrollPane occupe tout l'espace
+        setLayout(new BorderLayout());
+        this.setBackground(main_color);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 10, 20, 10);  // Espacement entre les composants
 
-        // Titre
-        JLabel titleLabel = new JLabel("Réservation d'une chambre");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(text_color);
+        // Barre de navigation (nav bar)
+        JPanel navBar = new JPanel();
+        navBar.setLayout(new BorderLayout());
+        navBar.setBackground(main_color);
+        // Titre de la fenêtre
+        JLabel title = new JLabel("Réservations");
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+        title.setForeground(Color.WHITE);
+        navBar.add(title, BorderLayout.WEST);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(titleLabel, gbc);
+        // Champ de recherche
+        JTextField searchField = new JTextField();
+        searchField.setFont(fieldFont);
+        searchField.setBackground(Color.WHITE);
+        searchField.setForeground(Color.BLACK);
+        searchField.setPreferredSize(new Dimension(200, 30));
+        searchField.setToolTipText("Rechercher une réservation");
 
-        // Panneau de gauche (Liste des chambres)
-        JPanel chambreList = new JPanel(new BorderLayout());
-        chambreList.setBackground(panel_color);
-        chambreList.setPreferredSize(new Dimension(500, 600));
+        // Ajouter le champ de recherche à la barre de navigation
+        navBar.add(searchField, BorderLayout.EAST);
 
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        gbc.gridwidth = 1;
-        gbc.weightx = 0.5;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        add(chambreList, gbc);
+        // Ajouter la barre de navigation au top de la fenêtre
+        add(navBar, BorderLayout.NORTH);
 
-        // Créer la table des chambres
-        String[] columns = {"ID", "Type", "Étage", "État"};
+        // Données des colonnes
+        String[] donnes = {"ID Client", "Nom Client", "Prénom Client", "ID Chambre", "Date Début", "Date Fin", "Modifier", "Supprimer"};
+
+        // Données des réservations (exemple)
         Object[][] data = {
-                {101, "Simple", 1, "Libre"},
-                {102, "Double", 1, "Occupée"},
-                {103, "Suite", 2, "Libre"},
-                {104, "Simple", 2, "Occupée"},
-                {105, "Suite", 3, "Libre"}
+                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
+                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
+                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
+                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
+                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
+                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
+                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
+                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
+                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
+                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
+                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
+                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
+                {5, "Lemoine", "Paul", 105, "13/12/2023", "25/12/2023"}
         };
 
-        DefaultTableModel model = new DefaultTableModel(data, columns) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+        // Panel pour afficher les données dans un tableau
+        JPanel dataPanel = new JPanel();
+        dataPanel.setLayout(new GridBagLayout());
 
-        chambreTable = new JTable(model);
-        chambreTable.setBackground(panel_color);
-        chambreTable.setForeground(Color.WHITE);
-        chambreTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        chambreTable.setRowHeight(30);
-        chambreTable.getTableHeader().setBackground(main_color);
-        chambreTable.getTableHeader().setForeground(Color.WHITE);
-        chambreTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
-
-        // Centrer les cellules
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        for (int i = 0; i < chambreTable.getColumnCount(); i++) {
-            chambreTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        // Ajout des labels pour les colonnes
+        gbc.gridwidth = 1;  // Chaque label occupe une seule colonne
+        for (int i = 0; i < donnes.length; i++) {
+            JLabel label = new JLabel(donnes[i]);
+            label.setFont(new Font("Arial", Font.BOLD, 16));
+            label.setForeground(Color.WHITE);
+            gbc.gridx = i;  // Déplace les labels sur chaque colonne
+            gbc.gridy = 0;  // Positionne les labels sur la première ligne
+            gbc.anchor = GridBagConstraints.CENTER;  // Centrer le texte
+            dataPanel.add(label, gbc);
         }
 
-        // Renderer spécial pour la colonne "État"
-        chambreTable.getColumnModel().getColumn(3).setCellRenderer(new EtatCellRenderer());
-
-        JScrollPane scrollPane = new JScrollPane(chambreTable);
-        scrollPane.getViewport().setBackground(panel_color);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        chambreList.add(scrollPane, BorderLayout.CENTER);
-
-        // Panneau de droite (Calendriers)
-        JPanel chambreDisp = new JPanel(new GridBagLayout());
-        chambreDisp.setBackground(panel_color);
-        chambreDisp.setPreferredSize(new Dimension(500, 600));
-
-        gbc.gridx = 1;
-        gbc.weightx = 0.5;
-        add(chambreDisp, gbc);
-
-        // Contraintes internes pour chambreDisp
-        GridBagConstraints dispGbc = new GridBagConstraints();
-        dispGbc.insets = new Insets(10, 10, 10, 10);
-        dispGbc.fill = GridBagConstraints.NONE;
-        dispGbc.anchor = GridBagConstraints.CENTER;
-        dispGbc.gridx = 0;
-        dispGbc.weightx = 1.0;
-
-        // Label Date Début
-        JLabel dateDebutLabel = new JLabel("Date Début");
-        dateDebutLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        dateDebutLabel.setForeground(text_color);
-        dispGbc.gridy = 0;
-        chambreDisp.add(dateDebutLabel, dispGbc);
-
-        // Calendrier Date Début
-        JCalendar datedebut = createStyledCalendar();
-        dispGbc.gridy = 1;
-        chambreDisp.add(datedebut, dispGbc);
-
-        // Label Date Fin
-        JLabel dateFinLabel = new JLabel("Date Fin");
-        dateFinLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        dateFinLabel.setForeground(text_color);
-        dispGbc.gridy = 2;
-        chambreDisp.add(dateFinLabel, dispGbc);
-
-        // Calendrier Date Fin
-        JCalendar datefin = createStyledCalendar();
-        dispGbc.gridy = 3;
-        chambreDisp.add(datefin, dispGbc);
-    }
-
-    private JCalendar createStyledCalendar() {
-        JCalendar calendar = new JCalendar(Locale.FRANCE);
-        calendar.setPreferredSize(new Dimension(200, 300));
-        calendar.setBackground(new Color(45, 40, 77));
-        calendar.getDayChooser().setBackground(new Color(45, 40, 77));
-        calendar.getDayChooser().setForeground(Color.WHITE);
-        calendar.getMonthChooser().setBackground(new Color(45, 40, 77));
-        calendar.getMonthChooser().setForeground(Color.WHITE);
-        calendar.getYearChooser().setBackground(new Color(45, 40, 77));
-        calendar.getYearChooser().setForeground(Color.WHITE);
-        calendar.setForeground(Color.WHITE);
-        return calendar;
-    }
-
-    // Renderer personnalisé pour changer la couleur de fond en fonction de l'état
-    private static class EtatCellRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
-            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            if ("Libre".equals(value)) {
-                c.setBackground(new Color(0, 153, 0)); // Vert
-                c.setForeground(Color.WHITE);
-            } else if ("Occupée".equals(value)) {
-                c.setBackground(new Color(204, 0, 0)); // Rouge
-                c.setForeground(Color.WHITE);
-            } else {
-                c.setBackground(panel_color);
-                c.setForeground(Color.WHITE);
+        // Remplir les données dans le tableau
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                String value = String.valueOf(data[i][j]); // Convertir les données en chaîne
+                JLabel infoLabel = new JLabel(value);
+                infoLabel.setFont(fieldFont);
+                infoLabel.setForeground(text_color);
+                gbc.gridx = j;  // Positionner le label selon la colonne
+                gbc.gridy = i + 1;  // Positionner sur la ligne suivante après les en-têtes
+                dataPanel.add(infoLabel, gbc);
             }
 
-            if (isSelected) {
-                c.setBackground(new Color(100, 100, 255)); // couleur différente quand sélectionné
-            }
+            // Bouton Supprimer
+            JButton deleteButton = new JButton("Supprimer");
+            deleteButton.setBackground(deleteButtonColor);
+            deleteButton.setForeground(Color.WHITE);
+            deleteButton.setPreferredSize(new Dimension(100, 30)); // Bouton plus large
+            deleteButton.setFocusPainted(false);
+            gbc.gridx = 7; // Placer le bouton Supprimer dans la colonne 7
+            gbc.gridy = i + 1;
+            dataPanel.add(deleteButton, gbc);
 
-            setHorizontalAlignment(SwingConstants.CENTER);
-            return c;
+            deleteButton.addActionListener(e -> {
+                // Code à exécuter pour supprimer la ligne
+                JOptionPane.showMessageDialog(this, "Suppression de la réservation ");
+                // Vous pouvez ajouter une logique de suppression ici
+            });
+
+            // Bouton Modifier
+            JButton editButton = new JButton("Modifier");
+            editButton.setBackground(buttonColor);
+            editButton.setForeground(Color.WHITE);
+            editButton.setPreferredSize(new Dimension(100, 30)); // Bouton plus large
+            editButton.setFocusPainted(false);
+            gbc.gridx = 6; // Placer le bouton Modifier dans la colonne 6
+            gbc.gridy = i + 1;
+            dataPanel.add(editButton, gbc);
+
+            editButton.addActionListener(e -> {
+                // Code à exécuter pour modifier la ligne
+                JOptionPane.showMessageDialog(this, "Modification de la réservation ");
+                // Vous pouvez ajouter une logique de modification ici
+            });
         }
+
+        // Envelopper le panel des données dans un JScrollPane
+        JScrollPane scrollPane = new JScrollPane(dataPanel);
+        scrollPane.setBackground(main_color);
+        JViewport viewport = scrollPane.getViewport();
+        viewport.setOpaque(true);
+        viewport.setBackground(main_color);
+        dataPanel.setOpaque(true);
+
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        add(scrollPane, BorderLayout.CENTER);
+    }
+
+    // Méthode principale pour tester
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Réservations");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new ReservationForm());
+        frame.setSize(800, 600);  // Taille de la fenêtre
+        frame.setLocationRelativeTo(null);  // Centrer la fenêtre
+        frame.setVisible(true);  // Afficher la fenêtre
     }
 }
