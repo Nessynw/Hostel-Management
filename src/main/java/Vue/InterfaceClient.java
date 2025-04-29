@@ -148,8 +148,7 @@ public class InterfaceClient extends JPanel {
             case "Liste de Clients":
                 // Afficher la liste des clients
                 ListClient clientList = new ListClient();
-                mainPanel.add(clientList.getListPanel(), BorderLayout.CENTER);
-                break;
+                mainPanel.add(clientList, BorderLayout.CENTER);
             case "Chambres":
                 // Afficher la gestion des chambres
                 ChambreForm chambreForm = new ChambreForm(hotel);

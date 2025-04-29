@@ -1,178 +1,173 @@
 package Vue;
 
-import com.toedter.calendar.JCalendar;
-
 import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Locale;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class ReservationForm extends JPanel {
 
+    private static final Color hover = new Color(58, 90, 153);
+    private static final Color main_color = new Color(18, 11, 61);  // Base color
+    private static final Color text_color = Color.BLACK; // Text color
+    private static final Color buttonColor = new Color(34, 193, 195); // Button color (teal)
+    private static final Color deleteButtonColor = new Color(255, 69, 0); // Delete button color (red)
+    private static final Font fieldFont = new Font("Arial", Font.PLAIN, 16); // Font for labels
 
-    private static final Color main_color = new Color(18, 11, 61);
-    private static final Color panel_color = new Color(35, 30, 67);
-    private static final Color text_color = Color.WHITE;
+    public ReservationForm() {
+        setLayout(new BorderLayout());
+        this.setBackground(main_color);
 
-    private JTable chambreTable;
-
-    public ReservationForm() throws UnsupportedLookAndFeelException {
-        setLayout(new GridBagLayout());
-        setBackground(main_color);
-        UIManager.setLookAndFeel(new NimbusLookAndFeel());
-
+        // GridBagConstraints setup
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(10, 10, 20, 10);  // Espacement entre les composants
 
-        // Titre
-        JLabel titleLabel = new JLabel("Réservation d'une chambre");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(text_color);
+        // Navigation bar setup
+        JPanel navBar = new JPanel();
+        navBar.setLayout(new BorderLayout());
+        navBar.setBackground(main_color);
+        navBar.setBorder(BorderFactory.createLineBorder(text_color));
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(titleLabel, gbc);
+        // Title setup
+        JLabel title = new JLabel("List Réservations");
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+        title.setForeground(Color.WHITE);
+        navBar.add(title, BorderLayout.WEST);
 
-        // Panneau de gauche (Liste des chambres)
-        JPanel chambreList = new JPanel(new BorderLayout());
-        chambreList.setBackground(panel_color);
-        chambreList.setPreferredSize(new Dimension(500, 600));
+        // Create the search field and set its properties
+        JTextField searchField = new JTextField();
+        searchField.setFont(fieldFont);
+        searchField.setBackground(Color.WHITE);
+        searchField.setForeground(Color.BLACK);
+        searchField.setPreferredSize(new Dimension(200, 30));
+        searchField.setToolTipText("Search for a reservation");
 
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        gbc.gridwidth = 1;
-        gbc.weightx = 0.5;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        add(chambreList, gbc);
+        ImageIcon searchIcon = new ImageIcon("src/main/resources/search.png");
+        Icon scaledSearchIcon = new ImageIcon(searchIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+        // Create the search button with the icon
+        JButton searchButton = new JButton(scaledSearchIcon);
+        searchButton.setPreferredSize(new Dimension(40, 30));  // Adjust button size to fit the icon
+        searchButton.setBorder(BorderFactory.createEmptyBorder());  // Remove default border
+        searchButton.setBackground(Color.WHITE);  // Make background color same as the navbar
+        searchButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                searchButton.setBackground(hover);
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
 
-        // Créer la table des chambres
-        String[] columns = {"ID", "Type", "Étage", "État"};
+            public void mouseExited(MouseEvent e) {
+                searchButton.setBackground(Color.white);
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+
+        // Add the search field and button to the navBar panel
+        JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));  // Right-align the components with some spacing
+        searchPanel.setBackground(main_color);
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
+        // Add the search panel to the navigation bar
+        navBar.add(searchPanel, BorderLayout.EAST);
+
+        // Add the navigation bar to the top of the window
+        add(navBar, BorderLayout.NORTH);
+
+        // Data setup for table
+        String[] donnes = {"ID Client", "Nom Client", "Prénom Client", "ID Chambre", "Date Début", "Date Fin", "Modifier", "Supprimer"};
         Object[][] data = {
-                {101, "Simple", 1, "Libre"},
-                {102, "Double", 1, "Occupée"},
-                {103, "Suite", 2, "Libre"},
-                {104, "Simple", 2, "Occupée"},
-                {105, "Suite", 3, "Libre"}
+                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
+                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
+                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
+                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
+                {5, "Lemoine", "Paul", 105, "13/12/2023", "25/12/2023"}
         };
 
-        DefaultTableModel model = new DefaultTableModel(data, columns) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+        // Panel to display data
+        JPanel dataPanel = new JPanel();
+        dataPanel.setLayout(new GridBagLayout());
 
-        chambreTable = new JTable(model);
-        chambreTable.setBackground(panel_color);
-        chambreTable.setForeground(Color.WHITE);
-        chambreTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        chambreTable.setRowHeight(30);
-        chambreTable.getTableHeader().setBackground(main_color);
-        chambreTable.getTableHeader().setForeground(Color.WHITE);
-        chambreTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
-
-        // Centrer les cellules
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        for (int i = 0; i < chambreTable.getColumnCount(); i++) {
-            chambreTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        // Add column labels
+        gbc.gridwidth = 1;
+        for (int i = 0; i < donnes.length; i++) {
+            JLabel label = new JLabel(donnes[i]);
+            label.setFont(new Font("Arial", Font.BOLD, 16));
+            label.setForeground(Color.WHITE);
+            gbc.gridx = i;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            dataPanel.add(label, gbc);
         }
 
-        // Renderer spécial pour la colonne "État"
-        chambreTable.getColumnModel().getColumn(3).setCellRenderer(new EtatCellRenderer());
-
-        JScrollPane scrollPane = new JScrollPane(chambreTable);
-        scrollPane.getViewport().setBackground(panel_color);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        chambreList.add(scrollPane, BorderLayout.CENTER);
-
-        // Panneau de droite (Calendriers)
-        JPanel chambreDisp = new JPanel(new GridBagLayout());
-        chambreDisp.setBackground(panel_color);
-        chambreDisp.setPreferredSize(new Dimension(500, 600));
-
-        gbc.gridx = 1;
-        gbc.weightx = 0.5;
-        add(chambreDisp, gbc);
-
-        // Contraintes internes pour chambreDisp
-        GridBagConstraints dispGbc = new GridBagConstraints();
-        dispGbc.insets = new Insets(10, 10, 10, 10);
-        dispGbc.fill = GridBagConstraints.NONE;
-        dispGbc.anchor = GridBagConstraints.CENTER;
-        dispGbc.gridx = 0;
-        dispGbc.weightx = 1.0;
-
-        // Label Date Début
-        JLabel dateDebutLabel = new JLabel("Date Début");
-        dateDebutLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        dateDebutLabel.setForeground(text_color);
-        dispGbc.gridy = 0;
-        chambreDisp.add(dateDebutLabel, dispGbc);
-
-        // Calendrier Date Début
-        JCalendar datedebut = createStyledCalendar();
-        dispGbc.gridy = 1;
-        chambreDisp.add(datedebut, dispGbc);
-
-        // Label Date Fin
-        JLabel dateFinLabel = new JLabel("Date Fin");
-        dateFinLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        dateFinLabel.setForeground(text_color);
-        dispGbc.gridy = 2;
-        chambreDisp.add(dateFinLabel, dispGbc);
-
-        // Calendrier Date Fin
-        JCalendar datefin = createStyledCalendar();
-        dispGbc.gridy = 3;
-        chambreDisp.add(datefin, dispGbc);
-    }
-
-    private JCalendar createStyledCalendar() {
-        JCalendar calendar = new JCalendar(Locale.FRANCE);
-        calendar.setPreferredSize(new Dimension(200, 300));
-        calendar.setBackground(new Color(45, 40, 77));
-        calendar.getDayChooser().setBackground(new Color(45, 40, 77));
-        calendar.getDayChooser().setForeground(Color.WHITE);
-        calendar.getMonthChooser().setBackground(new Color(45, 40, 77));
-        calendar.getMonthChooser().setForeground(Color.WHITE);
-        calendar.getYearChooser().setBackground(new Color(45, 40, 77));
-        calendar.getYearChooser().setForeground(Color.WHITE);
-        calendar.setForeground(Color.WHITE);
-        return calendar;
-    }
-
-    // Renderer personnalisé pour changer la couleur de fond en fonction de l'état
-    private static class EtatCellRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
-            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            if ("Libre".equals(value)) {
-                c.setBackground(new Color(0, 153, 0)); // Vert
-                c.setForeground(Color.WHITE);
-            } else if ("Occupée".equals(value)) {
-                c.setBackground(new Color(204, 0, 0)); // Rouge
-                c.setForeground(Color.WHITE);
-            } else {
-                c.setBackground(panel_color);
-                c.setForeground(Color.WHITE);
+        // Fill the data in the table
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                String value = String.valueOf(data[i][j]);
+                JLabel infoLabel = new JLabel(value);
+                infoLabel.setFont(fieldFont);
+                infoLabel.setForeground(text_color);
+                gbc.gridx = j;
+                gbc.gridy = i + 1;
+                dataPanel.add(infoLabel, gbc);
             }
 
-            if (isSelected) {
-                c.setBackground(new Color(100, 100, 255)); // couleur différente quand sélectionné
-            }
+            // Add Delete button
+            JButton deleteButton = new JButton("Supprimer");
+            deleteButton.setBackground(deleteButtonColor);
+            deleteButton.setForeground(Color.WHITE);
+            deleteButton.setPreferredSize(new Dimension(100, 30));
+            deleteButton.setFocusPainted(false);
+            gbc.gridx = 7;
+            gbc.gridy = i + 1;
+            dataPanel.add(deleteButton, gbc);
 
-            setHorizontalAlignment(SwingConstants.CENTER);
-            return c;
+            deleteButton.addActionListener(e -> {
+                JOptionPane.showMessageDialog(this, "Suppression de la réservation");
+            });
+
+            // Add Edit button
+            JButton editButton = new JButton("Modifier");
+            editButton.setBackground(buttonColor);
+            editButton.setForeground(Color.WHITE);
+            editButton.setPreferredSize(new Dimension(100, 30));
+            editButton.setFocusPainted(false);
+            gbc.gridx = 6;
+            gbc.gridy = i + 1;
+            dataPanel.add(editButton, gbc);
+
+            editButton.addActionListener(e -> {
+                JOptionPane.showMessageDialog(this, "Modification de la réservation");
+            });
         }
+
+        // Wrap the data panel in a JScrollPane
+        JScrollPane scrollPane = new JScrollPane(dataPanel);
+        scrollPane.setBackground(main_color);
+        JViewport viewport = scrollPane.getViewport();
+        viewport.setOpaque(true);
+        viewport.setBackground(main_color);
+        dataPanel.setOpaque(true);
+
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Add action listener to search button
+        searchButton.addActionListener(e -> {
+            String searchText = searchField.getText();
+            JOptionPane.showMessageDialog(this, "Searching for: " + searchText);
+            // Add search logic here to filter the data based on the searchText
+        });
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Réservations");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new ReservationForm());
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null);  // Center the window
+        frame.setVisible(true);  // Show the window
     }
 }
