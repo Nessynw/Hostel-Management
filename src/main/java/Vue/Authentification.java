@@ -5,6 +5,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Controler.*;
 
 public class Authentification extends JFrame {
     private char[] codepin;
@@ -79,26 +80,11 @@ public class Authentification extends JFrame {
         setContentPane(backgroundPanel);
 
         // Action du bouton Valider
-        validerBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                codepin = password.getPassword();  // Récupérer le code PIN
-                if (String.valueOf(codepin).equals("1234")) {
-                    onSuccess.run();  // Exécuter le callback si le code est correct
-                    dispose();  // Fermer la fenêtre d'authentification
-                } else {
-                    JOptionPane.showMessageDialog(null, "Code PIN incorrect", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        validerBtnControler b = new validerBtnControler(password,onSuccess,this);
+        validerBtn.addActionListener(b);
 
         // Action du bouton Retour
-        retourBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();  // Fermer la fenêtre d'authentification
-            }
-        });
+        retourBtn.addActionListener(new retourBtnControler(this));
     }
 
     public char[] getCodePin() {
