@@ -31,4 +31,7 @@ public class Receptionniste extends Employe {
     public void ajouterReservation(Reservation r) {
         Res.add(r);
     }
+    public String getPoste() {
+        return "Réceptionniste";
+    }
 }

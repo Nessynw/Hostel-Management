@@ -19,6 +19,8 @@ public class Employe extends Personne {
             return id_Emp;
         }
 
+
+
         public void setId_Emp(int id_Emp) {
             this.id_Emp = id_Emp;
         }
