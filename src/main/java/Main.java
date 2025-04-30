@@ -29,9 +29,10 @@ public class Main {
         // Ajouter le panneau Accueil à la fenêtre
         frame.setContentPane(new Accueil(frame , hotel));  // Remplacer par le panneau Accueil
 
+
         frame.setSize(1000, 700);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
 
-}}
+    }}

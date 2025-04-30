@@ -22,6 +22,9 @@ public class Personne {
         tel = tl;
         adresse = adr;
     }
+        public String getAdresse() {
+        return adresse;
+    }
         public String getEmail() {
             return email;
         }

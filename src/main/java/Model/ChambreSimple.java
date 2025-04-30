@@ -1,14 +1,14 @@
 package Model;
 
 
-public class Simple extends Chambre {
+public class ChambreSimple extends Chambre {
 
         public double tarif;
 
-        public Simple() {
+        public ChambreSimple() {
         }
 
-        public Simple(int num_chambre, int num_etage, Hotel hotel, double tarif) {
+        public ChambreSimple(int num_chambre, int num_etage, Hotel hotel, double tarif) {
             super(num_chambre, num_etage, hotel); // Appelle le constructeur de la classe Chambre
             this.tarif = tarif;
         }

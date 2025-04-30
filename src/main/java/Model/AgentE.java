@@ -9,7 +9,7 @@ import java.util.*;
 
 
 
-        public AgentE(int id_Emp, String nom, String prenom, String email, String tel,String adresse ,  double salaire, Hotel hotel) {
+        public AgentE( String nom, String prenom, String email, String tel,String adresse ,  double salaire, Hotel hotel) {
             super( nom, prenom, email, tel, adresse , salaire, hotel);
                 listInter = new Vector<>();
         }
@@ -32,6 +32,9 @@ import java.util.*;
         }
         public void ajouterIntervention(Intervention i) {
             listInter.add(i);
+        }
+        public String getPoste() {
+            return "Agent Entretien";
         }
     }
 

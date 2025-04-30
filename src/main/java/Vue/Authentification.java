@@ -8,16 +8,17 @@ import java.awt.event.ActionListener;
 import Controler.*;
 
 public class Authentification extends JFrame {
+    private static final Color main_color = new Color(26, 31, 75);  // Couleur de base
+
     private char[] codepin;
-    private static final Color main_color = new Color(26, 31, 75);
     private JButton validerBtn;
     private JPasswordField password;
     private Runnable onSuccess;  // Callback pour signaler que l'authentification a réussi
 
     public Authentification(Runnable onSuccess) {
+
         this.onSuccess = onSuccess;  // On récupère le callback
 
-        // Appliquer Nimbus LookAndFeel pour une apparence moderne
         try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
@@ -33,11 +34,12 @@ public class Authentification extends JFrame {
         // Créer un panneau pour l'arrière-plan
         JPanel backgroundPanel = new JPanel();
         backgroundPanel.setLayout(new GridBagLayout());
-
+        backgroundPanel.setBackground(main_color);
         // Créer les composants principaux
         JLabel codePinLabel = new JLabel("Authentification requise");
         codePinLabel.setFont(new Font("Georgia", Font.BOLD, 25));
-        codePinLabel.setForeground(Color.DARK_GRAY);
+        codePinLabel.setForeground(new Color(176, 176, 176));  // Gris clair pour le texte
+
         codePinLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         password = new JPasswordField(10);
@@ -84,7 +86,13 @@ public class Authentification extends JFrame {
         validerBtn.addActionListener(b);
 
         // Action du bouton Retour
-        retourBtn.addActionListener(new retourBtnControler(this));
+        retourBtn.addActionListener(new retourBtnControler(() -> {
+            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            topFrame.getContentPane().removeAll();
+            topFrame.getContentPane().add(new InterfacePersonnel(topFrame));
+            topFrame.revalidate();
+            topFrame.repaint();
+        }));
     }
 
     public char[] getCodePin() {

@@ -63,7 +63,7 @@ public class ChambreSimple extends JFrame {
             chamberTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        // Couleur spéciale pour l'état
+        // Couleur pour l'état
         chamberTable.getColumnModel().getColumn(3).setCellRenderer(new EtatCellRenderer());
 
         JScrollPane scrollPane = new JScrollPane(chamberTable);
