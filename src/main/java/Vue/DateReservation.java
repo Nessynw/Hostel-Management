@@ -7,36 +7,37 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ReservationForm1 extends JFrame {
+public class DateReservation extends JFrame {
     private static final Color main_color = new Color(18, 11, 61); // Base color
-    private static final Color panel_color = new Color(35, 30, 67);
     private static final Color text_color = Color.WHITE;
-    private static final Color fieldColor = new Color(33, 33, 33); // Background color for fields
-    private static final Color errorColor = new Color(255, 102, 102); // Red color for invalid fields
-    private static final Font fieldFont = new Font("Arial", Font.PLAIN, 14); // Font for input fields
-    private static final Color side_COLOR = new Color(46, 59, 142);
-    private static final Color hover = new Color(58, 90, 153);
+    private static final Color fieldColor = new Color(33, 33, 33);
+    private static final Font fieldFont = new Font("Arial", Font.PLAIN, 14);
+
     String date_debut;
     String date_fin;
-    public ReservationForm1() {
+
+    public DateReservation() {
         setLayout(new GridBagLayout());
         this.getContentPane().setBackground(main_color);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding around the elements
+        gbc.insets = new Insets(10, 10, 10, 10); // marges autour des composants
+        gbc.fill = GridBagConstraints.HORIZONTAL; // chaque composant s'étire horizontalement si possible
+        gbc.anchor = GridBagConstraints.CENTER;   // et est centré dans sa case
+
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         // Title
         JLabel titleLabel = new JLabel("Réservation d'une chambre");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(text_color);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2;  // Title should span across columns
+        gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         add(titleLabel, gbc);
 
@@ -49,12 +50,15 @@ public class ReservationForm1 extends JFrame {
         startDateField.setFont(fieldFont);
         JButton startDateButton = createCalendarButton(startDateField);
 
-        gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 1;  // Reset gridwidth to 1 for subsequent components
+        gbc.gridwidth = 1;
+
+        gbc.gridx = 0;
         add(startDateLabel, gbc);
+
         gbc.gridx = 1;
         add(startDateField, gbc);
+
         gbc.gridx = 2;
         add(startDateButton, gbc);
 
@@ -67,11 +71,14 @@ public class ReservationForm1 extends JFrame {
         endDateField.setFont(fieldFont);
         JButton endDateButton = createCalendarButton(endDateField);
 
-        gbc.gridx = 0;
         gbc.gridy = 2;
+
+        gbc.gridx = 0;
         add(endDateLabel, gbc);
+
         gbc.gridx = 1;
         add(endDateField, gbc);
+
         gbc.gridx = 2;
         add(endDateButton, gbc);
 
@@ -84,8 +91,8 @@ public class ReservationForm1 extends JFrame {
         prevButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               setVisible(false);
-               setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                setVisible(false);
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             }
         });
 
@@ -102,7 +109,7 @@ public class ReservationForm1 extends JFrame {
                 if (date_debut.isEmpty() || date_fin.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    ChambreSimple chambreSimple=new ChambreSimple();
+                    ChambreSimple chambreSimple = new ChambreSimple(true);
                     chambreSimple.setVisible(true);
                     setVisible(false);
                     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -110,15 +117,18 @@ public class ReservationForm1 extends JFrame {
             }
         });
 
-        // Place the "Previous" and "Next" buttons at the bottom
+        // Create a panel to hold both buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0)); // 20 px spacing between buttons
+        buttonPanel.setBackground(main_color); // To keep consistent background
+        buttonPanel.add(prevButton);
+        buttonPanel.add(nextButton);
+
+        // Add the panel to the frame
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 3;  // Span across all columns
         gbc.anchor = GridBagConstraints.CENTER;
-        add(prevButton, gbc);
-
-        gbc.gridx = 1;
-        add(nextButton, gbc);
+        add(buttonPanel, gbc);
 
         // Set the title, size, and close operation
         setTitle("Réservation");
@@ -129,7 +139,7 @@ public class ReservationForm1 extends JFrame {
 
     // Method to create a button that opens a calendar
     private JButton createCalendarButton(JTextField dateField) {
-        JButton calendarButton = new JButton("📅");
+        JButton calendarButton = new JButton("C");
         calendarButton.setBackground(new Color(58, 51, 124));
         calendarButton.setForeground(Color.WHITE);
         calendarButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -160,7 +170,7 @@ public class ReservationForm1 extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());  // Set Look and Feel globally here
-            ReservationForm1 reservationForm = new ReservationForm1();
+            DateReservation reservationForm = new DateReservation();
             reservationForm.setVisible(true);
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
