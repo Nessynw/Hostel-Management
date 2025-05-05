@@ -14,10 +14,6 @@ public class Receptionniste extends Employe {
         return Res;
     }
 
-    public void setRes(ArrayList<Reservation> Res) {
-        this.Res = Res;
-    }
-
     public void addReservation(Reservation reservation) {
         this.Res.add(reservation);
     }

@@ -3,17 +3,16 @@ package Vue;
 import Model.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ChambreForm extends JPanel {
+public class Chambres extends JPanel {
     private static final Color main_color = new Color(18, 11, 61);  // Base color
     private static final Color hoverColor = new Color(58, 90, 153); // Hover color
     private JPanel mainPanel;
     private Hotel hotel;
 
-    public ChambreForm(Hotel hotel) {
+    public Chambres(Hotel hotel) {
         this.hotel = hotel;
         this.setBackground(main_color);
         this.setLayout(new GridBagLayout());
@@ -41,7 +40,7 @@ public class ChambreForm extends JPanel {
 
         // Add a scroll pane if the window is too small
         JScrollPane scrollPane = new JScrollPane(mainPanel);
-        scrollPane.setBorder(null); // No ugly border around the scroll
+        scrollPane.setBorder(null);
         scrollPane.setBackground(main_color);
         scrollPane.getViewport().setBackground(main_color);
 
@@ -87,8 +86,8 @@ public class ChambreForm extends JPanel {
         chambrePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ReservationForm1 reservationForm1 = new ReservationForm1();
-                reservationForm1.setVisible(true);
+                DateReservation dateReservation = new DateReservation();
+                dateReservation.setVisible(true);
             }
 
             @Override

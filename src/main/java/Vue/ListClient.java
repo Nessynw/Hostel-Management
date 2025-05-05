@@ -7,8 +7,8 @@ public class ListClient extends JPanel {
 
     private static final Color main_color = new Color(18, 11, 61);  // Base color
     private static final Color text_color = Color.BLACK; // Text color
-    private static final Color buttonColor = new Color(34, 193, 195); // Button color (teal)
-    private static final Color deleteButtonColor = new Color(255, 69, 0); // Delete button color (red)
+    private static final Color buttonColor = new Color(58, 90, 153); // Button color (teal)
+    private static final Color deleteButtonColor = new Color(76, 6, 6); // Delete button color (red)
     private static final Font fieldFont = new Font("Arial", Font.PLAIN, 16); // Font for labels
 
     public ListClient() {
@@ -25,8 +25,8 @@ public class ListClient extends JPanel {
         // Titre de la fenêtre
         JLabel title = new JLabel("Réservations");
         title.setFont(new Font("Arial", Font.BOLD, 24));
-        title.setForeground(Color.WHITE);
-        navBar.add(title, BorderLayout.WEST);
+        title.setForeground(Color.white);
+        navBar.add(title, BorderLayout.CENTER);
 
         // Champ de recherche
         JTextField searchField = new JTextField();
@@ -70,7 +70,7 @@ public class ListClient extends JPanel {
         for (int i = 0; i < donnes.length; i++) {
             JLabel label = new JLabel(donnes[i]);
             label.setFont(new Font("Arial", Font.BOLD, 16));
-            label.setForeground(Color.WHITE);
+            label.setForeground(buttonColor);
             gbc.gridx = i;  // Déplace les labels sur chaque colonne
             gbc.gridy = 0;  // Positionne les labels sur la première ligne
             gbc.anchor = GridBagConstraints.CENTER;  // Centrer le texte
