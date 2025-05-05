@@ -63,7 +63,6 @@ public class NewClient extends JPanel {
         add(prenomLabel, gbc);
         gbc.gridx = 1;
         add(prenomField, gbc);
-
         // Champ pour l'email
         JLabel emailLabel = new JLabel("Email:");
         JTextField emailField = new JTextField(20);
