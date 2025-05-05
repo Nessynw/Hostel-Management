@@ -74,7 +74,7 @@ public class InterfaceClient extends JPanel {
         sidebar.add(nomHotel, gbc);
 
         // Ajouter les boutons du menu avec un espacement vertical
-        String[] buttonMenu = {"Chambres", "Réservations", "Séjours", "Clients", "Liste de clients"};
+        String[] buttonMenu = {"Chambres","Etat_chambes", "Réservations", "Séjours", "Clients", "Liste de clients"};
         for (String buttonText : buttonMenu) {
             gbc.gridy++;  // Déplacer vers la ligne suivante
             JButton button = createSidebarButton(buttonText);
@@ -103,7 +103,7 @@ public class InterfaceClient extends JPanel {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-        Dimension buttonSize = new Dimension(200, 60); // Par exemple 250px de large, 60px de haut
+        Dimension buttonSize = new Dimension(200, 40); // Par exemple 250px de large, 60px de haut
         button.setPreferredSize(buttonSize);
         button.setMinimumSize(buttonSize);
         button.setMaximumSize(buttonSize);
@@ -145,10 +145,11 @@ public class InterfaceClient extends JPanel {
                 NewClient clientForm = new NewClient(hotel);
                 mainPanel.add(clientForm, BorderLayout.CENTER);
                 break;
-            case "Liste de Clients":
+            case "Liste de clients":
                 // Afficher la liste des clients
                 ListClient clientList = new ListClient();
                 mainPanel.add(clientList, BorderLayout.CENTER);
+                break;
             case "Chambres":
                 // Afficher la gestion des chambres
                 Chambres chambres = new Chambres(hotel);
@@ -159,8 +160,8 @@ public class InterfaceClient extends JPanel {
                 mainPanel.add(reservationForm, BorderLayout.CENTER);
                 break;
             case "Séjours":
-                // Afficher la gestion des séjours
-                break;
+                  SejourForm sejourForm = new SejourForm();
+                  mainPanel.add(sejourForm, BorderLayout.CENTER);
             default:
                 // Gérer un texte de bouton inattendu
                 JOptionPane.showMessageDialog(this, "Option non supportée", "Erreur", JOptionPane.ERROR_MESSAGE);

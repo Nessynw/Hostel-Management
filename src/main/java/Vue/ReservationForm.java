@@ -12,6 +12,7 @@ public class ReservationForm extends JPanel {
     private static final Color text_color = Color.BLACK; // Text color
     private static final Color buttonColor = new Color(34, 193, 195); // Button color (teal)
     private static final Color deleteButtonColor = new Color(255, 69, 0); // Delete button color (red)
+    private static final Color min_color = new Color(40, 45, 80);  // Couleur pour le JScrollPane
     private static final Font fieldFont = new Font("Arial", Font.PLAIN, 16); // Font for labels
 
     public ReservationForm() {
@@ -61,7 +62,6 @@ public class ReservationForm extends JPanel {
             }
         });
 
-
         // Add the search field and button to the navBar panel
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));  // Right-align the components with some spacing
@@ -74,10 +74,19 @@ public class ReservationForm extends JPanel {
 
         // Add the navigation bar to the top of the window
         add(navBar, BorderLayout.NORTH);
+        navBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Padding around the navbar
 
         // Data setup for table
         String[] donnes = {"ID Client", "Nom Client", "Prénom Client", "ID Chambre", "Date Début", "Date Fin", "Modifier", "Supprimer"};
         Object[][] data = {
+                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
+                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
+                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
+                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
+                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
+                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
+                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
+                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
                 {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
                 {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
                 {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
@@ -88,6 +97,7 @@ public class ReservationForm extends JPanel {
         // Panel to display data
         JPanel dataPanel = new JPanel();
         dataPanel.setLayout(new GridBagLayout());
+        dataPanel.setBackground(min_color);  // Set background color to min_color
 
         // Add column labels
         gbc.gridwidth = 1;
@@ -107,7 +117,7 @@ public class ReservationForm extends JPanel {
                 String value = String.valueOf(data[i][j]);
                 JLabel infoLabel = new JLabel(value);
                 infoLabel.setFont(fieldFont);
-                infoLabel.setForeground(text_color);
+                infoLabel.setForeground(Color.WHITE);
                 gbc.gridx = j;
                 gbc.gridy = i + 1;
                 dataPanel.add(infoLabel, gbc);
@@ -144,13 +154,10 @@ public class ReservationForm extends JPanel {
 
         // Wrap the data panel in a JScrollPane
         JScrollPane scrollPane = new JScrollPane(dataPanel);
-        scrollPane.setBackground(main_color);
-        JViewport viewport = scrollPane.getViewport();
-        viewport.setOpaque(true);
-        viewport.setBackground(main_color);
-        dataPanel.setOpaque(true);
+        scrollPane.setBackground(min_color);  // Set background color to min_color
+        scrollPane.getViewport().setBackground(min_color);  // Set viewport background color
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());  // Remove border of JScrollPane
 
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
         // Add action listener to search button

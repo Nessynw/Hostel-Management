@@ -10,7 +10,7 @@ public class Main {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        }
+        } //
         // Créer la fenêtre principale (JFrame)
         JFrame frame = new JFrame("Hôtel Blue Castle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
