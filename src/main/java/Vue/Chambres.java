@@ -86,8 +86,8 @@ public class Chambres extends JPanel {
         chambrePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                DateReservation dateReservation = new DateReservation();
-                dateReservation.setVisible(true);
+                DateReservation dr = new DateReservation(hotel, type);
+                dr.setVisible(true);
             }
 
             @Override
