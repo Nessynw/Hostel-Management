@@ -84,11 +84,7 @@ public abstract class Chambre {
         }
         return true;
     }
-    public boolean isAvailableNow() {
-        // Utiliser la date d'aujourd'hui pour vérifier si la chambre est disponible
-        LocalDate today = LocalDate.now();
-        return isAvailable(today, today); // Appel à la méthode isAvailable avec la même date de début et de fin
-    }
+
     public void ajouterReservation(Reservation r) {
         listReservation.add(r);
     }

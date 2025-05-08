@@ -1,12 +1,15 @@
 package Vue;
 
+import Model.Hotel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+
 import java.awt.event.MouseEvent;
 
 public class ReservationForm extends JPanel {
-
+     private  Hotel hotel;
     private static final Color hover = new Color(58, 90, 153);
     private static final Color main_color = new Color(18, 11, 61);  // Base color
     private static final Color text_color = Color.BLACK; // Text color
@@ -18,6 +21,9 @@ public class ReservationForm extends JPanel {
     public ReservationForm() {
         setLayout(new BorderLayout());
         this.setBackground(main_color);
+
+
+
 
         // GridBagConstraints setup
         GridBagConstraints gbc = new GridBagConstraints();
@@ -78,21 +84,7 @@ public class ReservationForm extends JPanel {
 
         // Data setup for table
         String[] donnes = {"ID Client", "Nom Client", "Prénom Client", "ID Chambre", "Date Début", "Date Fin", "Modifier", "Supprimer"};
-        Object[][] data = {
-                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
-                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
-                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
-                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
-                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
-                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
-                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
-                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
-                {1, "Dupont", "Jean", 101, "01/12/2023", "10/12/2023"},
-                {2, "Martin", "Sophie", 102, "05/12/2023", "15/12/2023"},
-                {3, "Bernard", "Pierre", 103, "10/12/2023", "20/12/2023"},
-                {4, "Durand", "Marie", 104, "12/12/2023", "18/12/2023"},
-                {5, "Lemoine", "Paul", 105, "13/12/2023", "25/12/2023"}
-        };
+      String[][] data = {};
 
         // Panel to display data
         JPanel dataPanel = new JPanel();

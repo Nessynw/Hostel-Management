@@ -1,25 +1,27 @@
 package Vue;
-import Controler.*;
+
 import Model.*;
- // Importation de JCalendar pour les champs de date
-import Model.Hotel;
 import com.toedter.calendar.JCalendar;
-import Controler.*;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.time.format.DateTimeFormatter;
+
 public class NewClient extends JPanel {
     private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
     private static final Color fieldColor = new Color(33, 33, 33);  // Couleur de fond des champs
     private static final Color errorColor = new Color(255, 102, 102);  // Couleur rouge pour les champs invalides
     private static final Color validColor = fieldColor;  // Couleur de fond valide
 
-    public NewClient(Hotel hotel){
+    // Matrice pour stocker les clients (chaque ligne représente un client)
+    public static Object[][] clientMatrix = new Object[10][7]; // 10 clients max (peut être modifié)
+    private int clientCount = 0; // Compteur pour suivre le nombre de clients enregistrés
+
+    public NewClient(Hotel hotel) {
         setLayout(new GridBagLayout()); // Utilisation de GridBagLayout pour un meilleur contrôle
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);  // Espacement entre les composants
@@ -63,6 +65,7 @@ public class NewClient extends JPanel {
         add(prenomLabel, gbc);
         gbc.gridx = 1;
         add(prenomField, gbc);
+
         // Champ pour l'email
         JLabel emailLabel = new JLabel("Email:");
         JTextField emailField = new JTextField(20);
@@ -90,17 +93,17 @@ public class NewClient extends JPanel {
         add(phoneField, gbc);
 
         // Champ pour l'adresse
-        JLabel adresseLabel = new JLabel("Adresse:");
-        JTextField adresseField = new JTextField(20);
-        adresseField.setBackground(fieldColor);
-        adresseField.setForeground(Color.WHITE);
-        adresseField.setFont(fieldFont);
-        adresseLabel.setForeground(Color.WHITE);
+        JLabel addressLabel = new JLabel("Adresse:");
+        JTextField addressField = new JTextField(20);
+        addressField.setBackground(fieldColor);
+        addressField.setForeground(Color.WHITE);
+        addressField.setFont(fieldFont);
+        addressLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 5;
-        add(adresseLabel, gbc);
+        add(addressLabel, gbc);
         gbc.gridx = 1;
-        add(adresseField, gbc);
+        add(addressField, gbc);
 
         // Champ pour la date de début
         JLabel startDateLabel = new JLabel("Date de début:");
@@ -118,6 +121,8 @@ public class NewClient extends JPanel {
         gbc.gridx = 2;
         add(startDateButton, gbc);
 
+        startDateField.setEditable(false);
+
         // Champ pour la date de fin
         JLabel endDateLabel = new JLabel("Date de fin:");
         JTextField endDateField = new JTextField(20);
@@ -125,7 +130,10 @@ public class NewClient extends JPanel {
         endDateField.setForeground(Color.WHITE);
         endDateField.setFont(fieldFont);
         endDateLabel.setForeground(Color.WHITE);
+
+        endDateField.setEditable(false);
         JButton endDateButton = createCalendarButton(endDateField);
+
         gbc.gridx = 0;
         gbc.gridy = 7;
         add(endDateLabel, gbc);
@@ -140,8 +148,41 @@ public class NewClient extends JPanel {
         submitButton.setForeground(Color.WHITE);
         submitButton.setFont(new Font("Arial", Font.BOLD, 16));
         submitButton.setPreferredSize(new Dimension(150, 40));
-        ButtonEnregistrement b = new ButtonEnregistrement(hotel, nameField, prenomField, emailField, phoneField, adresseField, startDateField, endDateField);
-        submitButton.addActionListener(b);
+
+        submitButton.addActionListener(e -> {
+            // Récupérer les données des champs
+            String name = nameField.getText();
+            String prenom = prenomField.getText();
+            String email = emailField.getText();
+            String phone = phoneField.getText();
+            String address = addressField.getText();
+            LocalDate startDate = parseLocalDate(startDateField.getText());
+            LocalDate endDate = parseLocalDate(endDateField.getText());
+
+            // Vérifier si la matrice est pleine et augmenter la taille si nécessaire
+            if (clientCount >= clientMatrix.length) {
+                clientMatrix = expandMatrix(clientMatrix);
+            }
+
+            // Ajouter un ID auto-incrémenté
+            int clientId = clientCount + 1; // ID auto-incrémenté
+
+            // Ajouter les données du client dans la matrice
+            clientMatrix[clientCount][0] = clientId; // ID
+            clientMatrix[clientCount][1] = name;
+            clientMatrix[clientCount][2] = prenom;
+            clientMatrix[clientCount][3] = email;
+            clientMatrix[clientCount][4] = phone;
+            clientMatrix[clientCount][5] = address;
+            clientMatrix[clientCount][6] = startDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            clientMatrix[clientCount][7] = endDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+            // Augmenter le nombre de clients
+            clientCount++;
+
+            // Afficher un message de confirmation
+            JOptionPane.showMessageDialog(this, "Client enregistré avec succès.");
+        });
 
         // Placer le bouton d'enregistrement en bas
         gbc.gridwidth = 4;
@@ -152,25 +193,23 @@ public class NewClient extends JPanel {
 
     // Méthode pour créer un bouton qui ouvre un calendrier
     private JButton createCalendarButton(JTextField dateField) {
-        JButton calendarButton = new JButton("📅");
+        JButton calendarButton = new JButton("C");
         calendarButton.setBackground(new Color(58, 51, 124));
         calendarButton.setForeground(Color.WHITE);
         calendarButton.setFont(new Font("Arial", Font.BOLD, 16));
         calendarButton.setPreferredSize(new Dimension(40, 40));
         calendarButton.setBorderPainted(false);
-        calendarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Créer et afficher le calendrier dans une nouvelle fenêtre
-                JCalendar calendar = new JCalendar();
-                int option = JOptionPane.showConfirmDialog(null, calendar, "Sélectionner une date", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                // Si l'utilisateur valide une date, la mettre dans le champ
-                if (option == JOptionPane.OK_OPTION) {
-                    Date selectedDate = calendar.getDate();
-                    String formattedDate = formatDate(selectedDate);
-                    dateField.setText(formattedDate);  // Insère la date formatée dans le champ texte
-                }
+        calendarButton.addActionListener(e -> {
+            // Créer et afficher le calendrier dans une nouvelle fenêtre
+            JCalendar calendar = new JCalendar();
+            int option = JOptionPane.showConfirmDialog(null, calendar, "Sélectionner une date", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            // Si l'utilisateur valide une date, la mettre dans le champ
+            if (option == JOptionPane.OK_OPTION) {
+                Date selectedDate = calendar.getDate();
+                String formattedDate = formatDate(selectedDate);
+                dateField.setText(formattedDate);  // Insère la date formatée dans le champ texte
             }
         });
         return calendarButton;
@@ -189,7 +228,13 @@ public class NewClient extends JPanel {
             return LocalDate.parse(dateStr, formatter);
         } catch (Exception e) {
             return null;
-
         }
+    }
+
+    // Méthode pour agrandir la matrice si elle est pleine
+    private Object[][] expandMatrix(Object[][] originalMatrix) {
+        Object[][] expandedMatrix = new Object[originalMatrix.length + 10][8]; // Ajouter 10 lignes et 1 colonne pour l'ID
+        System.arraycopy(originalMatrix, 0, expandedMatrix, 0, originalMatrix.length);
+        return expandedMatrix;
     }
 }

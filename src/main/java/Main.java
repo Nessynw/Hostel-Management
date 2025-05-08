@@ -27,6 +27,14 @@ public class Main {
         hotel.ajouterChambre(new ChambreDouble(320, 1,hotel, 130));
         hotel.ajouterChambre(new ChambreDouble(323, 1,hotel, 130));
         hotel.ajouterChambre(new ChambreDouble(450, 2,hotel ,  150));
+        hotel.ajouterChambre(new ChambreSimple(101, 1, hotel, 109));
+        hotel.ajouterChambre(new ChambreSimple(102, 1, hotel, 127));
+        hotel.ajouterChambre(new ChambreSimple(103, 1, hotel,  81));
+        hotel.ajouterChambre(new ChambreSimple(104, 1, hotel, 167));
+        hotel.ajouterChambre(new ChambreSimple(105, 2, hotel, 131));
+        hotel.ajouterChambre(new ChambreSimple(106, 2, hotel, 141));
+        hotel.ajouterChambre(new ChambreSimple(107, 2, hotel, 182));
+        hotel.ajouterChambre(new ChambreSimple(108, 2, hotel, 158));
         // Ajouter le panneau Accueil à la fenêtre
         frame.setContentPane(new Accueil(frame , hotel));  // Remplacer par le panneau Accueil
 
