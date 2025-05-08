@@ -52,12 +52,8 @@ import java.util.*;
 
         public double calculerPrixTotal() {
             double total = 0;
-
-            total = chambre.getTarif();
+            total = chambre.getPrix();  // Au lieu de getTarif()
             total += calculerConsommation();
-
-
             return total;
         }
     }
-

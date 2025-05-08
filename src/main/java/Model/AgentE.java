@@ -1,40 +1,45 @@
 package Model;
-import java.util.*;
 
+import java.time.LocalDateTime;
 
+public class AgentE extends Employe {
+    private Chambre chambreAssignee;
+    private String statusIntervention;
+    private LocalDateTime dateIntervention;
 
-    public class AgentE extends Employe {
+    public AgentE(String nom, String prenom, String email, String tel, String adresse, double salaire, Hotel hotel) {
+        super(nom, prenom, email, tel, adresse, salaire, hotel);
+        this.statusIntervention = "Non commencée";
+    }
 
-        public Vector<Intervention> listInter ;
+    // Méthode pour assigner une chambre à l'agent
+    public void assignerChambre(Chambre chambre, LocalDateTime date) {
+        this.chambreAssignee = chambre;
+        this.dateIntervention = date;
+        this.statusIntervention = "En cours";
+        chambre.setAgentAssigne(this); // Lie l'agent à la chambre
+        chambre.setEstNettoyee(false); // Marque la chambre comme non nettoyée
+    }
 
-
-
-        public AgentE( String nom, String prenom, String email, String tel,String adresse ,  double salaire, Hotel hotel) {
-            super( nom, prenom, email, tel, adresse , salaire, hotel);
-                listInter = new Vector<>();
-        }
-
-        public Vector<Intervention> getListInter() {
-            return listInter;
-        }
-
-        public void setListInter(Vector<Intervention> listInter) {
-            this.listInter = listInter;
-        }
-
-        public void addIntervention(Intervention intervention) {
-            this.listInter.add(intervention);
-        }
-
-        public void afficherDetails() {
-            super.afficherDetails(); // Appelle la méthode afficherDetails de la classe parente
-            System.out.println("Nombre d'interventions effectuées : " + this.listInter.size());
-        }
-        public void ajouterIntervention(Intervention i) {
-            listInter.add(i);
-        }
-        public String getPoste() {
-            return "Agent Entretien";
+    // Méthode pour terminer une intervention
+    public void terminerIntervention() {
+        if (chambreAssignee != null) {
+            chambreAssignee.setEstNettoyee(true); // Marque la chambre comme nettoyée
+            this.statusIntervention = "Terminée";
+            this.chambreAssignee = null; // Libère l'agent
         }
     }
 
+    // Getters existants
+    public Chambre getChambreAssignee() {
+        return chambreAssignee;
+    }
+
+    public String getStatusIntervention() {
+        return statusIntervention;
+    }
+
+    public LocalDateTime getDateIntervention() {
+        return dateIntervention;
+    }
+}

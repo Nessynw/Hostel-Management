@@ -44,7 +44,7 @@ public class ChambresDouble extends JFrame {
                 model.addRow(new Object[]{
                         c.getNum_chambre(),
                         c.getNum_etage(),
-                        c.getTarif(),
+                        c.getPrix(),
                         disponible ? "Libre" : "Occupée"
                 });
             }

@@ -1,93 +1,131 @@
 package Model;
 
-import java.util.*;
-import  java.time.LocalDate;
+import java.util.Vector;
+import java.time.LocalDate;
 
-public abstract class Chambre {
+public class Chambre {
+    private int numero;
+    private int num_etage;  // Ajouter cet attribut
+    private boolean estOccupee;
+    private boolean estNettoyee;
+    private AgentE agentAssigne;
+    private String type;
+    private double prix;
+    private Vector<Reservation> listReservation;
 
-    public int num_chambre;
-    public int num_etage;
-    public Vector<Reservation> listReservation = new Vector<Reservation>();
-    public Hotel hotel;
-    public Vector<Intervention> listInter = new Vector<Intervention>();
-
-    public Chambre() {
+    public Chambre(int numero, int num_etage, String type, double prix) {  // Modifier le constructeur
+        this.numero = numero;
+        this.num_etage = num_etage;  // Initialiser num_etage
+        this.type = type;
+        this.prix = prix;
+        this.estOccupee = false;
+        this.estNettoyee = true;
+        this.agentAssigne = null;
+        this.listReservation = new Vector<>();
     }
 
-    public Chambre(int num_chambre, int num_etage, Hotel hotel) {
-        this.num_chambre = num_chambre;
-        this.num_etage = num_etage;
-        this.hotel = hotel;
-    }
-    public abstract double getTarif();
+    // Getters
 
     public int getNum_chambre() {
-        return num_chambre;
+        return numero;  // Retourne la même valeur que getNumero()
     }
 
-    public void setNum_chambre(int num_chambre) {
-        this.num_chambre = num_chambre;
-    }
-
+    // Ajouter cette méthode getter
     public int getNum_etage() {
         return num_etage;
     }
 
-    public void setNum_etage(int num_etage) {
-        this.num_etage = num_etage;
+    public int getNumero() {
+        return numero;
+    }
+
+    public boolean isEstOccupee() {
+        return estOccupee;
+    }
+
+    public boolean isEstNettoyee() {
+        return estNettoyee;
+    }
+
+    public AgentE getAgentAssigne() {
+        return agentAssigne;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getPrix() {
+        return prix;
     }
 
     public Vector<Reservation> getListReservation() {
         return listReservation;
     }
 
-    public void setListReservation(Vector<Reservation> listReservation) {
-        this.listReservation = listReservation;
+    // Setters
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
-    public Hotel getHotel() {
-        return hotel;
+    public void setEstOccupee(boolean estOccupee) {
+        this.estOccupee = estOccupee;
+        if (!estOccupee) {
+            this.estNettoyee = false;
+        }
     }
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
+    public void setEstNettoyee(boolean estNettoyee) {
+        this.estNettoyee = estNettoyee;
     }
 
-    public Vector<Intervention> getListInter() {
-        return listInter;
+    public void setAgentAssigne(AgentE agent) {
+        this.agentAssigne = agent;
     }
 
-    public void setListInter(Vector<Intervention> listInter) {
-        this.listInter = listInter;
+    public void setPrix(double prix) {
+        this.prix = prix;
     }
 
-    public void addReservation(Reservation reservation) {
-        this.listReservation.add(reservation);
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void addIntervention(Intervention intervention) {
-        this.listInter.add(intervention);
+    // Méthodes pour gérer les réservations
+    public void ajouterReservation(Reservation reservation) {
+        listReservation.add(reservation);
     }
 
-    public void afficherDetails() {
-        System.out.println("Numéro de chambre: " + this.num_chambre);
-        System.out.println("Numéro d'étage: " + this.num_etage);
-        System.out.println("Hôtel: " + (this.hotel != null ? this.hotel.getNom() : "Aucun hôtel associé"));
-        System.out.println("Nombre de réservations: " + this.listReservation.size());
-        System.out.println("Nombre d'interventions: " + this.listInter.size());
+    public void supprimerReservation(Reservation reservation) {
+        listReservation.remove(reservation);
     }
-    public boolean isAvailable(LocalDate dateDebut, LocalDate dateFin) {
-        for (Reservation r : listReservation) {
-            if (!(dateFin.isBefore(r.getDate_deb()) || dateDebut.isAfter(r.getDate_fin()))) {
+
+    @Override
+    public String toString() {
+        return "Chambre " + numero + " (" + type + ")";
+    }
+    public boolean isAvailable(LocalDate debut, LocalDate fin) {
+        if (listReservation.isEmpty()) {
+            return true;
+        }
+
+        for (Reservation reservation : listReservation) {
+            // Si la nouvelle période chevauche une réservation existante
+            if (!(fin.isBefore(reservation.getDate_deb()) || debut.isAfter(reservation.getDate_fin()))) {
                 return false;
             }
         }
         return true;
     }
 
-    public void ajouterReservation(Reservation r) {
-        listReservation.add(r);
+public void afficherDetails() {
+        System.out.println("Numéro de chambre : " + numero);
+        System.out.println("Type : " + type);
+        System.out.println("Prix : " + prix);
+        System.out.println("Occupée : " + (estOccupee ? "Oui" : "Non"));
+        System.out.println("Nettoyée : " + (estNettoyee ? "Oui" : "Non"));
+        if (agentAssigne != null) {
+            System.out.println("Agent assigné : " + agentAssigne);
+        }
     }
-
-
 }

@@ -2,15 +2,18 @@ package Model;
 
 
 public class ChambreDouble extends Chambre {
+    private Hotel hotel;
     public double tarif;
-
     public ChambreDouble() {
+        super(0, 0, "Double", 0.0); // Constructeur par défaut avec valeurs de base
+        this.hotel = null;
     }
 
-    public ChambreDouble(int num_chambre, int num_etage, Hotel hotel, double tarif) {
-        super(num_chambre, num_etage, hotel); // Appelle le constructeur de la classe Chambre
-        this.tarif = tarif;
+    public ChambreDouble(int numero, int num_etage, Hotel hotel, double prix) {
+        super(numero, num_etage, "Double", prix);
+        this.hotel = hotel;
     }
+
 
     public double getTarif() {
         return tarif;

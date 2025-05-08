@@ -47,7 +47,7 @@ public class ChambreSmp extends JFrame {
                 Object[] row = new Object[4];
                 row[0] = c.getNum_chambre();
                 row[1] = c.getNum_etage();
-                row[2] = c.getTarif() + "€";
+                row[2] = ((ChambreSimple) c).getTarif() + "€";
                 row[3] = disponible ? "Libre" : "Occupée";
                 model.addRow(row);
             }
