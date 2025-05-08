@@ -118,6 +118,10 @@ public class NewClient extends JPanel {
         gbc.gridx = 2;
         add(startDateButton, gbc);
 
+
+        // et tu peux même désactiver ces champs :
+        startDateField.setEditable(false);
+
         // Champ pour la date de fin
         JLabel endDateLabel = new JLabel("Date de fin:");
         JTextField endDateField = new JTextField(20);
@@ -125,7 +129,10 @@ public class NewClient extends JPanel {
         endDateField.setForeground(Color.WHITE);
         endDateField.setFont(fieldFont);
         endDateLabel.setForeground(Color.WHITE);
+
+        endDateField.setEditable(false);
         JButton endDateButton = createCalendarButton(endDateField);
+
         gbc.gridx = 0;
         gbc.gridy = 7;
         add(endDateLabel, gbc);
