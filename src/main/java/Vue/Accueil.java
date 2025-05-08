@@ -3,9 +3,7 @@ package Vue;
 import Model.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import Controler.ClientButtonControleur ;
+import Controler.*; ;
 
 public class Accueil extends JPanel {
     private static final Color main_color = new Color(26, 31, 75);  // Couleur de base
@@ -83,19 +81,15 @@ public class Accueil extends JPanel {
         clientButton.addActionListener(b);
 
         // Action au clic sur le bouton "Personnel"
-        personnelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Authentification authentification = new Authentification(new Runnable() {
-                    @Override
-                    public void run() {
-                        parentFrame.getContentPane().removeAll();
-                        parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame, hotel));
-                        parentFrame.revalidate();
-                        parentFrame.repaint();
-                    }
-                }, hotel);  // Ajout du paramètre hotel ici
-                authentification.setVisible(true);
-            }
+        personnelButton.addActionListener(e -> {
+            Authentification authentification = new Authentification(() -> {
+                PersonnelController controller = new PersonnelController(parentFrame, hotel);
+                parentFrame.getContentPane().removeAll();
+                parentFrame.getContentPane().add(controller.getVue());
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }, hotel);
+            authentification.setVisible(true);
         });
     }
 }
