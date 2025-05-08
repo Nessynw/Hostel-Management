@@ -15,7 +15,6 @@ public class ChambresDouble extends JFrame {
     private static final Color backgroundColor = new Color(18, 11, 61);
     private static final Color libreColor = new Color(67, 119, 67, 166);
     private static final Color occupeeColor = new Color(140, 61, 61, 173);
-    private static final Color mainColor = new Color(58, 51, 124);
 
     private final JTable chamberTable;
 
@@ -63,7 +62,7 @@ public class ChambresDouble extends JFrame {
         southPanel.setBackground(backgroundColor);
 
         JButton reserveButton = new JButton("Réserver une chambre");
-        reserveButton.setBackground(mainColor);
+        reserveButton.setBackground(AppColors.MAIN_COLOR);
         reserveButton.setForeground(Color.WHITE);
         reserveButton.setFont(new Font("Arial", Font.BOLD, 14));
         reserveButton.addActionListener(e -> {

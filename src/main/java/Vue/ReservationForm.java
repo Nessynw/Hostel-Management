@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 public class ReservationForm extends JPanel {
      private  Hotel hotel;
     private static final Color hover = new Color(58, 90, 153);
-    private static final Color main_color = new Color(18, 11, 61);  // Base color
     private static final Color text_color = Color.BLACK; // Text color
     private static final Color buttonColor = new Color(34, 193, 195); // Button color (teal)
     private static final Color deleteButtonColor = new Color(255, 69, 0); // Delete button color (red)
@@ -20,7 +19,7 @@ public class ReservationForm extends JPanel {
 
     public ReservationForm() {
         setLayout(new BorderLayout());
-        this.setBackground(main_color);
+        this.setBackground(AppColors.MAIN_COLOR);
 
 
 
@@ -32,7 +31,7 @@ public class ReservationForm extends JPanel {
         // Navigation bar setup
         JPanel navBar = new JPanel();
         navBar.setLayout(new BorderLayout());
-        navBar.setBackground(main_color);
+        navBar.setBackground(AppColors.MAIN_COLOR);
         navBar.setBorder(BorderFactory.createLineBorder(text_color));
 
         // Title setup
@@ -71,7 +70,7 @@ public class ReservationForm extends JPanel {
         // Add the search field and button to the navBar panel
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));  // Right-align the components with some spacing
-        searchPanel.setBackground(main_color);
+        searchPanel.setBackground(AppColors.MAIN_COLOR);
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 

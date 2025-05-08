@@ -6,8 +6,6 @@ import java.awt.*;
 import Controler.*; ;
 
 public class Accueil extends JPanel {
-    private static final Color main_color = new Color(26, 31, 75);  // Couleur de base
-    private static final Color side_COLOR = new Color(46, 59, 142);  // Couleur du côté (sidebar)
     private JPanel mainPanel;  // Panneau principal où le contenu changera
 
     public Accueil(JFrame parentFrame, Hotel hotel) {
@@ -16,7 +14,7 @@ public class Accueil extends JPanel {
         // Barre latérale (Sidebar)
         JPanel sidebar = new JPanel(new GridBagLayout());
         sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height)); // Modification pour la hauteur
-        sidebar.setBackground(side_COLOR);
+        sidebar.setBackground(AppColors.SIDE_COLOR);
 
         // Contrainte pour centrer les composants dans la sidebar
         GridBagConstraints gbc = new GridBagConstraints();
@@ -38,7 +36,7 @@ public class Accueil extends JPanel {
         // Panneau principal (Main Panel)
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());  // Utilisation de GridBagLayout
-        mainPanel.setBackground(main_color);
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
         this.add(mainPanel, BorderLayout.CENTER);
 
         // Contrainte pour centrer les éléments dans mainPanel

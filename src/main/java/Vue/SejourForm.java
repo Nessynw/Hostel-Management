@@ -7,9 +7,7 @@ import java.util.ArrayList;
 
 public class SejourForm extends JPanel {
 
-    private static final Color MAIN_COLOR = new Color(18, 11, 61);
     private static final Color FIELD_COLOR = new Color(9, 0, 91, 255);
-    private static final Color TEXT_COLOR = Color.WHITE;
 
     private JComboBox<String> clientCombo;
     private JComboBox<String> chambreCombo;
@@ -23,21 +21,21 @@ public class SejourForm extends JPanel {
 
     public SejourForm() {
         setLayout(new BorderLayout());
-        setBackground(MAIN_COLOR);
+        setBackground(AppColors.MAIN_COLOR);
         mockData(); // Remplit la liste "clients"
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setBackground(MAIN_COLOR);
-        tabbedPane.setForeground(TEXT_COLOR);
+        tabbedPane.setBackground(AppColors.MAIN_COLOR);
+        tabbedPane.setForeground(AppColors.TEXT_COLOR);
 
         JPanel sejourPanel = new JPanel();
         sejourPanel.setLayout(new BoxLayout(sejourPanel, BoxLayout.Y_AXIS));
         sejourPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        sejourPanel.setBackground(MAIN_COLOR);
+        sejourPanel.setBackground(AppColors.MAIN_COLOR);
 
         // Ligne 1 : Client / Chambre
         JPanel ligne1 = new JPanel(new GridLayout(1, 2, 20, 10));
-        ligne1.setBackground(MAIN_COLOR);
+        ligne1.setBackground(AppColors.MAIN_COLOR);
 
         clientCombo = new JComboBox<>();
         chambreCombo = new JComboBox<>();
@@ -59,7 +57,7 @@ public class SejourForm extends JPanel {
 
         // Ligne 2 : Dates
         JPanel ligne2 = new JPanel(new GridLayout(1, 2, 20, 10));
-        ligne2.setBackground(MAIN_COLOR);
+        ligne2.setBackground(AppColors.MAIN_COLOR);
 
         dateArrivee = new JTextField();
         dateDepart = new JTextField();
@@ -71,7 +69,7 @@ public class SejourForm extends JPanel {
 
         // Services
         JPanel servicesPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-        servicesPanel.setBackground(MAIN_COLOR);
+        servicesPanel.setBackground(AppColors.MAIN_COLOR);
 
         JCheckBox parking = new JCheckBox("Parking (15€/jour)");
         JCheckBox petitDej = new JCheckBox("Petit-déjeuner (12€/pers)");
@@ -90,29 +88,29 @@ public class SejourForm extends JPanel {
 
         // Notes
         JLabel notesLabel = new JLabel("Notes spéciales :");
-        notesLabel.setForeground(TEXT_COLOR);
+        notesLabel.setForeground(AppColors.TEXT_COLOR);
         notes = new JTextArea("Demandes particulières...");
         notes.setLineWrap(true);
         notes.setWrapStyleWord(true);
         notes.setBackground(FIELD_COLOR);
-        notes.setForeground(TEXT_COLOR);
+        notes.setForeground(AppColors.TEXT_COLOR);
         JScrollPane notesScroll = new JScrollPane(notes);
         notesScroll.setPreferredSize(new Dimension(500, 80));
 
         // Réservations
         JLabel resLabel = new JLabel("Réservations existantes du client :");
-        resLabel.setForeground(TEXT_COLOR);
+        resLabel.setForeground(AppColors.TEXT_COLOR);
         reservationsTextArea = new JTextArea();
         reservationsTextArea.setEditable(false);
         reservationsTextArea.setBackground(FIELD_COLOR);
-        reservationsTextArea.setForeground(TEXT_COLOR);
+        reservationsTextArea.setForeground(AppColors.TEXT_COLOR);
         JScrollPane resScroll = new JScrollPane(reservationsTextArea);
         resScroll.setPreferredSize(new Dimension(500, 60));
 
         // Bouton
         JButton creerSejour = new JButton("Créer le séjour");
         creerSejour.setBackground(new Color(90, 86, 190));
-        creerSejour.setForeground(TEXT_COLOR);
+        creerSejour.setForeground(AppColors.TEXT_COLOR);
         creerSejour.setFocusPainted(false);
         creerSejour.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -131,7 +129,7 @@ public class SejourForm extends JPanel {
         sejourPanel.add(ligne2);
         sejourPanel.add(Box.createVerticalStrut(15));
         sejourPanel.add(new JLabel("Services additionnels :") {{
-            setForeground(TEXT_COLOR);
+            setForeground(AppColors.TEXT_COLOR);
         }});
         sejourPanel.add(servicesPanel);
         sejourPanel.add(Box.createVerticalStrut(15));
@@ -186,25 +184,25 @@ public class SejourForm extends JPanel {
 
     private void styleComboBox(JComboBox<?> comboBox) {
         comboBox.setBackground(FIELD_COLOR);
-        comboBox.setForeground(TEXT_COLOR);
+        comboBox.setForeground(AppColors.TEXT_COLOR);
         comboBox.setPreferredSize(new Dimension(200, 30));
     }
 
     private void styleTextField(JTextField textField) {
         textField.setBackground(FIELD_COLOR);
-        textField.setForeground(TEXT_COLOR);
-        textField.setCaretColor(TEXT_COLOR);
+        textField.setForeground(AppColors.TEXT_COLOR);
+        textField.setCaretColor(AppColors.TEXT_COLOR);
         textField.setPreferredSize(new Dimension(200, 30));
     }
 
     private void styleCheckBox(JCheckBox checkBox) {
-        checkBox.setBackground(MAIN_COLOR);
-        checkBox.setForeground(TEXT_COLOR);
+        checkBox.setBackground(AppColors.MAIN_COLOR);
+        checkBox.setForeground(AppColors.TEXT_COLOR);
     }
 
     private JPanel createEmptyPanel() {
         JPanel panel = new JPanel();
-        panel.setBackground(MAIN_COLOR);
+        panel.setBackground(AppColors.MAIN_COLOR);
         return panel;
     }
 

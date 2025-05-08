@@ -12,10 +12,7 @@ import java.util.Date;
 import java.time.format.DateTimeFormatter;
 
 public class NewClient extends JPanel {
-    private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
     private static final Color fieldColor = new Color(33, 33, 33);  // Couleur de fond des champs
-    private static final Color errorColor = new Color(255, 102, 102);  // Couleur rouge pour les champs invalides
-    private static final Color validColor = fieldColor;  // Couleur de fond valide
 
     // Matrice pour stocker les clients (chaque ligne représente un client)
     public static Object[][] clientMatrix = new Object[10][7]; // 10 clients max (peut être modifié)
@@ -25,7 +22,7 @@ public class NewClient extends JPanel {
         setLayout(new GridBagLayout()); // Utilisation de GridBagLayout pour un meilleur contrôle
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);  // Espacement entre les composants
-        this.setBackground(main_color);
+        this.setBackground(AppColors.MAIN_COLOR);
 
         // Définir les couleurs et la police
         Font fieldFont = new Font("Arial", Font.PLAIN, 16);

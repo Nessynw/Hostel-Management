@@ -11,8 +11,6 @@ import javax.swing.border.*;
 import java.util.List;
 
 public class AjouterEmploye extends JPanel {
-    private static final Color MAIN_COLOR = new Color(18, 11, 61);
-    private static final Color TEXT_COLOR = new Color(255, 255, 255);
     private JTextField txtNom,txtPrenom,txtEmail,txtTel,txtAdresse,txtSalaire;
     private JComboBox<String> comboPoste;
     private JTextArea txtTaches;
@@ -21,12 +19,13 @@ public class AjouterEmploye extends JPanel {
     private StyledButton btnAjouter;
     private StyledButton btnRetour;
     private Hotel hotel;
+    public static final Color TEXT_COLOR = Color.WHITE;
 
     public AjouterEmploye(JFrame frame, Hotel hotel) {  // Modifier le constructeur
         this.parentFrame = frame;
         this.hotel = hotel;  // Ajouter cette ligne
         setLayout(new BorderLayout());
-        setBackground(MAIN_COLOR);
+        setBackground(AppColors.MAIN_COLOR);
         listeEmployes = new ArrayList<>();  // Initialisation de la liste
         setupComponents();
 
@@ -42,7 +41,7 @@ public class AjouterEmploye extends JPanel {
 
         // Panel principal pour les champs
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(MAIN_COLOR);
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -86,7 +85,7 @@ public class AjouterEmploye extends JPanel {
 
         // Panel pour les boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
-        buttonPanel.setBackground(MAIN_COLOR);
+        buttonPanel.setBackground(AppColors.MAIN_COLOR);
         buttonPanel.add(btnAjouter);
         buttonPanel.add(btnRetour);
 
@@ -178,7 +177,7 @@ public class AjouterEmploye extends JPanel {
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Arial", Font.BOLD, 14));
-        label.setForeground(TEXT_COLOR);
+        label.setForeground(AppColors.TEXT_COLOR);
         return label;
     }
 

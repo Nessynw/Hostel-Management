@@ -5,8 +5,6 @@ import java.awt.*;
 import Model.*;
 
 public class InterfacePersonnel extends JPanel {
-    private static final Color MAIN_COLOR = new Color(18, 11, 61);
-    private static final Color SIDE_COLOR = new Color(9, 0, 91);
 
     private StyledButton btnTousEmployes;
     private StyledButton btnAjouterEmploye;
@@ -27,7 +25,7 @@ public class InterfacePersonnel extends JPanel {
     private void setupSidebar() {
         JPanel sidebar = new JPanel(new GridBagLayout());
         sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height));
-        sidebar.setBackground(SIDE_COLOR);
+        sidebar.setBackground(AppColors.SIDE_COLOR);
 
         JLabel nomHotel = new JLabel("<html><div style='text-align: center;'>" +
                 "<br><span style='color: #FFFFFF;'>Hôtel</span><br>" +
@@ -48,11 +46,11 @@ public class InterfacePersonnel extends JPanel {
 
     private void setupMainPanel() {
         mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(MAIN_COLOR);
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
 
         // Create button panel
         JPanel buttonPanel = new JPanel(new GridBagLayout());
-        buttonPanel.setBackground(MAIN_COLOR);
+        buttonPanel.setBackground(AppColors.MAIN_COLOR);
 
         // Create the buttons and add them to button panel
         createButtons(buttonPanel);

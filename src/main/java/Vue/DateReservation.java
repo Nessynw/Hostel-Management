@@ -20,7 +20,6 @@ public class DateReservation extends JFrame {
     private JTextField finField;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private static final Color COULEUR_FOND = new Color(18, 11, 61);
     private static final Color COULEUR_TEXTE = Color.WHITE;
     private static final Color COULEUR_CHAMP = new Color(33, 33, 33);
 
@@ -32,7 +31,7 @@ public class DateReservation extends JFrame {
         setSize(500, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        getContentPane().setBackground(COULEUR_FOND);
+        getContentPane().setBackground(AppColors.MAIN_COLOR);
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -51,7 +50,7 @@ public class DateReservation extends JFrame {
         finField = ajouterChampDate("Date de fin:", 2, gbc);
 
         JPanel boutons = new JPanel();
-        boutons.setBackground(COULEUR_FOND);
+        boutons.setBackground(AppColors.MAIN_COLOR);
 
         JButton precedent = creerBouton("Précédent", e -> dispose());
         JButton suivant = creerBouton("Suivant", e -> validerDates());

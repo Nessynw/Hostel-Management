@@ -14,22 +14,19 @@ public class AfficherEmploye extends JPanel {
     private Hotel hotel;
 
 
-    private static final Color main_color = new Color(18, 11, 61);  // Couleur de base
-    private static final Color side_COLOR = new Color(9, 0, 91);    // Couleur du côté (sidebar)
-
     public AfficherEmploye(JFrame frame, Hotel hotel) {
         this.parentFrame = frame;
         this.hotel = hotel;
 
         setLayout(new BorderLayout());
-        setBackground(main_color);
+        setBackground(AppColors.MAIN_COLOR);
 
         String[] colonnes = {"Nom", "Prénom", "Email", "Adresse", "Poste", "Salaire"};
         DefaultTableModel model = new DefaultTableModel(colonnes, 0);
         tableEmployes = new JTable(model);
 
         // Style du tableau
-        tableEmployes.setBackground(side_COLOR);
+        tableEmployes.setBackground(AppColors.SIDE_COLOR);
         tableEmployes.setForeground(Color.WHITE);
         tableEmployes.setFont(new Font("Arial", Font.PLAIN, 14));
 
@@ -76,7 +73,7 @@ public class AfficherEmploye extends JPanel {
         // Ajouter le bouton retour
         btnRetour = new StyledButton("Retour");
         JPanel panelRetour = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelRetour.setBackground(main_color);
+        panelRetour.setBackground(AppColors.MAIN_COLOR);
         panelRetour.add(btnRetour);
         add(panelRetour, BorderLayout.SOUTH);
 

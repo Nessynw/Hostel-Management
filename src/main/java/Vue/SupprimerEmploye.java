@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupprimerEmploye extends JPanel {
-    private static final Color MAIN_COLOR = new Color(18, 11, 61);
-    private static final Color TEXT_COLOR = new Color(255, 255, 255);
     private JComboBox<Employe> comboEmployes;
     private JFrame parentFrame;
     private List<Employe> listeEmployes;
@@ -22,16 +20,16 @@ public class SupprimerEmploye extends JPanel {
         this.hotel = hotel;
         this.listeEmployes = new ArrayList<>();
         setLayout(new BorderLayout());
-        setBackground(MAIN_COLOR);
+        setBackground(AppColors.MAIN_COLOR);
         
         // Création du panneau principal
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(MAIN_COLOR);
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         
         // Label pour sélectionner l'employé
         JLabel lblEmploye = new JLabel("Sélectionner l'employé :");
-        lblEmploye.setForeground(TEXT_COLOR);
+        lblEmploye.setForeground(AppColors.TEXT_COLOR);
         lblEmploye.setFont(new Font("Arial", Font.BOLD, 14));
         
         // ComboBox avec taille personnalisée
@@ -68,7 +66,7 @@ public class SupprimerEmploye extends JPanel {
         
         // Panel pour les boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-        buttonPanel.setBackground(MAIN_COLOR);
+        buttonPanel.setBackground(AppColors.MAIN_COLOR);
         buttonPanel.add(btnSupprimer);
         buttonPanel.add(btnRetour);
         

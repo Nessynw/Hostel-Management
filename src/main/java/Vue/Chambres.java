@@ -7,19 +7,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Chambres extends JPanel {
-    private static final Color main_color = new Color(18, 11, 61);  // Base color
     private static final Color hoverColor = new Color(58, 90, 153); // Hover color
     private JPanel mainPanel;
     private Hotel hotel;
 
     public Chambres(Hotel hotel) {
         this.hotel = hotel;
-        this.setBackground(main_color);
+        this.setBackground(AppColors.MAIN_COLOR);
         this.setLayout(new GridBagLayout());
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1, 2, 20, 20)); // 1 row, 2 columns with spacing
-        mainPanel.setBackground(main_color);
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
 
         // Create room panels
         JPanel simplePanel = createChambrePanel(
@@ -41,8 +40,8 @@ public class Chambres extends JPanel {
         // Add a scroll pane if the window is too small
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         scrollPane.setBorder(null);
-        scrollPane.setBackground(main_color);
-        scrollPane.getViewport().setBackground(main_color);
+        scrollPane.setBackground(AppColors.MAIN_COLOR);
+        scrollPane.getViewport().setBackground(AppColors.MAIN_COLOR);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -55,7 +54,7 @@ public class Chambres extends JPanel {
     private JPanel createChambrePanel(String type, ImageIcon roomImage, String descriptionText) {
         JPanel chambrePanel = new JPanel();
         chambrePanel.setLayout(new BoxLayout(chambrePanel, BoxLayout.Y_AXIS));
-        chambrePanel.setBackground(main_color);
+        chambrePanel.setBackground(AppColors.MAIN_COLOR);
         chambrePanel.setBorder(BorderFactory.createLineBorder(new Color(29, 42, 97), 0)); // Blue border
 
         JLabel typeLabel = new JLabel(type, SwingConstants.CENTER);
@@ -97,7 +96,7 @@ public class Chambres extends JPanel {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                chambrePanel.setBackground(main_color);
+                chambrePanel.setBackground(AppColors.MAIN_COLOR);
             }
         });
 

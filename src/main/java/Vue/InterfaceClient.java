@@ -9,8 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class InterfaceClient extends JPanel {
-    private static final Color main_color = new Color(26, 31, 75);  // Couleur de base
-    private static final Color side_COLOR = new Color(46, 59, 142);
     private static final Color hover = new Color(58, 90, 153); // Couleur du survol
     private JPanel mainPanel;  // Panneau principal où le contenu changera
     private Hotel hotel;
@@ -22,7 +20,7 @@ public class InterfaceClient extends JPanel {
         // Barre latérale (Sidebar)
         JPanel sidebar = new JPanel(new GridBagLayout());
         sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height)); // Modification pour la hauteur
-        sidebar.setBackground(side_COLOR);
+        sidebar.setBackground(AppColors.SIDE_COLOR);
         this.add(sidebar, BorderLayout.WEST);
 
         // Configuration du GridBagLayout pour centrer les composants
@@ -84,7 +82,7 @@ public class InterfaceClient extends JPanel {
         // Panneau principal (Main panel)
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(main_color);
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
 
         // Texte par défaut
         JLabel defaultLabel = new JLabel("Blue Castel", SwingConstants.CENTER);
@@ -99,7 +97,7 @@ public class InterfaceClient extends JPanel {
     private JButton createSidebarButton(String buttonText) {
         JButton button = new JButton(buttonText);
         button.setFont(new Font("Serif", Font.BOLD, 25));
-        button.setBackground(side_COLOR);
+        button.setBackground(AppColors.SIDE_COLOR);
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
@@ -115,7 +113,7 @@ public class InterfaceClient extends JPanel {
             }
 
             public void mouseExited(MouseEvent e) {
-                button.setBackground(side_COLOR);
+                button.setBackground(AppColors.SIDE_COLOR);
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });

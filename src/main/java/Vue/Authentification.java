@@ -10,8 +10,6 @@ public class Authentification extends JDialog {
     private Hotel hotel;
     private JTextField txtIdentifiant;
     private JPasswordField txtMotDePasse;
-    private static final Color MAIN_COLOR = new Color(18, 11, 61);
-    private static final Color TEXT_COLOR = new Color(255, 255, 255);
 
     public Authentification(Runnable onSuccess, Hotel hotel) {
         this.onSuccess = onSuccess;
@@ -26,7 +24,7 @@ public class Authentification extends JDialog {
         
         // Configuration du panneau principal
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(MAIN_COLOR);
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -34,7 +32,7 @@ public class Authentification extends JDialog {
         // Création des composants
 
         JLabel lblMotDePasse = new JLabel("Mot de passe :");
-        lblMotDePasse.setForeground(TEXT_COLOR);
+        lblMotDePasse.setForeground(AppColors.TEXT_COLOR);
         
         txtMotDePasse = new JPasswordField(15);
         JButton btnConnexion = new JButton("Se connecter");
