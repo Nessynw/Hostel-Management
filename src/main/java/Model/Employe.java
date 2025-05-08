@@ -46,6 +46,5 @@ public class Employe extends Personne {
             System.out.println("Salaire: " + this.salaire);
             System.out.println("Hôtel: " + (this.hotel != null ? this.hotel.getNom() : "Aucun hôtel associé"));
         }
+
     }
-
-

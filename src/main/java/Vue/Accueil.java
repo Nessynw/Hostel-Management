@@ -85,17 +85,16 @@ public class Accueil extends JPanel {
         // Action au clic sur le bouton "Personnel"
         personnelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Créer et afficher la fenêtre d'authentification
                 Authentification authentification = new Authentification(new Runnable() {
                     @Override
                     public void run() {
                         parentFrame.getContentPane().removeAll();
-                        parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame));
+                        parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame, hotel));
                         parentFrame.revalidate();
                         parentFrame.repaint();
                     }
-                });
-                authentification.setVisible(true);  // Afficher la fenêtre d'authentification
+                }, hotel);  // Ajout du paramètre hotel ici
+                authentification.setVisible(true);
             }
         });
     }

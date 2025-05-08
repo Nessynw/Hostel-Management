@@ -1,7 +1,4 @@
 package Model;
-
-import Vue.ListClient;
-
 import java.util.*;
 import java.time.*;
 
@@ -19,6 +16,7 @@ public class Hotel {
     private Vector<Client> listClient = new Vector<Client>();
     private Vector<Produit> listProduit = new Vector<Produit>();
     private Vector<Employe> listEmploye = new Vector<Employe>();
+    private List<Employe> listeEmployes;
 
 
     public Hotel(String n, String adrs, String tel, String eml, int nbrEt) {
@@ -146,4 +144,7 @@ public class Hotel {
         return listChambre;
     }
 
+    public List<Employe> getListeEmployes() {
+        return listeEmployes;
+    }
 }

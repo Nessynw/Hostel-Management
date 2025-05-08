@@ -20,7 +20,7 @@ public class PersonnelControler implements ActionListener {
         this.frame = frame;
         vuePrincipale = vue;
         hotel = h;
-        this.vueEmploye = new AfficherEmploye(frame); // par exemple, si c’est le bon constructeur
+        this.vueEmploye = new AfficherEmploye(frame,hotel); // par exemple, si c’est le bon constructeur
 
         //Configuration des containers
         cardLayout = new CardLayout();
@@ -62,24 +62,19 @@ public class PersonnelControler implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Créer et afficher la fenêtre d'authentification avec un callback
         Authentification authentification = new Authentification(new Runnable() {
             @Override
             public void run() {
-                // Si l'authentification est réussie, changer l'interface
                 frame.getContentPane().removeAll();
-                frame.getContentPane().add(new InterfacePersonnel(frame));
+                frame.getContentPane().add(new InterfacePersonnel(frame, hotel));
                 frame.revalidate();
                 frame.repaint();
             }
-        });
+        }, hotel);  // Ajout du paramètre hotel
         authentification.setVisible(true);
 
         frame.setContentPane(mainContainer);
         frame.revalidate();
-        frame.repaint();// Afficher la fenêtre d'authentification
+        frame.repaint();
     }
 }
-
-
-

@@ -2,7 +2,7 @@ package Vue;
 
 import javax.swing.*;
 import java.awt.*;
-import Controler.PersonnelControler;
+import Model.*;
 
 public class InterfacePersonnel extends JPanel {
     private static final Color MAIN_COLOR = new Color(18, 11, 61);
@@ -12,12 +12,13 @@ public class InterfacePersonnel extends JPanel {
     private StyledButton btnAjouterEmploye;
     private StyledButton btnSupprimerEmploye;
     private JPanel mainPanel;
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
-    private JFrame mainFrame;  // Ajout de la référence au JFrame
+    private Hotel hotel;
+    private JFrame parentFrame;
 
-    public InterfacePersonnel(JFrame frame) {  // Modification du constructeur
-        this.mainFrame = frame;
+    public InterfacePersonnel(JFrame frame, Hotel hotel) {
+        this.parentFrame = frame;
+        this.hotel = hotel;
+
         this.setLayout(new BorderLayout());
         setupSidebar();
         setupMainPanel();
@@ -84,22 +85,29 @@ public class InterfacePersonnel extends JPanel {
         gbc.gridy++;
         buttonPanel.add(btnSupprimerEmploye, gbc);
 
-        // Add action listeners
+        // Action listeners
         btnTousEmployes.addActionListener(e -> {
-            mainFrame.getContentPane().removeAll();
-            mainFrame.getContentPane().add(new AfficherEmploye(mainFrame));
-            mainFrame.revalidate();
-            mainFrame.repaint();
+            parentFrame.getContentPane().removeAll();
+            parentFrame.getContentPane().add(new AfficherEmploye(parentFrame, hotel));
+            parentFrame.revalidate();
+            parentFrame.repaint();
         });
 
         btnAjouterEmploye.addActionListener(e -> {
-            mainFrame.getContentPane().removeAll();
-            mainFrame.getContentPane().add(new AjouterEmploye(mainFrame));
-            mainFrame.revalidate();
-            mainFrame.repaint();
+            parentFrame.getContentPane().removeAll();
+            parentFrame.getContentPane().add(new AjouterEmploye(parentFrame, hotel));  // Ajouter l'objet hotel
+            parentFrame.revalidate();
+            parentFrame.repaint();
         });
 
-
+        btnSupprimerEmploye.addActionListener(e -> {
+            parentFrame.getContentPane().removeAll();
+            SupprimerEmploye supprimerEmploye = new SupprimerEmploye(parentFrame, hotel);
+            supprimerEmploye.setListeEmployes(hotel.getListEmploye());
+            parentFrame.getContentPane().add(supprimerEmploye);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
     }
 
     public AbstractButton getBtnTousEmployes() {

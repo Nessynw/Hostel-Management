@@ -1,22 +1,19 @@
 package Controler;
 
-import Model.Hotel;
-import Vue.Authentification;
-import Vue.InterfacePersonnel;
-
+import Model.*;
+import Vue.*;
 import javax.swing.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class personnelButtonControler implements ActionListener {
-    JFrame parentFrame;
-    Hotel hotel;
+    private JFrame parentFrame;
+    private Hotel hotel;
 
-    public personnelButtonControler(JFrame f) {
-        parentFrame = f;
-
-
+    public personnelButtonControler(JFrame f, Hotel h) {
+        this.parentFrame = f;
+        this.hotel = h;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -25,11 +22,11 @@ public class personnelButtonControler implements ActionListener {
             @Override
             public void run() {
                 parentFrame.getContentPane().removeAll();
-                parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame));
+                parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame, hotel));
                 parentFrame.revalidate();
                 parentFrame.repaint();
             }
-        });
-        authentification.setVisible(true);  // Afficher la fenêtre d'authentification
+        }, hotel);  // Ajout du paramètre hotel
+        authentification.setVisible(true);
     }
 }

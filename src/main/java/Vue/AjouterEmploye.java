@@ -1,10 +1,7 @@
 package Vue;
 
 import Controler.retourBtnControler;
-import Model.AgentE;
-import Model.Employe;
-import Model.Hotel;
-import Model.Receptionniste;
+import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,23 +11,20 @@ import javax.swing.border.*;
 import java.util.List;
 
 public class AjouterEmploye extends JPanel {
-    private JTextField txtNom;
-    private JTextField txtPrenom;
-    private JTextField txtEmail;
-    private JTextField txtTel;
-    private JTextField txtAdresse; // Nouveau champ adresse
-    private JComboBox<String> comboPoste;
-    private JTextField txtSalaire;
-    private JTextArea txtTaches;
-    private StyledButton btnAjouter;
-    private StyledButton btnRetour;
     private static final Color MAIN_COLOR = new Color(18, 11, 61);
     private static final Color TEXT_COLOR = new Color(255, 255, 255);
+    private JTextField txtNom,txtPrenom,txtEmail,txtTel,txtAdresse,txtSalaire;
+    private JComboBox<String> comboPoste;
+    private JTextArea txtTaches;
     private JFrame parentFrame;
     private List<Employe> listeEmployes;  // Déclaration de la liste
+    private StyledButton btnAjouter;
+    private StyledButton btnRetour;
+    private Hotel hotel;
 
-    public AjouterEmploye(JFrame frame) {
+    public AjouterEmploye(JFrame frame, Hotel hotel) {  // Modifier le constructeur
         this.parentFrame = frame;
+        this.hotel = hotel;  // Ajouter cette ligne
         setLayout(new BorderLayout());
         setBackground(MAIN_COLOR);
         listeEmployes = new ArrayList<>();  // Initialisation de la liste
@@ -99,41 +93,32 @@ public class AjouterEmploye extends JPanel {
         btnAjouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Vérifier si tous les champs obligatoires sont remplis
                 if (areRequiredFieldsFilled()) {
-                    // Récupérer les valeurs des champs
                     String nom = getNom();
                     String prenom = getPrenom();
                     String email = getEmail();
                     String tel = getTel();
-                    String adresse = getAdresse(); // Récupérer l'adresse
+                    String adresse = getAdresse();
                     double salaire = Double.parseDouble(getSalaire());
                     String taches = getTaches();
                     String poste = getPoste();
 
-                    Hotel hotel = new Hotel("BlueCastel","11 e Paris 75001","0104010504","BlueCastle@gmail.fr", 4);
-
                     // Créer l'employé selon le poste sélectionné
                     Employe nouvelEmploye;
                     if (poste.equals("Réceptionniste")) {
-                        nouvelEmploye = new Receptionniste(nom, prenom, email,tel,adresse, salaire, taches,hotel);
+                        nouvelEmploye = new Receptionniste(nom, prenom, email, tel, adresse, salaire, taches, hotel);
                     } else if (poste.equals("Agent d'entretien")) {
-                        nouvelEmploye = new AgentE(nom, prenom, email, tel, adresse, salaire,hotel); // Correction ici
+                        nouvelEmploye = new AgentE(nom, prenom, email, tel, adresse, salaire, hotel);
                     } else {
                         nouvelEmploye = new Employe(nom, prenom, email, tel, adresse, salaire, hotel);
                     }
 
-                    // Ajouter l'employé à la liste (ou à la base de données)
-                    listeEmployes.add(nouvelEmploye);
+                    // Ajouter l'employé à l'hôtel
+                    hotel.ajouterEmploye(nouvelEmploye);
 
-                    // Optionnel : afficher un message de succès
                     JOptionPane.showMessageDialog(parentFrame, "Employé ajouté avec succès !");
-
-                    // Effacer les champs du formulaire après ajout
                     clearFields();
                 } else {
-                    // Afficher un message d'erreur si certains champs ne sont pas remplis
                     JOptionPane.showMessageDialog(parentFrame, "Veuillez remplir tous les champs obligatoires.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -142,7 +127,7 @@ public class AjouterEmploye extends JPanel {
         // Code du bouton retour
         btnRetour.addActionListener(new retourBtnControler(() -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame));
+            parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame, hotel));
             parentFrame.revalidate();
             parentFrame.repaint();
         }));
