@@ -60,6 +60,10 @@ public class Personne {
         return prenom + " " + nom;
     }
 
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
     }
+
+}
 
 

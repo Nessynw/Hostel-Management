@@ -147,4 +147,12 @@ public class Hotel {
     public List<Employe> getListeEmployes() {
         return listeEmployes;
     }
+    /** Renvoie la chambre dont le numéro est num, ou null si non trouvée. */
+    public Chambre getChambreParNumero(int num) {
+        for (Chambre c : listChambre) {
+            if (c.getNum_chambre() == num) return c;
+        }
+        return null;
+    }
 }
+

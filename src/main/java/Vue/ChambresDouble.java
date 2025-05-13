@@ -3,20 +3,20 @@ package Vue;
 import Model.Chambre;
 import Model.ChambreDouble;
 import Model.Hotel;
-
+import java.time.LocalDate;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.LocalDate;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class ChambresDouble extends JFrame {
     private static final Color backgroundColor = new Color(18, 11, 61);
     private static final Color libreColor = new Color(67, 119, 67, 166);
     private static final Color occupeeColor = new Color(140, 61, 61, 173);
-
-    private final JTable chamberTable;
+    private JTable chamberTable;
 
     public ChambresDouble(Hotel hotel, LocalDate debut, LocalDate fin) {
         setTitle("Informations des Chambres Doubles");
@@ -32,24 +32,14 @@ public class ChambresDouble extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(titleLabel, BorderLayout.NORTH);
 
-        DefaultTableModel model = new DefaultTableModel(
-                new String[]{"Numéro", "Étage", "Prix (€)", "Disponibilité"},
-                0
-        );
-
+        DefaultTableModel model = new DefaultTableModel(new String[]{"Numéro", "Étage", "Prix (€)", "Disponibilité"}, 0);
         List<Chambre> chambres = hotel.getChambres();
         for (Chambre c : chambres) {
             if (c instanceof ChambreDouble) {
                 boolean disponible = c.isAvailable(debut, fin);
-                model.addRow(new Object[]{
-                        c.getNum_chambre(),
-                        c.getNum_etage(),
-                        c.getPrix(),
-                        disponible ? "Libre" : "Occupée"
-                });
+                model.addRow(new Object[]{c.getNum_chambre(), c.getNum_etage(), c.getPrix(), disponible ? "Libre" : "Occupée"});
             }
         }
-
         chamberTable = new JTable(model);
         styleTable(chamberTable);
 
@@ -60,21 +50,33 @@ public class ChambresDouble extends JFrame {
 
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         southPanel.setBackground(backgroundColor);
-
         JButton reserveButton = new JButton("Réserver une chambre");
         reserveButton.setBackground(AppColors.MAIN_COLOR);
         reserveButton.setForeground(Color.WHITE);
         reserveButton.setFont(new Font("Arial", Font.BOLD, 14));
-        reserveButton.addActionListener(e -> {
-            int row = chamberTable.getSelectedRow();
-            if (row >= 0) {
-                NewClient form = new NewClient(hotel);
-                JOptionPane.showMessageDialog(this, form, "Nouveau Client & Réservation", JOptionPane.PLAIN_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Veuillez sélectionner une chambre.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        reserveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = chamberTable.getSelectedRow();
+                if (row >= 0) {
+                    int num = (int) chamberTable.getValueAt(row, 0);
+                    Chambre chambre = hotel.getChambreParNumero(num);
+                    if (chambre != null && chambre.isAvailable(debut, fin)) {
+                        NewClient form = new NewClient(hotel, chambre, debut, fin);
+                        JOptionPane.showMessageDialog(ChambresDouble.this, form,
+                                "Nouveau Client & Réservation", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(ChambresDouble.this,
+                                "Cette chambre n'est plus disponible.", "Erreur",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(ChambresDouble.this,
+                            "Veuillez sélectionner une chambre.", "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-
         southPanel.add(reserveButton);
         add(southPanel, BorderLayout.SOUTH);
     }
@@ -94,7 +96,9 @@ public class ChambresDouble extends JFrame {
         }
         table.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                                                           boolean isSelected, boolean hasFocus,
+                                                           int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 c.setBackground("Libre".equals(value) ? libreColor : occupeeColor);
                 c.setForeground(Color.WHITE);

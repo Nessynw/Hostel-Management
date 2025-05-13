@@ -1,137 +1,118 @@
 package Controler;
 
+import Model.Client;
+import Model.Hotel;
+import Model.Reservation;
+import Model.Chambre;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import Model.*;
-
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.time.format.DateTimeParseException;
 
 public class ButtonEnregistrement implements ActionListener {
-    // Déclarer les champs de l'interface utilisateur
-    private JTextField nameField;
-    private JTextField prenomField;
-    private JTextField emailField;
-    private JTextField phoneField;
-    private JTextField adresseField;
-    private JTextField startDateField;
-    private JTextField endDateField;
-    private Hotel h ;
-    private Client c ;
-    // Définir les couleurs pour la validation
-    public static final Color main_color = new Color(18, 11, 61);  // Couleur de base
-    public static final Color fieldColor = new Color(33, 33, 33); // Couleur de fond des champs
-    public static final Color errorColor = new Color(255, 102, 102);  // Couleur rouge pour les champs invalides
-    public  static final Color validColor = Color.WHITE;
-    // Constructeur pour initialiser les champs
-    public ButtonEnregistrement(Hotel hotel , JTextField nameField, JTextField prenomField, JTextField emailField,
-                                JTextField phoneField, JTextField adresseField, JTextField startDateField, JTextField endDateField) {
-        this.nameField = nameField;
-        this.prenomField = prenomField;
-        this.emailField = emailField;
-        this.phoneField = phoneField;
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    private Hotel hotel;
+    private Chambre chambre;
+    private JTextField nameField, prenomField, emailField, phoneField, adresseField;
+    private JTextField startField, endField;
+
+    public ButtonEnregistrement(Hotel hotel,
+                                JTextField nameField,
+                                JTextField prenomField,
+                                JTextField emailField,
+                                JTextField phoneField,
+                                JTextField adresseField,
+                                JTextField startField,
+                                JTextField endField,
+                                Chambre chambre) {
+        this.hotel        = hotel;
+        this.nameField    = nameField;
+        this.prenomField  = prenomField;
+        this.emailField   = emailField;
+        this.phoneField   = phoneField;
         this.adresseField = adresseField;
-        this.startDateField = startDateField;
-        this.endDateField = endDateField;
-        this.h = hotel;
+        this.startField   = startField;
+        this.endField     = endField;
+        this.chambre      = chambre;
     }
 
-    // Méthode qui sera appelée lorsque le bouton d'enregistrement est cliqué
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Récupérer les données saisies
-        String name = nameField.getText();
-        String prenom = prenomField.getText();
-        String email = emailField.getText();
-        String phone = phoneField.getText();
-        String adresse = adresseField.getText();
+        String name    = nameField.getText().trim();
+        String prenom  = prenomField.getText().trim();
+        String email   = emailField.getText().trim();
+        String phone   = phoneField.getText().trim();
+        String adresse = adresseField.getText().trim();
+        String sDate   = startField.getText().trim();
+        String eDate   = endField.getText().trim();
 
-        // Vérifier si la date de début et de fin sont vides et les convertir en LocalDate uniquement si elles ne sont pas vides
-        LocalDate startDate = null;
-        LocalDate endDate = null;
-
-        if (!startDateField.getText().isEmpty()) {
-            startDate = parseLocalDate(startDateField.getText());
-        }
-        if (!endDateField.getText().isEmpty()) {
-            endDate = parseLocalDate(endDateField.getText());
-        }
-
-        // Vérification si les dates sont bien converties
-        System.out.println("Start Date: " + startDate);
-        System.out.println("End Date: " + endDate);
-
-        // Validation des champs
         boolean valid = true;
 
-        // Vérifier le nom
-        if (!ClientValidator.isValidName(name)) {
-            nameField.setBackground(errorColor);
+        // Vérifie les champs vides
+        for (JTextField f : new JTextField[]{
+                nameField, prenomField, emailField,
+                phoneField, adresseField, startField, endField
+        }) {
+            if (f.getText().trim().isEmpty()) {
+                valid = false;
+                f.setBackground(Color.PINK);
+            } else {
+                f.setBackground(new Color(33, 33, 33));
+            }
+        }
+
+        // Vérifie le format du numéro de téléphone
+        if (!phone.matches("\\d{10}")) {
             valid = false;
-        } else {
-            nameField.setBackground(fieldColor);
+            phoneField.setBackground(Color.PINK);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Le numéro de téléphone doit contenir exactement 10 chiffres.",
+                    "Numéro invalide",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
 
-        // Vérifier le prénom
-        if (!ClientValidator.isValidName(prenom)) {
-            prenomField.setBackground(errorColor);
-            valid = false;
-        } else {
-            prenomField.setBackground(fieldColor);
-        }
-
-        // Vérifier l'email
-        if (!ClientValidator.isValidEmail(email)) {
-            emailField.setBackground(errorColor);
-            valid = false;
-        } else {
-            emailField.setBackground(fieldColor);
-        }
-
-        // Vérifier le numéro de téléphone
-        if (!ClientValidator.isValidPhoneNumber(phone)) {
-            phoneField.setBackground(errorColor);
-            valid = false;
-        } else {
-            phoneField.setBackground(fieldColor);
-        }
-
-        // Vérifier la cohérence des dates
-        if (!ClientValidator.verifierCoherenceDates(startDate, endDate)) {
-            startDateField.setBackground(errorColor);
-            endDateField.setBackground(errorColor);
-            valid = false;
-        } else {
-            startDateField.setBackground(fieldColor);
-            endDateField.setBackground(fieldColor);
-        }
-
-        // Si tous les champs sont valides, procéder à l'enregistrement
-        if (valid) {
-            JOptionPane.showMessageDialog(null, "Client enregistré avec succès!");
-            c= new Client ( name , prenom ,email,phone , adresse , h);
-            h.ajouterClient(c);
-            h.afficherListeClients();
-
-
-            // Logique d'enregistrement ici (ajouter votre code pour enregistrer les données dans la base de données)
-        } else {
-            JOptionPane.showMessageDialog(null, "Veuillez corriger les erreurs dans le formulaire.");
-        }
-    }
-
-    // Méthode pour analyser les dates sous forme de chaîne
-    private LocalDate parseLocalDate(String dateStr) {
+        // Vérifie les dates
+        LocalDate dateDebut = null;
+        LocalDate dateFin   = null;
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            return LocalDate.parse(dateStr, formatter);
-        } catch (Exception e) {
-            System.out.println("Erreur de conversion de la date : " + dateStr);
-            return null;  // Retourner null si la date est invalide
+            dateDebut = LocalDate.parse(sDate, FORMATTER);
+            dateFin   = LocalDate.parse(eDate, FORMATTER);
+        } catch (DateTimeParseException ex) {
+            valid = false;
+            startField.setBackground(Color.PINK);
+            endField.setBackground(Color.PINK);
         }
+
+        if (!valid) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Veuillez corriger les champs en rouge.",
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        // Création du client et enregistrement
+        Client client = new Client(name, prenom, email, phone, adresse, hotel);
+        hotel.ajouterClient(client);
+
+        Reservation res = new Reservation(client, chambre, dateDebut, dateFin);
+        chambre.ajouterReservation(res);
+
+        JOptionPane.showMessageDialog(
+                null,
+                "Réservation confirmée pour " + name +
+                        " du " + dateDebut.format(FORMATTER) +
+                        " au " + dateFin.format(FORMATTER),
+                "Confirmation",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 }

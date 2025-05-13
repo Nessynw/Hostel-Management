@@ -11,6 +11,7 @@ public class Reservation {
     public Client client;
     public Sejour sej;
     public Receptionniste recept;
+    private static int compteur = 1;
 
     public Reservation() {
     }
@@ -23,6 +24,13 @@ public class Reservation {
         this.client = client;
         this.sej = sej;
         this.recept = recept;
+    }
+    public Reservation(Client client, Chambre chambre, LocalDate date_deb, LocalDate date_fin) {
+        this.id_res = compteur++;
+        this.client = client;
+        this.chambre = chambre;
+        this.date_deb = date_deb;
+        this.date_fin = date_fin;
     }
 
     public int getId_res() {

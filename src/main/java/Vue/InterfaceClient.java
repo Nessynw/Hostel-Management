@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.time.LocalDate;
 public class InterfaceClient extends JPanel {
     private static final Color hover = new Color(58, 90, 153); // Couleur du survol
     private JPanel mainPanel;  // Panneau principal où le contenu changera
@@ -140,12 +140,12 @@ public class InterfaceClient extends JPanel {
         switch (buttonText) {
             case "Clients":
                 // Afficher le formulaire client
-                NewClient clientForm = new NewClient(hotel);
+                NewClient clientForm = new NewClient(hotel, null, LocalDate.now(), LocalDate.now());
                 mainPanel.add(clientForm, BorderLayout.CENTER);
                 break;
             case "Liste de clients":
                 // Afficher la liste des clients
-                ListClient clientList = new ListClient();
+                ListClient clientList = new ListClient(hotel);
                 mainPanel.add(clientList, BorderLayout.CENTER);
                 break;
             case "Chambres":
@@ -154,7 +154,7 @@ public class InterfaceClient extends JPanel {
                 mainPanel.add(chambres, BorderLayout.CENTER);
                 break;
             case "Réservations":
-                ReservationForm reservationForm = new ReservationForm();
+                ReservationForm reservationForm = new ReservationForm(hotel);
                 mainPanel.add(reservationForm, BorderLayout.CENTER);
                 break;
             case "Séjours":
