@@ -36,7 +36,7 @@ public class InterfaceClient extends JPanel {
                 "</div></html>");
         nomHotel.setFont(new Font("Serif", Font.BOLD, 30));
 
-        // Add MouseListener to navigate to home page on click and apply hover effect
+        // Pour retourner vers homepage
         nomHotel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -72,7 +72,7 @@ public class InterfaceClient extends JPanel {
         sidebar.add(nomHotel, gbc);
 
         // Ajouter les boutons du menu avec un espacement vertical
-        String[] buttonMenu = {"Chambres","Etat_chambes", "Réservations", "Séjours", "Clients", "Liste de clients"};
+        String[] buttonMenu = {"Réservation", "État des Chambres", "Liste Des Réservation", "Gérer Séjours", "Nouveau Client", "Liste des Clients"};
         for (String buttonText : buttonMenu) {
             gbc.gridy++;  // Déplacer vers la ligne suivante
             JButton button = createSidebarButton(buttonText);
@@ -101,11 +101,13 @@ public class InterfaceClient extends JPanel {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
-        Dimension buttonSize = new Dimension(200, 40); // Par exemple 250px de large, 60px de haut
+        // Augmentation de la largeur du bouton de 200 à 260 pixels
+        Dimension buttonSize = new Dimension(260, 50); // Largeur augmentée à 260px et hauteur à 50px
         button.setPreferredSize(buttonSize);
         button.setMinimumSize(buttonSize);
         button.setMaximumSize(buttonSize);
-        // Ajouter les effets de survol
+
+        // Le reste du code reste identique...
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(hover);
@@ -118,12 +120,11 @@ public class InterfaceClient extends JPanel {
             }
         });
 
-        // Action pour chaque bouton du menu
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    showClientForm(buttonText);  // Pass button text to showClientForm
+                    showClientForm(buttonText);
                 } catch (UnsupportedLookAndFeelException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -138,28 +139,29 @@ public class InterfaceClient extends JPanel {
         mainPanel.removeAll();  // Clear any existing content
 
         switch (buttonText) {
-            case "Clients":
+            case "Nouveau Client":
                 // Afficher le formulaire client
                 NewClient clientForm = new NewClient(hotel, null, LocalDate.now(), LocalDate.now());
                 mainPanel.add(clientForm, BorderLayout.CENTER);
                 break;
-            case "Liste de clients":
+            case "Liste des Clients":
                 // Afficher la liste des clients
                 ListClient clientList = new ListClient(hotel);
                 mainPanel.add(clientList, BorderLayout.CENTER);
                 break;
-            case "Chambres":
-                // Afficher la gestion des chambres
+            case "Réservation":
+                // Afficher la gestion des chambres (garde la même fonctionnalité que "Chambres")
                 Chambres chambres = new Chambres(hotel);
                 mainPanel.add(chambres, BorderLayout.CENTER);
                 break;
-            case "Réservations":
+            case "Liste Des Réservation":
                 ReservationForm reservationForm = new ReservationForm(hotel);
                 mainPanel.add(reservationForm, BorderLayout.CENTER);
                 break;
-            case "Séjours":
-                  SejourForm sejourForm = new SejourForm();
-                  mainPanel.add(sejourForm, BorderLayout.CENTER);
+            case "Gérer Séjours":
+                SejourForm sejourForm = new SejourForm();
+                mainPanel.add(sejourForm, BorderLayout.CENTER);
+                break;
             default:
                 // Gérer un texte de bouton inattendu
                 JOptionPane.showMessageDialog(this, "Option non supportée", "Erreur", JOptionPane.ERROR_MESSAGE);
