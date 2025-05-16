@@ -4,6 +4,7 @@ import Model.Hotel;
 import Model.Chambre;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
@@ -62,7 +63,6 @@ public class EtatChambres extends JPanel {
         topPanel.add(searchPanel, BorderLayout.EAST);
         this.add(topPanel, BorderLayout.NORTH);
 
-        // Créer le modèle de table
         String[] colonnes = {"Numéro", "Étage", "Type", "Prix", "Disponibilité"};
         tableModel = new DefaultTableModel(colonnes, 0) {
             @Override
@@ -70,19 +70,27 @@ public class EtatChambres extends JPanel {
                 return false;
             }
         };
-        
+
         table = new JTable(tableModel);
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
 
+        // Empêcher le réarrangement des colonnes
+        JTableHeader header = table.getTableHeader();
+        header.setReorderingAllowed(false);
+
+        // Personnaliser l'apparence du header
+        header.setBackground(AppColors.MAIN_COLOR);
+        header.setForeground(AppColors.MAIN_COLOR);
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+
         // Personnaliser l'apparence de la table
         table.setBackground(AppColors.MAIN_COLOR);
         table.setForeground(Color.WHITE);
-        table.setGridColor(AppColors.MAIN_COLOR);
-        table.getTableHeader().setBackground(AppColors.MAIN_COLOR);
-        table.getTableHeader().setForeground(Color.WHITE);
+        table.setGridColor(new Color(70, 70, 70));
         table.setRowHeight(30);
-        
+
+
         // Remplir la table
         remplirTable();
 
@@ -140,7 +148,7 @@ public class EtatChambres extends JPanel {
                 chambre.getNum_etage(),
                 chambre.getType(),
                 chambre.getPrix() + " €",
-                chambre.isEstOccupee() ? "Occupée" : "Disponible"
+                chambre.isEstOccupee() ? "Occupée" : "Libre"
             };
             tableModel.addRow(row);
         }
