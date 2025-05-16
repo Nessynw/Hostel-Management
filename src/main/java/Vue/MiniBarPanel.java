@@ -23,6 +23,7 @@ public class MiniBarPanel extends JPanel {
         setLayout(new BorderLayout()); // Layout principal BorderLayout
         setPreferredSize(new Dimension(450, 580)); // Taille préférée du JPanel
 
+        JPanel header = new JPanel();
         // Initialise les produits
         produits = new Produit[]{
                 new Produit("Pomme", 2.5),
@@ -112,7 +113,9 @@ public class MiniBarPanel extends JPanel {
         // Ajout d'un JScrollPane autour du miniBarPanel pour gérer les produits défilants
         JScrollPane scrollPane = new JScrollPane(miniBarPanel);
         scrollPane.setBackground(new Color(20, 20, 70));
-        scrollPane.setPreferredSize(new Dimension(450, 400)); // Ajuste la taille du JScrollPane
+        scrollPane.setPreferredSize(new Dimension(450, 400));// Ajuste la taille du JScrollPane
+        gbc.gridx = 0;
+        gbc.gridy = 3; // Positionner après les produits
         mainPanel.add(scrollPane, gbc);
 
         // Panneau du total
@@ -125,16 +128,19 @@ public class MiniBarPanel extends JPanel {
         totalTextLabel.setForeground(Color.WHITE);
         totalTextLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         totalPanel.add(totalTextLabel, BorderLayout.WEST);
-        totalPanel.setPreferredSize(new Dimension(200, 50));
+
         totalLabel = new JLabel("0.00€");
         totalLabel.setForeground(Color.WHITE);
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         totalPanel.add(totalLabel, BorderLayout.EAST);
 
+        totalPanel.setPreferredSize(new Dimension(450, 50));  // Ajuste la taille du panneau du total pour qu'il ait la même largeur que le JScrollPane
 
-        gbc.gridy = 4; // Positionné après le JScrollPane
-
-        mainPanel.add(totalPanel);
+        // Footer Panel
+        JPanel footerPanel = new JPanel(new BorderLayout());
+        footerPanel.setBackground(new Color(20, 20, 70));
+        footerPanel.setPreferredSize(new Dimension(450, 70));
+        footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
         // Ajouter le bouton "Valider"
         JButton validateButton = new JButton("Valider");
@@ -143,11 +149,12 @@ public class MiniBarPanel extends JPanel {
         validateButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         validateButton.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));
         validateButton.addActionListener(e -> showTotalMessage()); // Affiche un message avec le total lors de la validation
+        footerPanel.add(validateButton, BorderLayout.CENTER);
 
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 4; // Placer à la position gridy 2
         gbc.gridwidth = 3;
-        mainPanel.add(validateButton);
+        mainPanel.add(footerPanel, gbc);
 
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
     }
