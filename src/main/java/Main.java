@@ -20,7 +20,6 @@ public class Main {
         Client client1 = new Client("Ali", "Bencheikh", "ali.bencheikh@gmail.com", "0612345678", "12 rue des Fleurs", hotel);
         Client client2 = new Client("Sara", "Bouzid", "sara.bouzid@gmail.com", "0698765432", "45 avenue Victor Hugo", hotel);
         Client client3 = new Client("Mehdi", "Kacem", "mehdi.kacem@gmail.com", "0789456123", "78 boulevard Haussmann", hotel);
-
         // Ajout des clients à l'hôtel
         hotel.ajouterClient(client1);
         hotel.ajouterClient(client2);
