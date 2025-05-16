@@ -1,6 +1,6 @@
 package Vue;
 
-import Controler.retourBtnControler;
+import Controler.*;
 import Model.*;
 
 import javax.swing.*;
@@ -92,7 +92,12 @@ public class AjouterEmploye extends JPanel {
         btnAjouter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (areRequiredFieldsFilled()) {
+                ValidateurEmploye validateur = new ValidateurEmploye(
+                    txtNom, txtPrenom, txtEmail, txtTel, txtAdresse, txtSalaire
+                );
+                
+                if (validateur.valider()) {
+                    // Création de l'employé et ajout à l'hôtel
                     String nom = getNom();
                     String prenom = getPrenom();
                     String email = getEmail();
@@ -102,7 +107,6 @@ public class AjouterEmploye extends JPanel {
                     String taches = getTaches();
                     String poste = getPoste();
 
-                    // Créer l'employé selon le poste sélectionné
                     Employe nouvelEmploye;
                     if (poste.equals("Réceptionniste")) {
                         nouvelEmploye = new Receptionniste(nom, prenom, email, tel, adresse, salaire, taches, hotel);
@@ -112,13 +116,9 @@ public class AjouterEmploye extends JPanel {
                         nouvelEmploye = new Employe(nom, prenom, email, tel, adresse, salaire, hotel);
                     }
 
-                    // Ajouter l'employé à l'hôtel
                     hotel.ajouterEmploye(nouvelEmploye);
-
                     JOptionPane.showMessageDialog(parentFrame, "Employé ajouté avec succès !");
                     clearFields();
-                } else {
-                    JOptionPane.showMessageDialog(parentFrame, "Veuillez remplir tous les champs obligatoires.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -137,6 +137,7 @@ public class AjouterEmploye extends JPanel {
 
         // Ajout des tooltips
         addTooltips();
+        
     }
 
     private JTextField createStyledTextField() {
@@ -238,37 +239,10 @@ public class AjouterEmploye extends JPanel {
         comboPoste.setSelectedIndex(0);
         txtSalaire.setText("");
         txtTaches.setText("");
+        txtAdresse.setText("");
+        txtTel.setText("");
+        txtNom.requestFocusInWindow();
     }
 
-    // Méthode pour vérifier si tous les champs obligatoires sont remplis
-    public boolean areRequiredFieldsFilled() {
-        return !getNom().isEmpty() &&
-                !getPrenom().isEmpty() &&
-                !getEmail().isEmpty() &&
-                !getSalaire().isEmpty();
-    }
 
-    // Méthode pour ajouter la validation des champs
-    public void addValidationListeners() {
-        // Validation du salaire
-        txtSalaire.addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if (!Character.isDigit(c) && c != '.') {
-                    e.consume();
-                }
-            }
-        });
-
-        // Validation de l'email
-        txtEmail.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-                    txtEmail.setBorder(BorderFactory.createLineBorder(Color.RED));
-                } else {
-                    txtEmail.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                }
-            }
-        });
-    }
 }

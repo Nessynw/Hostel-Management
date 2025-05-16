@@ -23,7 +23,6 @@ public class MiniBarPanel extends JPanel {
         setLayout(new BorderLayout()); // Layout principal BorderLayout
         setPreferredSize(new Dimension(450, 580)); // Taille préférée du JPanel
 
-        JPanel header = new JPanel();
         // Initialise les produits
         produits = new Produit[]{
                 new Produit("Pomme", 2.5),
@@ -68,6 +67,9 @@ public class MiniBarPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3; // Largeur du label
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.fill = GridBagConstraints.NONE;
         mainPanel.add(sejour, gbc);
 
         // JComboBox "Séjour"
@@ -89,10 +91,6 @@ public class MiniBarPanel extends JPanel {
         miniBarPanel.setLayout(new BoxLayout(miniBarPanel, BoxLayout.Y_AXIS)); // Utilisation de BoxLayout
         miniBarPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         miniBarPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Alignement à gauche
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 3; // Remplir sur toute la largeur
-        mainPanel.add(miniBarPanel, gbc);
 
         // Titre "Articles du mini bar"
         JLabel miniBarTitle = new JLabel("Articles du mini bar");
@@ -113,31 +111,33 @@ public class MiniBarPanel extends JPanel {
         // Ajout d'un JScrollPane autour du miniBarPanel pour gérer les produits défilants
         JScrollPane scrollPane = new JScrollPane(miniBarPanel);
         scrollPane.setBackground(new Color(20, 20, 70));
-        scrollPane.setPreferredSize(new Dimension(450, 400));// Ajuste la taille du JScrollPane
+
         gbc.gridx = 0;
-        gbc.gridy = 3; // Positionner après les produits
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(scrollPane, gbc);
 
         // Panneau du total
-        JPanel totalPanel = new JPanel(new BorderLayout());
-        totalPanel.setBackground(new Color(20, 20, 70));
-        totalPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
-        totalPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
         JLabel totalTextLabel = new JLabel("Total");
         totalTextLabel.setForeground(Color.WHITE);
         totalTextLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        totalPanel.add(totalTextLabel, BorderLayout.WEST);
 
         totalLabel = new JLabel("0.00€");
         totalLabel.setForeground(Color.WHITE);
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+
+        JPanel totalPanel = new JPanel(new BorderLayout());
+        totalPanel.setBackground(new Color(20, 20, 70));
+        totalPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 10, 15));
+        totalPanel.add(totalTextLabel, BorderLayout.WEST);
         totalPanel.add(totalLabel, BorderLayout.EAST);
-        totalPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+
         // Footer Panel
         JPanel footerPanel = new JPanel(new BorderLayout());
         footerPanel.setBackground(new Color(20, 20, 70));
-        footerPanel.setPreferredSize(new Dimension(450, 100));
         footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
         // Ajouter le bouton "Valider"
@@ -146,20 +146,19 @@ public class MiniBarPanel extends JPanel {
         validateButton.setForeground(Color.WHITE);
         validateButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         validateButton.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));
-        validateButton.addActionListener(e -> showTotalMessage()); // Affiche un message avec le total lors de la validation
+        validateButton.addActionListener(e -> showTotalMessage());
         validateButton.setPreferredSize(new Dimension(100, 30));
-        footerPanel.add(validateButton, BorderLayout.CENTER);
 
+        footerPanel.add(totalPanel, BorderLayout.NORTH);
+        footerPanel.add(validateButton, BorderLayout.SOUTH);
 
         gbc.gridx = 0;
-        gbc.gridy = 4; // Placer à la position gridy 2
+        gbc.gridy = 3;
         gbc.gridwidth = 3;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(footerPanel, gbc);
-        footerPanel.add(totalPanel,BorderLayout.NORTH);
-        gbc.gridy=1;
-        footerPanel.add(validateButton,BorderLayout.SOUTH);
-
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
     }
 
     private JPanel createProduitRow(Produit produit) {
@@ -224,25 +223,16 @@ public class MiniBarPanel extends JPanel {
         JOptionPane.showMessageDialog(this, "Le total des consommations est : " + String.format("%.2f€", total), "Total", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void styleBtn(JButton btn) {
-        btn.setBackground(new Color(34, 32, 64));
-        btn.setForeground(Color.WHITE);
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));
-    }
-
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Exemple JPanel");
-        frame.setTitle("Mini Bar");
+        JFrame frame = new JFrame("Mini Bar");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.setSize(500, 650); // Taille de la fenêtre
-        frame.setLocationRelativeTo(null); // Centrer la fenêtre
+        frame.setSize(500, 650);
+        frame.setLocationRelativeTo(null);
 
-        // Ajouter le MiniBarPanel au JFrame
         MiniBarPanel panel = new MiniBarPanel();
         frame.setContentPane(panel);
 
-        frame.setVisible(true); // Afficher la fenêtre
+        frame.setVisible(true);
     }
 }

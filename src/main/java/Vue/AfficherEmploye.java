@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Vector;
 import java.time.LocalDateTime;
+import javax.swing.table.JTableHeader;
 
 public class AfficherEmploye extends JPanel {
     private JTable tableEmployes;
@@ -147,6 +148,8 @@ public class AfficherEmploye extends JPanel {
 
         // Rendre le tableau non éditable
         table.setDefaultEditor(Object.class, null);
+        // Après la création de votre table
+        table.getTableHeader().setReorderingAllowed(false);
     }
 
     private void remplirTableau() {
@@ -190,23 +193,63 @@ public class AfficherEmploye extends JPanel {
 
     private void afficherDialogueAssignation(AgentE agent) {
         JDialog dialog = new JDialog(parentFrame, "Assigner une chambre", true);
-        dialog.setLayout(new GridLayout(3, 1, 10, 10));
+        dialog.setLayout(new BorderLayout(10, 10));
         dialog.getContentPane().setBackground(AppColors.MAIN_COLOR);
 
-        // Créer un ComboBox avec les chambres disponibles
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JLabel titleLabel = new JLabel("Sélectionner une chambre :");
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
         JComboBox<String> comboChambre = new JComboBox<>();
+        comboChambre.setPreferredSize(new Dimension(200, 30));
+        comboChambre.setFont(new Font("Arial", Font.PLAIN, 14));
+        comboChambre.setBackground(Color.WHITE);
+
+        // Remplir le ComboBox
         for (Chambre chambre : hotel.getListChambre()) {
             if (chambre.getAgentAssigne() == null) {
                 comboChambre.addItem("Chambre " + chambre.getNumero());
             }
         }
 
-        JPanel panelCombo = new JPanel();
-        panelCombo.setBackground(AppColors.MAIN_COLOR);
-        panelCombo.add(new JLabel("Sélectionner une chambre :"));
-        panelCombo.add(comboChambre);
+        // Panel pour les contrôles avec GridBagLayout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 0, 5, 0);
 
-        JButton btnValider = new StyledButton("Valider");
+        mainPanel.add(titleLabel, gbc);
+        gbc.insets = new Insets(10, 0, 15, 0);
+        mainPanel.add(comboChambre, gbc);
+
+        // Panel pour les boutons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        buttonPanel.setBackground(AppColors.MAIN_COLOR);
+
+        JButton btnValider = new JButton("Valider");
+        btnValider.setPreferredSize(new Dimension(120, 35));
+        btnValider.setBackground(AppColors.MAIN_COLOR);
+        btnValider.setForeground(Color.WHITE);
+        btnValider.setFont(new Font("Arial", Font.BOLD, 14));
+        btnValider.setFocusPainted(false);
+        btnValider.setBorderPainted(false);
+
+        JButton btnAnnuler = new JButton("Annuler");
+        btnAnnuler.setPreferredSize(new Dimension(120, 35));
+        btnAnnuler.setBackground(AppColors.MAIN_COLOR);
+        btnAnnuler.setForeground(Color.WHITE);
+        btnAnnuler.setFont(new Font("Arial", Font.BOLD, 14));
+        btnAnnuler.setFocusPainted(false);
+        btnAnnuler.setBorderPainted(false);
+
+        buttonPanel.add(btnValider);
+        buttonPanel.add(btnAnnuler);
+
+        // Action listeners
         btnValider.addActionListener(e -> {
             String selection = (String) comboChambre.getSelectedItem();
             if (selection != null) {
@@ -224,18 +267,15 @@ public class AfficherEmploye extends JPanel {
             }
         });
 
-        JPanel panelBouton = new JPanel();
-        panelBouton.setBackground(AppColors.MAIN_COLOR);
-        panelBouton.add(btnValider);
+        btnAnnuler.addActionListener(e -> dialog.dispose());
 
-        dialog.add(panelCombo);
-        dialog.add(panelBouton);
+        dialog.add(mainPanel, BorderLayout.CENTER);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
 
-        dialog.pack();
+        dialog.setSize(350, 200);
         dialog.setLocationRelativeTo(parentFrame);
         dialog.setVisible(true);
     }
-
     private void refreshTable() {
         remplirTableau();
         tableEmployes.repaint();
