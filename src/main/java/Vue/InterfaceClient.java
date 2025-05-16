@@ -72,7 +72,7 @@ public class InterfaceClient extends JPanel {
         sidebar.add(nomHotel, gbc);
 
         // Ajouter les boutons du menu avec un espacement vertical
-        String[] buttonMenu = {"Réservation", "État des Chambres", "Liste Des Réservation", "Gérer Séjours", "Nouveau Client", "Liste des Clients"};
+        String[] buttonMenu = {"Réservation", "État des Chambres", "Liste Des Réservation", "Gérer Séjours",  "Liste des Clients"};
         for (String buttonText : buttonMenu) {
             gbc.gridy++;  // Déplacer vers la ligne suivante
             JButton button = createSidebarButton(buttonText);
@@ -139,11 +139,6 @@ public class InterfaceClient extends JPanel {
         mainPanel.removeAll();  // Clear any existing content
 
         switch (buttonText) {
-            case "Nouveau Client":
-                // Afficher le formulaire client
-                NewClient clientForm = new NewClient(hotel, null, LocalDate.now(), LocalDate.now());
-                mainPanel.add(clientForm, BorderLayout.CENTER);
-                break;
             case "Liste des Clients":
                 // Afficher la liste des clients
                 ListClient clientList = new ListClient(hotel);
