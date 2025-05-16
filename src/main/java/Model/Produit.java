@@ -19,6 +19,13 @@ import java.util.*;
             this.hotel = hotel;
 
         }
+        public Produit(String nom, double prix) {
+            this.nom = nom;
+            this.prix = prix;
+            this.hotel = hotel;
+
+        }
+
 
         public String getNom() {
             return nom;
