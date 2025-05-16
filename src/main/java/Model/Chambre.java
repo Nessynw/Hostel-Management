@@ -91,14 +91,7 @@ public class Chambre {
         this.type = type;
     }
 
-    // Méthodes pour gérer les réservations
-    public void ajouterReservation(Reservation reservation) {
-        listReservation.add(reservation);
-    }
 
-    public void supprimerReservation(Reservation reservation) {
-        listReservation.remove(reservation);
-    }
 
     @Override
     public String toString() {
@@ -128,4 +121,21 @@ public void afficherDetails() {
             System.out.println("Agent assigné : " + agentAssigne);
         }
     }
+    // ... vos attributs et autres méthodes existants ...
+
+    // Ajouter ces deux méthodes
+    public void ajouterReservation(Reservation reservation) {
+        listReservation.add(reservation);
+        this.estOccupee = true;  // Met à jour le statut de la chambre
+    }
+
+    public void supprimerReservation(Reservation reservation) {
+        listReservation.remove(reservation);
+        if (listReservation.isEmpty()) {
+            this.estOccupee = false;  // Si plus de réservations, la chambre n'est plus occupée
+            this.estNettoyee = false; // La chambre doit être nettoyée
+        }
+    }
+
+    // ... reste de votre code ...
 }

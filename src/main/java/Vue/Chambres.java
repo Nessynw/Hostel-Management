@@ -1,5 +1,6 @@
 package Vue;
 
+import Controler.ControlerReservation;
 import Model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -7,9 +8,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Chambres extends JPanel {
-    private static final Color hoverColor = new Color(58, 90, 153); // Hover color
     private JPanel mainPanel;
     private Hotel hotel;
+    private static final Color hoverColor = new Color(58, 90, 153); // Hover color
+
 
     public Chambres(Hotel hotel) {
         this.hotel = hotel;
@@ -82,23 +84,9 @@ public class Chambres extends JPanel {
         chambrePanel.add(Box.createVerticalStrut(10));
 
         // Make it clickable
-        chambrePanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                DateReservation dr = new DateReservation(hotel, type);
-                dr.setVisible(true);
-            }
+        chambrePanel.addMouseListener( new ControlerReservation(hotel, chambrePanel,type,hoverColor));
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                chambrePanel.setBackground(hoverColor);
-            }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                chambrePanel.setBackground(AppColors.MAIN_COLOR);
-            }
-        });
 
         return chambrePanel;
     }

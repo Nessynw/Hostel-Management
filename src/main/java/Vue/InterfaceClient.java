@@ -158,6 +158,12 @@ public class InterfaceClient extends JPanel {
                 SejourForm sejourForm = new SejourForm();
                 mainPanel.add(sejourForm, BorderLayout.CENTER);
                 break;
+
+            case "État des Chambres":
+                EtatChambres etatChambres = new EtatChambres(hotel);
+                mainPanel.add(etatChambres, BorderLayout.CENTER);
+                break;
+
             default:
                 // Gérer un texte de bouton inattendu
                 JOptionPane.showMessageDialog(this, "Option non supportée", "Erreur", JOptionPane.ERROR_MESSAGE);

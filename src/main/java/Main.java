@@ -36,7 +36,7 @@ public class Main {
         hotel.ajouterChambre(new ChambreSimple(107, 2, hotel, 182));
         hotel.ajouterChambre(new ChambreSimple(108, 2, hotel, 158));
         // Ajouter le panneau Accueil à la fenêtre
-        frame.setContentPane(new Accueil(frame , hotel));  // Remplacer par le panneau Accueil
+        frame.setContentPane(new Accueil(frame , hotel));
 
 
         frame.setSize(1000, 700);

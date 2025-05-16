@@ -33,7 +33,7 @@ public class Accueil extends JPanel {
 
         this.add(sidebar, BorderLayout.WEST);
 
-        // Panneau principal (Main Panel)
+        // Panneau principal
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());  // Utilisation de GridBagLayout
         mainPanel.setBackground(AppColors.MAIN_COLOR);
@@ -50,44 +50,30 @@ public class Accueil extends JPanel {
         StyledButton clientButton = new StyledButton("Client");
         StyledButton personnelButton = new StyledButton("Personnel");
 
-        // Panneau pour les boutons centrés
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));  // FlowLayout pour centrer
         buttonPanel.setOpaque(false);
 
-        // Ajouter les boutons au panneau
         buttonPanel.add(clientButton);
         buttonPanel.add(personnelButton);
 
-        // Ajouter le panneau des boutons à mainPanel
-        mainPanel.add(buttonPanel, buttonConstraints);  // Utilisation de GridBagConstraints pour centrer les boutons
+        mainPanel.add(buttonPanel, buttonConstraints);  // GridBagConstraints pour centrer les boutons
 
-        // Contrainte pour centrer le texte
+        //  centrer le texte
         GridBagConstraints textConstraints = new GridBagConstraints();
         textConstraints.gridx = 0;  // Centrer horizontalement
         textConstraints.gridy = 0;  // Placer le texte au-dessus des boutons
         textConstraints.insets = new Insets(20, 0, 10, 0); // Espacement au-dessus du texte
         textConstraints.anchor = GridBagConstraints.CENTER;
 
-        // Ajouter le texte
         JLabel welcomeLabel = new JLabel("Welcome to Blue Castel");
         welcomeLabel.setFont(new Font("Serif", Font.BOLD, 60));  // Augmenter la taille de la police
         welcomeLabel.setForeground(new Color(176, 176, 176));  // Gris clair pour le texte
         mainPanel.add(welcomeLabel, textConstraints);
 
-        // Action au clic sur le bouton "Client"
         ClientButtonControleur b = new ClientButtonControleur(parentFrame, hotel);
         clientButton.addActionListener(b);
 
-        // Action au clic sur le bouton "Personnel"
-        personnelButton.addActionListener(e -> {
-            Authentification authentification = new Authentification(() -> {
-                PersonnelController controller = new PersonnelController(parentFrame, hotel);
-                parentFrame.getContentPane().removeAll();
-                parentFrame.getContentPane().add(controller.getVue());
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            }, hotel);
-            authentification.setVisible(true);
-        });
+        PersonnelButtonControleur personnelController = new PersonnelButtonControleur(parentFrame, hotel);
+        personnelButton.addActionListener(personnelController);
     }
 }
