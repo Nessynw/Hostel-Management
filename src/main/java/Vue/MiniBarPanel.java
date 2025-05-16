@@ -133,13 +133,11 @@ public class MiniBarPanel extends JPanel {
         totalLabel.setForeground(Color.WHITE);
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         totalPanel.add(totalLabel, BorderLayout.EAST);
-
-        totalPanel.setPreferredSize(new Dimension(450, 50));  // Ajuste la taille du panneau du total pour qu'il ait la même largeur que le JScrollPane
-
+        totalPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         // Footer Panel
         JPanel footerPanel = new JPanel(new BorderLayout());
         footerPanel.setBackground(new Color(20, 20, 70));
-        footerPanel.setPreferredSize(new Dimension(450, 70));
+        footerPanel.setPreferredSize(new Dimension(450, 100));
         footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
         // Ajouter le bouton "Valider"
@@ -149,12 +147,17 @@ public class MiniBarPanel extends JPanel {
         validateButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         validateButton.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));
         validateButton.addActionListener(e -> showTotalMessage()); // Affiche un message avec le total lors de la validation
+        validateButton.setPreferredSize(new Dimension(100, 30));
         footerPanel.add(validateButton, BorderLayout.CENTER);
+
 
         gbc.gridx = 0;
         gbc.gridy = 4; // Placer à la position gridy 2
         gbc.gridwidth = 3;
         mainPanel.add(footerPanel, gbc);
+        footerPanel.add(totalPanel,BorderLayout.NORTH);
+        gbc.gridy=1;
+        footerPanel.add(validateButton,BorderLayout.SOUTH);
 
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
     }
@@ -192,30 +195,11 @@ public class MiniBarPanel extends JPanel {
 
         spinner.addChangeListener(e -> updateTotal());
 
-        // Panel pour boutons - et +
         JPanel spinPanel = new JPanel();
         spinPanel.setBackground(new Color(20, 20, 70));
         spinPanel.setLayout(new BoxLayout(spinPanel, BoxLayout.X_AXIS));
 
-        JButton minusBtn = new JButton("−");
-        styleBtn(minusBtn);
-        minusBtn.addActionListener(ev -> {
-            int val = (int) spinner.getValue();
-            if (val > 0) spinner.setValue(val - 1);
-        });
-
-        JButton plusBtn = new JButton("+");
-        styleBtn(plusBtn);
-        plusBtn.addActionListener(ev -> {
-            int val = (int) spinner.getValue();
-            spinner.setValue(val + 1);
-        });
-
-        spinPanel.add(minusBtn);
-        spinPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         spinPanel.add(spinner);
-        spinPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-        spinPanel.add(plusBtn);
 
         row.add(spinPanel, BorderLayout.EAST);
 

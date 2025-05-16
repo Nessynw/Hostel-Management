@@ -49,10 +49,9 @@ public class EtatChambres extends JPanel {
         searchButton.setPreferredSize(new Dimension(40, 30));
         searchButton.addActionListener(e -> filterTable());
 
-        // Dans le constructeur de EtatChambres, modifiez la création du JLabel
         JLabel searchLabel = new JLabel("Rechercher par: ");
-        searchLabel.setForeground(Color.WHITE); // Met le texte en blanc
-        searchLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Change la police et la taille
+        searchLabel.setForeground(Color.WHITE);
+        searchLabel.setFont(new Font("Arial", Font.BOLD, 10));
 
         // Ajouter les composants au panel de recherche
         searchPanel.add(searchLabel);
