@@ -142,7 +142,7 @@ public class SejourForm extends JPanel {
         sejourPanel.add(creerSejour);
 
         tabbedPane.addTab("Créer un séjour", sejourPanel);
-        tabbedPane.addTab("Consommations mini bar", createEmptyPanel());
+        tabbedPane.addTab("Consommations mini bar", new MiniBarPanel());
         tabbedPane.addTab("Facturation", createEmptyPanel());
 
         this.add(tabbedPane, BorderLayout.CENTER);
