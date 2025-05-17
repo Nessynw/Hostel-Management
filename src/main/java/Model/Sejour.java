@@ -59,4 +59,10 @@ import java.util.*;
             total += calculerConsommation();
             return total;
         }
+        public String toString() {
+            // Retourner les informations pertinentes du séjour
+            return "- Chambre " + chambre.getNumero();
+            // Adaptez cet exemple selon vos besoins
+        }
+
     }

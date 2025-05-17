@@ -19,6 +19,7 @@ Hotel {
     private List<Intervention> interventions; // Ajoutez cette propriété si elle n'existe pas déjà
 
 
+
     public Hotel(String n, String adrs, String tel, String eml, int nbrEt) {
         nom = n;
         adresse = adrs;
@@ -167,4 +168,6 @@ Hotel {
     public List<Intervention> getInterventions() {
         return interventions;
     }
+
+
 }

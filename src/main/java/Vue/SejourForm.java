@@ -17,6 +17,10 @@ public class SejourForm extends JPanel {
     private JTextField dateDepart;
     private JTextArea notes;
     private JTextArea reservationsTextArea;
+    private JCheckBox parking;
+    private JCheckBox petitDej;
+    private JCheckBox wifi;
+    private JCheckBox blanchisserie;
 
     private final Hotel hotel;
 
@@ -67,10 +71,10 @@ public class SejourForm extends JPanel {
         sejourPanel.add(new JLabel("Services additionnels :"){{ setForeground(AppColors.TEXT_COLOR); }});
         JPanel servicesPanel = new JPanel(new GridLayout(2,2,10,10));
         servicesPanel.setBackground(AppColors.MAIN_COLOR);
-        JCheckBox parking = new JCheckBox("Parking (15€/jour)"); styleCheck(parking);
-        JCheckBox petitDej = new JCheckBox("Petit-déjeuner (12€/pers)"); styleCheck(petitDej);
-        JCheckBox wifi = new JCheckBox("WiFi Premium (8€/jour)"); styleCheck(wifi);
-        JCheckBox blanchisserie = new JCheckBox("Blanchisserie"); styleCheck(blanchisserie);
+        parking = new JCheckBox("Parking (15€/jour)"); styleCheck(parking);
+        petitDej = new JCheckBox("Petit-déjeuner (12€/pers)"); styleCheck(petitDej);
+       wifi = new JCheckBox("WiFi Premium (8€/jour)"); styleCheck(wifi);
+         blanchisserie = new JCheckBox("Blanchisserie"); styleCheck(blanchisserie);
         servicesPanel.add(parking); servicesPanel.add(petitDej);
         servicesPanel.add(wifi); servicesPanel.add(blanchisserie);
         sejourPanel.add(servicesPanel);
@@ -109,9 +113,12 @@ public class SejourForm extends JPanel {
 
         tabbedPane.addTab("Créer un séjour", sejourPanel);
         tabbedPane.addTab("Consommations mini bar", new MiniBarPanel(hotel));
-        tabbedPane.addTab("Facturation", new FacturePanel());
+        tabbedPane.addTab("Facturation", new FacturePanel(hotel));
 
         add(tabbedPane, BorderLayout.CENTER);
+
+        // Remplir clients initialement
+        afficherReservations();
     }
 
     private void afficherReservations() {
@@ -129,7 +136,7 @@ public class SejourForm extends JPanel {
             return;
         }
 
-        // Afficher toutes les réservations du client dans le textArea
+        // Afficher toutes les réservations
         for (Reservation r : list) {
             reservationsTextArea.append(
                     r.getDate_deb().format(DATE_FORMAT) + " → " +
@@ -138,10 +145,9 @@ public class SejourForm extends JPanel {
             );
         }
 
-        // Trouver la prochaine réservation à venir (la plus proche)
+        // Choisir la réservation la plus proche
         LocalDate aujourdHui = LocalDate.now();
         Reservation prochaine = null;
-
         for (Reservation r : list) {
             if (r.getDate_deb().isAfter(aujourdHui)) {
                 if (prochaine == null || r.getDate_deb().isBefore(prochaine.getDate_deb())) {
@@ -149,26 +155,19 @@ public class SejourForm extends JPanel {
                 }
             }
         }
+        if (prochaine == null) prochaine = list.get(0);
 
-        // Si aucune réservation à venir, on prend la première
-        if (prochaine == null) {
-            prochaine = list.get(0);
-        }
-
-        // Afficher la réservation sélectionnée dans les champs
-        if (prochaine != null) {
-            chambreCombo.addItem(prochaine.getChambre());
-            chambreCombo.setSelectedItem(prochaine.getChambre());
-            dateArrivee.setText(prochaine.getDate_deb().format(DATE_FORMAT));
-            dateDepart.setText(prochaine.getDate_fin().format(DATE_FORMAT));
-        }
+        // Initialiser le combo chambre et dates
+        chambreCombo.addItem(prochaine.getChambre());
+        chambreCombo.setSelectedItem(prochaine.getChambre());
+        dateArrivee.setText(prochaine.getDate_deb().format(DATE_FORMAT));
+        dateDepart.setText(prochaine.getDate_fin().format(DATE_FORMAT));
     }
-
 
     private void creerSejour() {
         Client client = (Client) clientCombo.getSelectedItem();
         if (client == null || client.getListReservation().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Aucune réservation sélectionnée.");
+            JOptionPane.showMessageDialog(this, "Aucune réservation disponible pour créer un séjour.");
             return;
         }
 
@@ -183,40 +182,47 @@ public class SejourForm extends JPanel {
                 }
             }
         }
-
-        if (prochaine == null) {
-            prochaine = list.get(0);
-        }
+        if (prochaine == null) prochaine = list.get(0);
 
         Sejour s = new Sejour(client, prochaine.getChambre(), prochaine.getDate_deb(), prochaine.getDate_fin());
         s.setRes(prochaine);
+
+// services cochés :
+        if (parking.isSelected())       s.ajouterConsommation(new Consommation(1, new Produit("Parking",15), s));
+        if (petitDej.isSelected())      s.ajouterConsommation(new Consommation(1, new Produit("Petit-déjeuner",12), s));
+        if (wifi.isSelected())          s.ajouterConsommation(new Consommation(1, new Produit("WiFi Premium",8), s));
+        if (blanchisserie.isSelected()) s.ajouterConsommation(new Consommation(1, new Produit("Blanchisserie",10), s));
+
         hotel.ajouterSejour(s);
 
+        // Empêcher réutilisation de la réservation
+        client.getListReservation().remove(prochaine);
+
         JOptionPane.showMessageDialog(this, "Séjour créé pour la réservation #" + prochaine.getId_res());
+
+        // Réinitialiser l'interface sans fermer la fenêtre
+        clientCombo.setSelectedIndex(0);
+        reservationsTextArea.setText("");
+        chambreCombo.removeAllItems();
+        dateArrivee.setText("");
+        dateDepart.setText("");
+        notes.setText("");
     }
 
-    // === Méthodes de style ===
-    private void styleCombo(JComboBox<?> combo) {
-        combo.setBackground(FIELD_COLOR);
-        combo.setForeground(AppColors.TEXT_COLOR);
-        combo.setPreferredSize(new Dimension(200,30));
-    }
 
-    private void styleField(JTextField field) {
-        field.setBackground(FIELD_COLOR);
-        field.setForeground(AppColors.TEXT_COLOR);
-        field.setCaretColor(AppColors.TEXT_COLOR);
-        field.setPreferredSize(new Dimension(200,30));
-    }
 
-    private void styleCheck(JCheckBox cb) {
-        cb.setBackground(AppColors.MAIN_COLOR);
-        cb.setForeground(AppColors.TEXT_COLOR);
-    }
-
-    private JPanel createEmptyPanel() {
-        JPanel p = new JPanel();
-        p.setBackground(AppColors.MAIN_COLOR);
-        return p;
-    }
+// Styles
+private void styleCombo(JComboBox<?> combo) {
+    combo.setBackground(FIELD_COLOR);
+    combo.setForeground(AppColors.TEXT_COLOR);
+    combo.setPreferredSize(new Dimension(200,30));
 }
+private void styleField(JTextField field) {
+    field.setBackground(FIELD_COLOR);
+    field.setForeground(AppColors.TEXT_COLOR);
+    field.setCaretColor(AppColors.TEXT_COLOR);
+    field.setPreferredSize(new Dimension(200,30));
+}
+private void styleCheck(JCheckBox cb) {
+    cb.setBackground(AppColors.MAIN_COLOR);
+    cb.setForeground(AppColors.TEXT_COLOR);}}
