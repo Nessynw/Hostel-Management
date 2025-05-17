@@ -136,10 +136,13 @@ public class NewClient extends JPanel {
         JButton valider = new JButton("Valider");
         ButtonEnregistrement controller = new ButtonEnregistrement(
                 hotel, nomField, prenomField, emailField,
-                phoneField, adresseField, debutField, finField, chambre
+                phoneField, adresseField, debutField, finField, chambre ,this
         );
         valider.addActionListener(controller);
         gbc.gridx = 0; gbc.gridy = row; gbc.gridwidth = 2;
         add(valider, gbc);
+    }
+    public Client getSelectedClient() {
+        return (Client) anciensClientsCombo.getSelectedItem();
     }
 }

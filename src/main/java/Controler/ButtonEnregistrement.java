@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import Vue.*;
+
 
 public class ButtonEnregistrement implements ActionListener {
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -19,25 +21,28 @@ public class ButtonEnregistrement implements ActionListener {
     private Chambre chambre;
     private JTextField nameField, prenomField, emailField, phoneField, adresseField;
     private JTextField startField, endField;
+    private NewClient newClientPanel;
 
     public ButtonEnregistrement(Hotel hotel,
-                                JTextField nameField,
-                                JTextField prenomField,
-                                JTextField emailField,
-                                JTextField phoneField,
-                                JTextField adresseField,
-                                JTextField startField,
-                                JTextField endField,
-                                Chambre chambre) {
-        this.hotel        = hotel;
-        this.nameField    = nameField;
-        this.prenomField  = prenomField;
-        this.emailField   = emailField;
-        this.phoneField   = phoneField;
+                              JTextField nameField,
+                              JTextField prenomField,
+                              JTextField emailField,
+                              JTextField phoneField,
+                              JTextField adresseField,
+                              JTextField startField,
+                              JTextField endField,
+                              Chambre chambre,
+                              NewClient newClientPanel) {  // Correction du nom du paramètre
+        this.hotel = hotel;
+        this.nameField = nameField;
+        this.prenomField = prenomField;
+        this.emailField = emailField;
+        this.phoneField = phoneField;
         this.adresseField = adresseField;
-        this.startField   = startField;
-        this.endField     = endField;
-        this.chambre      = chambre;
+        this.startField = startField;
+        this.endField = endField;
+        this.chambre = chambre;
+        this.newClientPanel = newClientPanel;  // Correction de l'assignation
     }
 
     @Override
@@ -100,8 +105,15 @@ public class ButtonEnregistrement implements ActionListener {
         }
 
         // Création du client et enregistrement
-        Client client = new Client(name, prenom, email, phone, adresse, hotel);
-        hotel.ajouterClient(client);
+        Client selectedClient = newClientPanel.getSelectedClient();
+        Client client;
+        if (selectedClient != null) {
+
+            client = selectedClient; // Réutilise le client existant
+        } else {
+            client = new Client(name, prenom, email, phone, adresse, hotel);
+            hotel.ajouterClient(client);
+        };
 
         Reservation res = new Reservation(client, chambre, dateDebut, dateFin);
         chambre.ajouterReservation(res);
