@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import static Vue.AppColors.FIELD_COLOR;
+
 public class FacturePanel extends JPanel {
 
     private JTextArea notesArea;
@@ -18,7 +21,7 @@ public class FacturePanel extends JPanel {
     LocalDate date = LocalDate.now();
     public FacturePanel() {
         setLayout(new BorderLayout());
-        setBackground(new Color(27, 25, 53));
+        setBackground(AppColors.MAIN_COLOR);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
@@ -32,6 +35,7 @@ public class FacturePanel extends JPanel {
         topPanel.setOpaque(false);
 
         JComboBox<String> sejourBox = new JComboBox<>(new String[]{"Sélectionner un séjour"});
+
         JFormattedTextField dateField = new JFormattedTextField(date);
         topPanel.add(sejourBox);
         topPanel.add(dateField);
@@ -65,9 +69,11 @@ public class FacturePanel extends JPanel {
         };
 
         table = new JTable(data, columns);
+
         table.setEnabled(false);
         table.setFillsViewportHeight(true);
         tableScrollPane = new JScrollPane(table);
+
         tableScrollPane.setPreferredSize(new Dimension(450, 100));
         tableScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 
@@ -96,8 +102,10 @@ public class FacturePanel extends JPanel {
         // Méthode de paiement
         JPanel paymentPanel = new JPanel(new GridLayout(2, 1));
         paymentPanel.setOpaque(false);
+
         JLabel paiementLabel = label("Méthode de paiement", JLabel.LEFT, 12);
         paiementBox = new JComboBox<>(new String[]{"Carte bancaire", "Espèces", "Chèque"});
+
         paymentPanel.add(paiementLabel);
         paymentPanel.add(paiementBox);
 
@@ -111,6 +119,10 @@ public class FacturePanel extends JPanel {
         notesArea = new JTextArea("Notes additionnelles pour la facture...");
         notesArea.setLineWrap(true);
         notesArea.setWrapStyleWord(true);
+        notesArea.setBackground(AppColors.Box_Color);
+        notesArea.setForeground(AppColors.TEXT_COLOR);
+        notesArea.setCaretColor(AppColors.TEXT_COLOR);
+        notesArea.setPreferredSize(new Dimension(200, 30));
         JScrollPane notesScroll = new JScrollPane(notesArea);
         notesPanel.add(notesLabel, BorderLayout.NORTH);
         notesPanel.add(notesScroll, BorderLayout.CENTER);

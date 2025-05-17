@@ -92,7 +92,7 @@ public class SejourForm extends JPanel {
         notes = new JTextArea("Demandes particulières...");
         notes.setLineWrap(true);
         notes.setWrapStyleWord(true);
-        notes.setBackground(FIELD_COLOR);
+        notes.setBackground(AppColors.Box_Color);
         notes.setForeground(AppColors.TEXT_COLOR);
         JScrollPane notesScroll = new JScrollPane(notes);
         notesScroll.setPreferredSize(new Dimension(500, 80));
@@ -102,7 +102,7 @@ public class SejourForm extends JPanel {
         resLabel.setForeground(AppColors.TEXT_COLOR);
         reservationsTextArea = new JTextArea();
         reservationsTextArea.setEditable(false);
-        reservationsTextArea.setBackground(FIELD_COLOR);
+        reservationsTextArea.setBackground(AppColors.Box_Color);
         reservationsTextArea.setForeground(AppColors.TEXT_COLOR);
         JScrollPane resScroll = new JScrollPane(reservationsTextArea);
         resScroll.setPreferredSize(new Dimension(500, 60));
@@ -183,8 +183,6 @@ public class SejourForm extends JPanel {
     }
 
     private void styleComboBox(JComboBox<?> comboBox) {
-        comboBox.setBackground(FIELD_COLOR);
-        comboBox.setForeground(AppColors.TEXT_COLOR);
         comboBox.setPreferredSize(new Dimension(200, 30));
     }
 

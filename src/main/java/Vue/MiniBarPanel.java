@@ -19,7 +19,7 @@ public class MiniBarPanel extends JPanel {
         // Initialisation du GridBagConstraints
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espace entre les composants
-        setBackground(new Color(34, 32, 64)); // Fond du JPanel
+        setBackground(AppColors.MAIN_COLOR); // Fond du JPanel
         setLayout(new BorderLayout()); // Layout principal BorderLayout
         setPreferredSize(new Dimension(450, 580)); // Taille préférée du JPanel
 
@@ -55,7 +55,7 @@ public class MiniBarPanel extends JPanel {
         quantitesSpinners = new HashMap<>();
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(new Color(34, 32, 64));
+        mainPanel.setBackground(AppColors.MAIN_COLOR);
         mainPanel.setLayout(new GridBagLayout()); // Utilisation de GridBagLayout
         mainPanel.setBorder(new EmptyBorder(15, 20, 20, 20)); // Bordure vide
         add(mainPanel, BorderLayout.CENTER);
@@ -75,7 +75,8 @@ public class MiniBarPanel extends JPanel {
         // JComboBox "Séjour"
         sejour_box = new JComboBox<>(new String[]{"Sélectionner un séjour"});
         sejour_box.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // Largeur du JComboBox
-        sejour_box.setBackground(new Color(34, 32, 64));
+
+        sejour_box.setOpaque(true);
         sejour_box.setForeground(Color.white);
         sejour_box.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         sejour_box.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));
@@ -110,8 +111,9 @@ public class MiniBarPanel extends JPanel {
 
         // Ajout d'un JScrollPane autour du miniBarPanel pour gérer les produits défilants
         JScrollPane scrollPane = new JScrollPane(miniBarPanel);
-        scrollPane.setBackground(new Color(20, 20, 70));
 
+        scrollPane.setBackground(AppColors.Box_Color);
+     scrollPane.setOpaque(true);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 3;
@@ -130,19 +132,19 @@ public class MiniBarPanel extends JPanel {
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
 
         JPanel totalPanel = new JPanel(new BorderLayout());
-        totalPanel.setBackground(new Color(20, 20, 70));
+        totalPanel.setBackground(AppColors.Box_Color);
         totalPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 10, 15));
         totalPanel.add(totalTextLabel, BorderLayout.WEST);
         totalPanel.add(totalLabel, BorderLayout.EAST);
 
         // Footer Panel
         JPanel footerPanel = new JPanel(new BorderLayout());
-        footerPanel.setBackground(new Color(20, 20, 70));
+        footerPanel.setBackground(AppColors.Box_Color);
         footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
         // Ajouter le bouton "Valider"
         JButton validateButton = new JButton("Valider");
-        validateButton.setBackground(new Color(34, 32, 64));
+        validateButton.setBackground(new Color(86,112,178,255));
         validateButton.setForeground(Color.WHITE);
         validateButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         validateButton.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));

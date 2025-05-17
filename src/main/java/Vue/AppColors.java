@@ -6,7 +6,7 @@ public class AppColors {
     // Couleurs principales
     public static final Color MAIN_COLOR = new Color(18, 11, 61);  // Couleur de fond principale
     public static final Color SIDE_COLOR = new Color(9, 0, 91);    // Couleur de la barre latérale
-    
+    public static final Color Box_Color= new Color(9,0,91,255);
     // Couleurs de texte
     public static final Color TEXT_COLOR = Color.WHITE;
     public static final Color SECONDARY_TEXT = new Color(171, 169, 192);  // Gris clair
