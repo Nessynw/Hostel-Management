@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Client extends Personne {
 
-    public static  int id_client;
+    public static  int id_client=0;
     public Vector<Reservation> listReservation = new Vector<>() ;
     public Hotel hotel;
 
