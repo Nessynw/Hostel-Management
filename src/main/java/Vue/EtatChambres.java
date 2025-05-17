@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.util.Comparator;
 
 public class EtatChambres extends JPanel {
     private Hotel hotel;
@@ -26,26 +27,21 @@ public class EtatChambres extends JPanel {
         topPanel.setBackground(AppColors.MAIN_COLOR);
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Créer le titre
         JLabel titre = new JLabel("État des Chambres", SwingConstants.CENTER);
         titre.setFont(new Font("Serif", Font.BOLD, 24));
         titre.setForeground(Color.WHITE);
         topPanel.add(titre, BorderLayout.WEST);
 
-        // Panel de recherche
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         searchPanel.setBackground(AppColors.MAIN_COLOR);
 
-        // Créer le menu déroulant pour les critères de recherche
         String[] criteria = {"Numéro", "Étage", "Type"};
         searchCriteria = new JComboBox<>(criteria);
         searchCriteria.setPreferredSize(new Dimension(100, 30));
 
-        // Créer le champ de recherche
         searchField = new JTextField(15);
         searchField.setPreferredSize(new Dimension(150, 30));
 
-        // Bouton de recherche
         JButton searchButton = new JButton("🔍");
         searchButton.setPreferredSize(new Dimension(40, 30));
         searchButton.addActionListener(e -> filterTable());
@@ -54,7 +50,6 @@ public class EtatChambres extends JPanel {
         searchLabel.setForeground(Color.WHITE);
         searchLabel.setFont(new Font("Arial", Font.BOLD, 10));
 
-        // Ajouter les composants au panel de recherche
         searchPanel.add(searchLabel);
         searchPanel.add(searchCriteria);
         searchPanel.add(searchField);
@@ -72,34 +67,37 @@ public class EtatChambres extends JPanel {
         };
 
         table = new JTable(tableModel);
+        // Permettre le tri des colonnes
+		table.setAutoCreateRowSorter(true);
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
 
-        // Empêcher le réarrangement des colonnes
+        // Configuration du tri pour la colonne "Prix"
+        sorter.setComparator(3, (Comparator<String>) (price1, price2) -> {
+            double p1 = Double.parseDouble(price1.replace(" €", ""));
+            double p2 = Double.parseDouble(price2.replace(" €", ""));
+            return Double.compare(p1, p2);
+        });
+
         JTableHeader header = table.getTableHeader();
         header.setReorderingAllowed(false);
 
-        // Personnaliser l'apparence du header
         header.setBackground(AppColors.MAIN_COLOR);
         header.setForeground(AppColors.MAIN_COLOR);
         header.setFont(new Font("Arial", Font.BOLD, 14));
 
-        // Personnaliser l'apparence de la table
         table.setBackground(AppColors.MAIN_COLOR);
         table.setForeground(Color.WHITE);
         table.setGridColor(new Color(70, 70, 70));
         table.setRowHeight(30);
 
 
-        // Remplir la table
         remplirTable();
 
-        // Créer le scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBackground(AppColors.MAIN_COLOR);
         scrollPane.getViewport().setBackground(AppColors.MAIN_COLOR);
         
-        // Ajouter des marges
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.setBackground(AppColors.MAIN_COLOR);
         wrapperPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -107,7 +105,6 @@ public class EtatChambres extends JPanel {
 
         this.add(wrapperPanel, BorderLayout.CENTER);
 
-        // Ajouter un écouteur pour la recherche en temps réel
         searchField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 filterTable();
