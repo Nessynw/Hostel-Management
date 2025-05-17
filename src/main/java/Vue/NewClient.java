@@ -3,15 +3,20 @@ package Vue;
 import Controler.ButtonEnregistrement;
 import Model.Hotel;
 import Model.Chambre;
+import Model.Client;  // Assure-toi que cette classe existe et a les getters nécessaires
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Vector;
 
 public class NewClient extends JPanel {
     private Hotel hotel;
     private Chambre chambre;
     private LocalDate debut, fin;
 
+    private JComboBox<Client> anciensClientsCombo;
     private JTextField nomField;
     private JTextField prenomField;
     private JTextField emailField;
@@ -35,6 +40,38 @@ public class NewClient extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         int row = 0;
+
+        // Label + ComboBox pour anciens clients
+        gbc.gridx = 0; gbc.gridy = row;
+        add(new JLabel("Clients existants :"), gbc);
+
+        List<Client> anciensClients = hotel.getListClient();  // Récupérer liste clients
+        anciensClientsCombo = new JComboBox<>(new Vector<>(anciensClients));
+        anciensClientsCombo.insertItemAt(null, 0);  // Permet "aucun client"
+        anciensClientsCombo.setSelectedIndex(0);
+        gbc.gridx = 1;
+        add(anciensClientsCombo, gbc);
+
+        // Listener pour remplir automatiquement les champs lors de la sélection
+        anciensClientsCombo.addActionListener(e -> {
+            Client selected = (Client) anciensClientsCombo.getSelectedItem();
+            if (selected != null) {
+                nomField.setText(selected.getNom());
+                prenomField.setText(selected.getPrenom());
+                emailField.setText(selected.getEmail());
+                phoneField.setText(selected.getTel());
+                adresseField.setText(selected.getAdresse());
+            } else {
+                nomField.setText("");
+                prenomField.setText("");
+                emailField.setText("");
+                phoneField.setText("");
+                adresseField.setText("");
+            }
+        });
+
+        row++;
+
         // Date début
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Date début :"), gbc);
@@ -97,7 +134,6 @@ public class NewClient extends JPanel {
         // Bouton Valider
         row++;
         JButton valider = new JButton("Valider");
-        // Utilise ButtonEnregistrement pour gérer l'enregistrement
         ButtonEnregistrement controller = new ButtonEnregistrement(
                 hotel, nomField, prenomField, emailField,
                 phoneField, adresseField, debutField, finField, chambre
