@@ -10,16 +10,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class ChambreSmp extends JFrame {
     private static final Color backgroundColor = new Color(18, 11, 61);
-    private static final Color libreColor = new Color(67, 119, 67, 166);
-    private static final Color occupeeColor = new Color(140, 61, 61, 173);
-    private static final Color mainColor = new Color(58, 51, 124);
     private JTable chamberTable;
 
     public ChambreSmp(Hotel hotel, LocalDate debut, LocalDate fin) {
-        setTitle("Informations des Chambres Simples");
+        setTitle("Chambres Simples Disponibles");
         setSize(600, 450);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,13 +30,37 @@ public class ChambreSmp extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(titleLabel, BorderLayout.NORTH);
 
-        DefaultTableModel model = new DefaultTableModel(new String[]{"Num", "Étage", "Prix (€)", "Disponibilité"}, 0);
-        for (Chambre c : hotel.getChambres()) {
-            if (c instanceof ChambreSimple) {
-                boolean disponible = c.isAvailable(debut, fin);
-                model.addRow(new Object[]{c.getNum_chambre(), c.getNum_etage(), c.getPrix() + "€", disponible ? "Libre" : "Occupée"});
+        // Créer le modèle de table avec uniquement les chambres simples disponibles
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"Num", "Étage", "Prix (€)", "Action"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3; // Seule la colonne "Action" est éditable
+            }
+        };
+
+        // Ajouter uniquement les chambres simples disponibles
+        for (Chambre c : hotel.getListChambre()) {
+            if (c.getType().equals("Simple") && c.isAvailable(debut, fin)) {
+                model.addRow(new Object[]{
+                    c.getNum_chambre(),
+                    c.getNum_etage(),
+                    c.getPrix() + "€",
+                    "Libre"
+                });
             }
         }
+
+        // Si aucune chambre n'est disponible
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this,
+                "Désolé, aucune chambre simple n'est disponible pour ces dates.",
+                "Pas de disponibilité",
+                JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            return;
+        }
+
         chamberTable = new JTable(model);
         styleTable(chamberTable);
 
@@ -50,7 +72,7 @@ public class ChambreSmp extends JFrame {
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         southPanel.setBackground(backgroundColor);
         JButton reserveButton = new JButton("Réserver une chambre");
-        reserveButton.setBackground(mainColor);
+        reserveButton.setBackground(AppColors.MAIN_COLOR);
         reserveButton.setForeground(Color.WHITE);
         reserveButton.setFont(new Font("Arial", Font.BOLD, 14));
         reserveButton.addActionListener(new ActionListener() {
@@ -64,10 +86,15 @@ public class ChambreSmp extends JFrame {
                         NewClient form = new NewClient(hotel, chambre, debut, fin);
                         JOptionPane.showMessageDialog(ChambreSmp.this, form,
                                 "Nouveau Client & Réservation", JOptionPane.PLAIN_MESSAGE);
+                        // Fermer la fenêtre après la réservation
+                        dispose();
                     } else {
                         JOptionPane.showMessageDialog(ChambreSmp.this,
                                 "Cette chambre n'est plus disponible.", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
+                        // Rafraîchir la liste
+                        dispose();
+                        new ChambreSmp(hotel, debut, fin).setVisible(true);
                     }
                 } else {
                     JOptionPane.showMessageDialog(ChambreSmp.this,
@@ -99,7 +126,7 @@ public class ChambreSmp extends JFrame {
                                                            boolean isSelected, boolean hasFocus,
                                                            int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setBackground("Libre".equals(value) ? libreColor : occupeeColor);
+                c.setBackground("Libre".equals(value) ? AppColors.libreColor : AppColors.occupeeColor);
                 c.setForeground(Color.WHITE);
                 setHorizontalAlignment(SwingConstants.CENTER);
                 return c;

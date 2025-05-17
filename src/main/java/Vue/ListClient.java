@@ -9,8 +9,6 @@ import java.util.Vector;
 
 public class ListClient extends JPanel {
     private static final Color text_color = Color.WHITE;
-    private static final Color buttonColor = new Color(34, 193, 195);
-    private static final Color deleteButtonColor = new Color(255, 69, 0);
     private static final Color min_color = new Color(40, 45, 80);
     private static final Font fieldFont = new Font("Arial", Font.PLAIN, 16);
 
@@ -68,28 +66,48 @@ public class ListClient extends JPanel {
                     c.getEmail(), c.getTel(), c.getAdresse()
             };
             for (int j = 0; j < values.length; j++) {
-                gbc.gridx = j; gbc.gridy = row;
+                gbc.gridx = j;
+                gbc.gridy = row;
                 JLabel cell = new JLabel(values[j]);
-                cell.setFont(fieldFont); cell.setForeground(text_color);
+                cell.setFont(fieldFont);
+                cell.setForeground(text_color);
                 dataPanel.add(cell, gbc);
             }
             // Modifier button opens simple dialog
             JButton editBtn = new JButton("Modifier");
-            editBtn.setBackground(buttonColor); editBtn.setForeground(text_color);
-            gbc.gridx = values.length; gbc.gridy = row;
+            editBtn.setBackground(AppColors.BUTTON_COLOR);
+            editBtn.setForeground(text_color);
+            gbc.gridx = values.length;
+            gbc.gridy = row;
             dataPanel.add(editBtn, gbc);
             editBtn.addActionListener(e -> openEditDialog(c));
 
             // Supprimer
             JButton delBtn = new JButton("Supprimer");
-            delBtn.setBackground(deleteButtonColor); delBtn.setForeground(text_color);
-            gbc.gridx = values.length + 1; gbc.gridy = row;
+            delBtn.setBackground(AppColors.ERROR_COLOR);
+            delBtn.setForeground(text_color);
+            gbc.gridx = values.length + 1;
+            gbc.gridy = row;
             dataPanel.add(delBtn, gbc);
             delBtn.addActionListener(e -> {
-                hotel.getListClient().remove(c);
-                refreshData();
+                UIManager.put("OptionPane.yesButtonText", "Oui");
+                UIManager.put("OptionPane.noButtonText", "Non");
+
+                int option = JOptionPane.showConfirmDialog(
+                        SwingUtilities.getWindowAncestor(this),
+                        "Êtes-vous sûr de vouloir supprimer ce client ?",
+                        "Confirmation de suppression",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                    hotel.getListClient().remove(c);
+                    refreshData(); // ou votre méthode pour rafraîchir la liste
+                }
             });
         }
+
         dataPanel.revalidate(); dataPanel.repaint();
     }
 

@@ -1,22 +1,17 @@
 package Vue;
 
-import Model.Hotel;
-import Model.Client;
-import Model.Reservation;
+import Model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
-import Model.Client;
 import java.time.LocalDate;
 
 public class ReservationForm extends JPanel {
     private Hotel hotel;
     private static final Color hover = new Color(58, 90, 153);
     private static final Color text_color = Color.WHITE;
-    private static final Color buttonColor = new Color(34, 193, 195);
-    private static final Color deleteButtonColor = new Color(255, 69, 0);
     private static final Color min_color = new Color(40, 45, 80);
     private static final Font fieldFont = new Font("Arial", Font.PLAIN, 16);
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -118,7 +113,7 @@ public class ReservationForm extends JPanel {
                 dataPanel.add(cell, gbc);
             }
             JButton editBtn = new JButton("Modifier");
-            editBtn.setBackground(buttonColor); editBtn.setForeground(text_color);
+            editBtn.setBackground(AppColors.BUTTON_COLOR); editBtn.setForeground(text_color);
             editBtn.setPreferredSize(new Dimension(100, 30));
             gbc.gridx = vals.length; gbc.gridy = row;
             dataPanel.add(editBtn, gbc);
@@ -153,14 +148,27 @@ public class ReservationForm extends JPanel {
                 dialog.setVisible(true);
             });
             JButton delBtn = new JButton("Supprimer");
-            delBtn.setBackground(deleteButtonColor); delBtn.setForeground(text_color);
+            delBtn.setBackground(AppColors.ERROR_COLOR); delBtn.setForeground(text_color);
             delBtn.setPreferredSize(new Dimension(100, 30));
             gbc.gridx = vals.length + 1; gbc.gridy = row;
             dataPanel.add(delBtn, gbc);
+            UIManager.put("OptionPane.yesButtonText", "Oui");
+            UIManager.put("OptionPane.noButtonText", "Non");
+
             delBtn.addActionListener(e -> {
-                r.getChambre().supprimerReservation(r);
-                r.getClient().annulerReservation(r);
-                afficherReservations(collectReservations(hotel.getListClient()));
+                int option = JOptionPane.showConfirmDialog(
+                    SwingUtilities.getWindowAncestor(this),
+                    "Êtes-vous sûr de vouloir supprimer cette réservation ?",
+                    "Confirmation de suppression",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                    r.getChambre().supprimerReservation(r);
+                    r.getClient().annulerReservation(r);
+                    afficherReservations(collectReservations(hotel.getListClient()));
+                }
             });
         }
         dataPanel.revalidate(); dataPanel.repaint();

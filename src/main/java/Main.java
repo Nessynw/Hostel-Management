@@ -17,13 +17,7 @@ public class Main {
 
 
         Hotel hotel = new Hotel("BlueCastel","11 e Paris 75001","0104010504","BlueCastle@gmail.fr", 4);
-        Client client1 = new Client("Ali", "Bencheikh", "ali.bencheikh@gmail.com", "0612345678", "12 rue des Fleurs", hotel);
-        Client client2 = new Client("Sara", "Bouzid", "sara.bouzid@gmail.com", "0698765432", "45 avenue Victor Hugo", hotel);
-        Client client3 = new Client("Mehdi", "Kacem", "mehdi.kacem@gmail.com", "0789456123", "78 boulevard Haussmann", hotel);
-        // Ajout des clients à l'hôtel
-        hotel.ajouterClient(client1);
-        hotel.ajouterClient(client2);
-        hotel.ajouterClient(client3);
+
         hotel.ajouterChambre(new ChambreDouble(320, 1,hotel, 130));
         hotel.ajouterChambre(new ChambreDouble(323, 1,hotel, 130));
         hotel.ajouterChambre(new ChambreDouble(450, 2,hotel ,  150));
