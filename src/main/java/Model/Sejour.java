@@ -12,9 +12,7 @@ import java.util.*;
         public Sejour() {
         }
 
-        public Sejour(int id_res, LocalDate date_deb, LocalDate date_fin, Chambre chambre, Client client, Sejour sej, Receptionniste recept) {
-            super(id_res, date_deb, date_fin, chambre, client, sej, recept);
-        }
+
         public Sejour ( Client client, Chambre chambre, LocalDate date_deb, LocalDate date_fin) {
             super(client, chambre, date_deb, date_fin);
         }
