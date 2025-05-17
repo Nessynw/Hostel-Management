@@ -108,6 +108,7 @@ table.setRowHeight(40);
 TableColumn actionColumn = table.getColumnModel().getColumn(6);
 actionColumn.setCellRenderer(new ButtonsRenderer());
 actionColumn.setCellEditor(new ButtonsEditor(table));
+actionColumn.setPreferredWidth(200); // Ajustez cette valeur selon vos besoins
 
 // ScrollPane avec marges
 JScrollPane scrollPane = new JScrollPane(table);
@@ -179,16 +180,23 @@ class ButtonsRenderer implements TableCellRenderer {
     private JButton deleteButton;
 
     public ButtonsRenderer() {
-        panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        
         editButton = new JButton("Modifier");
         deleteButton = new JButton("Supprimer");
 
+        // Réduire la taille des boutons
+        editButton.setPreferredSize(new Dimension(80, 30));
+        deleteButton.setPreferredSize(new Dimension(80, 30));
+        
         editButton.setBackground(AppColors.BUTTON_COLOR);
         editButton.setForeground(Color.WHITE);
         deleteButton.setBackground(AppColors.ERROR_COLOR);
         deleteButton.setForeground(Color.WHITE);
 
         panel.add(editButton);
+        panel.add(Box.createHorizontalStrut(5)); // Espace entre les boutons
         panel.add(deleteButton);
         panel.setBackground(AppColors.MAIN_COLOR);
     }

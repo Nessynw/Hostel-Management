@@ -92,6 +92,7 @@ public class ReservationForm extends JPanel {
         TableColumn actionColumn = table.getColumnModel().getColumn(5);
         actionColumn.setCellRenderer(new ButtonsRenderer());
         actionColumn.setCellEditor(new ButtonsEditor(table));
+        actionColumn.setPreferredWidth(200);
 
         // Remplir la table
         remplirTable();
