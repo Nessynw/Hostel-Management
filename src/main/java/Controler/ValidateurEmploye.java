@@ -12,17 +12,15 @@ public class ValidateurEmploye {
     private JTextField txtEmail;
     private JTextField txtTel;
     private JTextField txtAdresse;
-    private JTextField txtSalaire;
 
     public ValidateurEmploye(JTextField txtNom, JTextField txtPrenom, 
                            JTextField txtEmail, JTextField txtTel, 
-                           JTextField txtAdresse, JTextField txtSalaire) {
+                           JTextField txtAdresse) {
         this.txtNom = txtNom;
         this.txtPrenom = txtPrenom;
         this.txtEmail = txtEmail;
         this.txtTel = txtTel;
         this.txtAdresse = txtAdresse;
-        this.txtSalaire = txtSalaire;
     }
 
     public boolean valider() {
@@ -31,7 +29,7 @@ public class ValidateurEmploye {
 
         // Vérification des champs vides
         JTextField[] champsObligatoires = {
-            txtNom, txtPrenom, txtEmail, txtTel, txtAdresse, txtSalaire
+            txtNom, txtPrenom, txtEmail, txtTel, txtAdresse
         };
 
         boolean champsManquants = false;
@@ -64,18 +62,7 @@ public class ValidateurEmploye {
             valide = false;
         }
 
-        try {
-            double salaire = Double.parseDouble(txtSalaire.getText().trim());
-            if (salaire <= 0) {
-                txtSalaire.setBackground(COULEUR_ERREUR);
-                erreurs.append("Le salaire doit être supérieur à 0.\n");
-                valide = false;
-            }
-        } catch (NumberFormatException e) {
-            txtSalaire.setBackground(COULEUR_ERREUR);
-            erreurs.append("Le salaire doit être un nombre valide.\n");
-            valide = false;
-        }
+
 
         if (!valide) {
             JOptionPane.showMessageDialog(null, erreurs.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);

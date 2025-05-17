@@ -11,9 +11,8 @@ import javax.swing.border.*;
 import java.util.List;
 
 public class AjouterEmploye extends JPanel {
-    private JTextField txtNom,txtPrenom,txtEmail,txtTel,txtAdresse,txtSalaire;
+    private JTextField txtNom,txtPrenom,txtEmail,txtTel,txtAdresse;
     private JComboBox<String> comboPoste;
-    private JTextArea txtTaches;
     private JFrame parentFrame;
     private List<Employe> listeEmployes;  // Déclaration de la liste
     private StyledButton btnAjouter;
@@ -55,8 +54,7 @@ public class AjouterEmploye extends JPanel {
         String[] postes = {"Réceptionniste", "Agent d'entretien"};
         comboPoste = new JComboBox<>(postes);
         styleComboBox(comboPoste);
-        txtSalaire = createStyledTextField();
-        txtTaches = createStyledTextArea();
+
         btnAjouter = new StyledButton("Ajouter");
         btnRetour = new StyledButton("Retour");
 
@@ -67,21 +65,8 @@ public class AjouterEmploye extends JPanel {
         addFormField(mainPanel, "Téléphone:", txtTel, gbc, 3);
         addFormField(mainPanel, "Adresse:", txtAdresse, gbc, 4); // Champ adresse
         addFormField(mainPanel, "Poste:", comboPoste, gbc, 5);
-        addFormField(mainPanel, "Salaire (€):", txtSalaire, gbc, 6);
 
-        // Champ tâches avec scroll
-        gbc.gridy = 7;
-        gbc.gridx = 0;
-        JLabel lblTaches = createLabel("Tâches:");
-        mainPanel.add(lblTaches, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 1.0;
-        JScrollPane scrollTaches = new JScrollPane(txtTaches);
-        scrollTaches.setPreferredSize(new Dimension(300, 100));
-        mainPanel.add(scrollTaches, gbc);
 
         // Panel pour les boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
@@ -93,8 +78,7 @@ public class AjouterEmploye extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ValidateurEmploye validateur = new ValidateurEmploye(
-                    txtNom, txtPrenom, txtEmail, txtTel, txtAdresse, txtSalaire
-                );
+                    txtNom, txtPrenom, txtEmail, txtTel, txtAdresse);
                 
                 if (validateur.valider()) {
                     // Création de l'employé et ajout à l'hôtel
@@ -103,17 +87,15 @@ public class AjouterEmploye extends JPanel {
                     String email = getEmail();
                     String tel = getTel();
                     String adresse = getAdresse();
-                    double salaire = Double.parseDouble(getSalaire());
-                    String taches = getTaches();
                     String poste = getPoste();
 
                     Employe nouvelEmploye;
                     if (poste.equals("Réceptionniste")) {
-                        nouvelEmploye = new Receptionniste(nom, prenom, email, tel, adresse, salaire, taches, hotel);
+                        nouvelEmploye = new Receptionniste(nom, prenom, email, tel, adresse, hotel);
                     } else if (poste.equals("Agent d'entretien")) {
-                        nouvelEmploye = new AgentE(nom, prenom, email, tel, adresse, salaire, hotel);
+                        nouvelEmploye = new AgentE(nom, prenom, email, tel, adresse,  hotel);
                     } else {
-                        nouvelEmploye = new Employe(nom, prenom, email, tel, adresse, salaire, hotel);
+                        nouvelEmploye = new Employe(nom, prenom, email, tel, adresse,  hotel);
                     }
 
                     hotel.ajouterEmploye(nouvelEmploye);
@@ -201,8 +183,6 @@ public class AjouterEmploye extends JPanel {
         txtPrenom.setToolTipText("Entrez le prénom de l'employé");
         txtEmail.setToolTipText("Entrez l'adresse email professionnelle");
         comboPoste.setToolTipText("Sélectionnez le poste de l'employé");
-        txtSalaire.setToolTipText("Entrez le salaire mensuel en euros");
-        txtTaches.setToolTipText("Décrivez les principales tâches de l'employé");
     }
 
     // Getters pour les champs
@@ -224,12 +204,7 @@ public class AjouterEmploye extends JPanel {
     public String getPoste() {
         return (String) comboPoste.getSelectedItem();
     }
-    public String getSalaire() {
-        return txtSalaire.getText().trim();
-    }
-    public String getTaches() {
-        return txtTaches.getText().trim();
-    }
+
 
     // Méthode pour vider les champs
     public void clearFields() {
@@ -237,8 +212,6 @@ public class AjouterEmploye extends JPanel {
         txtPrenom.setText("");
         txtEmail.setText("");
         comboPoste.setSelectedIndex(0);
-        txtSalaire.setText("");
-        txtTaches.setText("");
         txtAdresse.setText("");
         txtTel.setText("");
         txtNom.requestFocusInWindow();

@@ -182,7 +182,6 @@ public class AfficherEmploye extends JPanel {
                         employe.getEmail(),
                         employe.getAdresse(),
                         poste,
-                        String.format("%.2f €", employe.getSalaire()),
                         chambreAssignee,
                         status
                 };

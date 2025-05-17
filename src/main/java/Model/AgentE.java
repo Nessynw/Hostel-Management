@@ -7,8 +7,8 @@ public class AgentE extends Employe {
     private String statusIntervention;
     private LocalDateTime dateIntervention;
 
-    public AgentE(String nom, String prenom, String email, String tel, String adresse, double salaire, Hotel hotel) {
-        super(nom, prenom, email, tel, adresse, salaire, hotel);
+    public AgentE(String nom, String prenom, String email, String tel, String adresse,  Hotel hotel) {
+        super(nom, prenom, email, tel, adresse, hotel);
         this.statusIntervention = "En cours";
     }
 

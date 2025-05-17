@@ -9,8 +9,6 @@ import java.util.*;
         public Reservation res;
         public Vector<Consommation> listCons = new Vector<Consommation>();
 
-        public Sejour() {
-        }
 
 
         public Sejour ( Client client, Chambre chambre, LocalDate date_deb, LocalDate date_fin) {

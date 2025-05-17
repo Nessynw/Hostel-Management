@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class Receptionniste extends Employe {
     private ArrayList<Reservation> Res = new ArrayList<>();
 
-    public Receptionniste(String nom, String prenom, String email,String tel, String adresse, double salaire, String taches, Hotel hotel) {
-        super( nom,  prenom,  email,  tel, adresse ,   salaire,  hotel);  // Call the superclass constructor with all arguments
+    public Receptionniste(String nom, String prenom, String email,String tel, String adresse,  Hotel hotel) {
+        super( nom,  prenom,  email,  tel, adresse ,  hotel);  // Call the superclass constructor with all arguments
     }
 
     public ArrayList<Reservation> getRes() {
