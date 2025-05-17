@@ -9,20 +9,24 @@ public class AgentE extends Employe {
 
     public AgentE(String nom, String prenom, String email, String tel, String adresse, double salaire, Hotel hotel) {
         super(nom, prenom, email, tel, adresse, salaire, hotel);
-        this.statusIntervention = "Non commencée";
-    }
-
-    // Méthode pour assigner une chambre à l'agent
-    public void assignerChambre(Chambre chambre, LocalDateTime date) {
-        this.chambreAssignee = chambre;
-        this.dateIntervention = date;
         this.statusIntervention = "En cours";
-        chambre.setAgentAssigne(this); // Lie l'agent à la chambre
-        chambre.setEstNettoyee(false); // Marque la chambre comme non nettoyée
     }
 
-    // Méthode pour terminer une intervention
-    public void terminerIntervention() {
+public void assignerChambre(Chambre chambre, LocalDateTime dateTime, Hotel hotel) {
+    // Création de l'intervention
+    Intervention intervention = new Intervention();
+    intervention.setDate(dateTime.toLocalDate());
+    intervention.setAgent(this);
+    intervention.setChambre(chambre);
+    
+    // Mise à jour des relations
+    this.chambreAssignee = chambre;
+    chambre.setAgentAssigne(this);
+    
+    // Ajout de l'intervention à l'hôtel
+    hotel.ajouterIntervention(intervention);
+}
+ public void terminerIntervention() {
         if (chambreAssignee != null) {
             chambreAssignee.setEstNettoyee(true); // Marque la chambre comme nettoyée
             this.statusIntervention = "Terminée";

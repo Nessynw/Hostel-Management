@@ -43,10 +43,6 @@ public class Chambre {
         return estOccupee;
     }
 
-    public boolean isEstNettoyee() {
-        return estNettoyee;
-    }
-
     public AgentE getAgentAssigne() {
         return agentAssigne;
     }
@@ -63,17 +59,8 @@ public class Chambre {
         return listReservation;
     }
 
-    // Setters
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
 
-    public void setEstOccupee(boolean estOccupee) {
-        this.estOccupee = estOccupee;
-        if (!estOccupee) {
-            this.estNettoyee = false;
-        }
-    }
+
 
     public void setEstNettoyee(boolean estNettoyee) {
         this.estNettoyee = estNettoyee;
@@ -121,12 +108,10 @@ public void afficherDetails() {
             System.out.println("Agent assigné : " + agentAssigne);
         }
     }
-    // ... vos attributs et autres méthodes existants ...
 
-    // Ajouter ces deux méthodes
     public void ajouterReservation(Reservation reservation) {
         listReservation.add(reservation);
-        this.estOccupee = true;  // Met à jour le statut de la chambre
+        this.estOccupee = true;  // Maj le statut de la chambre
     }
 
     public void supprimerReservation(Reservation reservation) {
@@ -136,6 +121,4 @@ public void afficherDetails() {
             this.estNettoyee = false; // La chambre doit être nettoyée
         }
     }
-
-    // ... reste de votre code ...
 }

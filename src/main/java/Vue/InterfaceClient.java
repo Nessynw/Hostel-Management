@@ -9,17 +9,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 public class InterfaceClient extends JPanel {
-    private static final Color hover = new Color(58, 90, 153); // Couleur du survol
-    private JPanel mainPanel;  // Panneau principal où le contenu changera
+    private static final Color hover = new Color(58, 90, 153);
+    private JPanel mainPanel;
     private Hotel hotel;
 
     public InterfaceClient(Hotel hotel) {
         this.setLayout(new BorderLayout());
         this.hotel = hotel;
 
-        // Barre latérale (Sidebar)
         JPanel sidebar = new JPanel(new GridBagLayout());
-        sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height)); // Modification pour la hauteur
+        sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height));
         sidebar.setBackground(AppColors.SIDE_COLOR);
         this.add(sidebar, BorderLayout.WEST);
 
@@ -60,8 +59,7 @@ public class InterfaceClient extends JPanel {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // Reset the color when mouse exits
-                nomHotel.setForeground(new Color(171, 169, 192)); // Original color
+                nomHotel.setForeground(new Color(171, 169, 192));
                 nomHotel.setText("<html><div style='text-align: center;'>" +
                         "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
                         "<span style='color: rgb(171,169,192);'>Blue Castel</span>" +
@@ -71,15 +69,14 @@ public class InterfaceClient extends JPanel {
 
         sidebar.add(nomHotel, gbc);
 
-        // Ajouter les boutons du menu avec un espacement vertical
         String[] buttonMenu = {"Réservation", "État des Chambres", "Liste Des Réservation", "Gérer Séjours", "Liste des Clients"};
         for (String buttonText : buttonMenu) {
-            gbc.gridy++;  // Déplacer vers la ligne suivante
+            gbc.gridy++;
             JButton button = createSidebarButton(buttonText);
             sidebar.add(button, gbc);
         }
 
-        // Panneau principal (Main panel)
+
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(AppColors.MAIN_COLOR);
@@ -165,12 +162,11 @@ public class InterfaceClient extends JPanel {
                 break;
 
             default:
-                // Gérer un texte de bouton inattendu
                 JOptionPane.showMessageDialog(this, "Option non supportée", "Erreur", JOptionPane.ERROR_MESSAGE);
                 break;
         }
 
-        mainPanel.revalidate();  // Revalidate the layout
-        mainPanel.repaint();     // Repaint to show the new content
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 }

@@ -2,9 +2,7 @@ package Model;
 import java.util.*;
 import java.time.*;
 
-/**
- *
- */
+
 public class
 Hotel {
 
@@ -18,6 +16,7 @@ Hotel {
     private Vector<Produit> listProduit = new Vector<Produit>();
     private Vector<Employe> listEmploye = new Vector<Employe>();
     private Vector<Sejour>listSejours = new Vector<>();
+    private List<Intervention> interventions; // Ajoutez cette propriété si elle n'existe pas déjà
 
 
     public Hotel(String n, String adrs, String tel, String eml, int nbrEt) {
@@ -26,6 +25,7 @@ Hotel {
         telephone = tel;
         email = eml;
         nbEtoiles = nbrEt ;
+        this.interventions = new ArrayList<>(); // Initialisez dans le constructeur
 
     }
 
@@ -157,5 +157,14 @@ Hotel {
         }
         return null;
     }
-}
+    public void ajouterIntervention(Intervention intervention) {
+        if (intervention != null) {
+            interventions.add(intervention);
+        }
+    }
 
+    // Méthode utile pour obtenir la liste des interventions
+    public List<Intervention> getInterventions() {
+        return interventions;
+    }
+}

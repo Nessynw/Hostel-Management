@@ -86,14 +86,11 @@ public class InterfacePersonnel extends JPanel {
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(AppColors.MAIN_COLOR);
 
-        // Create button panel
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setBackground(AppColors.MAIN_COLOR);
 
-        // Create the buttons and add them to button panel
         createButtons(buttonPanel);
 
-        // Add panels to main panel
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
 
         this.add(mainPanel, BorderLayout.CENTER);

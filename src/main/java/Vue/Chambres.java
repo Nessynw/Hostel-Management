@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 public class Chambres extends JPanel {
     private JPanel mainPanel;
     private Hotel hotel;
-    private static final Color hoverColor = new Color(58, 90, 153); // Hover color
+    private static final Color hoverColor = new Color(58, 90, 153);
 
 
     public Chambres(Hotel hotel) {
@@ -35,11 +35,9 @@ public class Chambres extends JPanel {
                 "<html>Une chambre double spacieuse pour deux personnes.<br>Parfaite pour les couples ou les amis.</html>"
         );
 
-        // Add panels to mainPanel
         mainPanel.add(simplePanel);
         mainPanel.add(doublePanel);
 
-        // Add a scroll pane if the window is too small
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         scrollPane.setBorder(null);
         scrollPane.setBackground(AppColors.MAIN_COLOR);
@@ -75,7 +73,7 @@ public class Chambres extends JPanel {
         description.setForeground(Color.WHITE);
         description.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        chambrePanel.add(Box.createVerticalStrut(10)); // Small space
+        chambrePanel.add(Box.createVerticalStrut(10));
         chambrePanel.add(typeLabel);
         chambrePanel.add(Box.createVerticalStrut(10));
         chambrePanel.add(imageLabel);
@@ -83,7 +81,6 @@ public class Chambres extends JPanel {
         chambrePanel.add(description);
         chambrePanel.add(Box.createVerticalStrut(10));
 
-        // Make it clickable
         chambrePanel.addMouseListener( new ControlerReservation(hotel, chambrePanel,type,hoverColor));
 
 

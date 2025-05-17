@@ -105,6 +105,7 @@ public class ButtonEnregistrement implements ActionListener {
 
         Reservation res = new Reservation(client, chambre, dateDebut, dateFin);
         chambre.ajouterReservation(res);
+        client.ajouterReservation(res);
 
         JOptionPane.showMessageDialog(
                 null,

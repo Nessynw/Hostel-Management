@@ -7,9 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-/**
- * Formulaire de création de séjour
- */
 public class SejourForm extends JPanel {
     private static final Color FIELD_COLOR = new Color(9, 0, 91, 255);
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");

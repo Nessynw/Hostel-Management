@@ -260,7 +260,7 @@ public class AfficherEmploye extends JPanel {
                         .orElse(null);
 
                 if (chambre != null) {
-                    agent.assignerChambre(chambre, LocalDateTime.now());
+                    agent.assignerChambre(chambre, LocalDateTime.now(), hotel); // Ajout de l'hôtel
                     dialog.dispose();
                     refreshTable();
                 }

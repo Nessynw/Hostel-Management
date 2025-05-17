@@ -8,9 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Panel des consommations mini-bar, style GridBag & BoxLayout
- */
+
 public class MiniBarPanel extends JPanel {
     private JComboBox<Sejour> sejourBox;
     private JLabel totalLabel;

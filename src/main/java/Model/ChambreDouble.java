@@ -5,7 +5,7 @@ public class ChambreDouble extends Chambre {
     private Hotel hotel;
     public double tarif;
     public ChambreDouble() {
-        super(0, 0, "Double", 0.0); // Constructeur par défaut avec valeurs de base
+        super(0, 0, "Double", 0.0);
         this.hotel = null;
     }
 

@@ -17,8 +17,9 @@ public class FacturePanel extends JPanel {
     private JTable table;
     private JScrollPane tableScrollPane;
     private JLabel totalLabel;
-    String code=genererCode(1,LocalDate.now());
+    String code = genererCode(1, LocalDate.now());
     LocalDate date = LocalDate.now();
+
     public FacturePanel() {
         setLayout(new BorderLayout());
         setBackground(AppColors.MAIN_COLOR);
@@ -46,7 +47,7 @@ public class FacturePanel extends JPanel {
         mainPanel.add(topPanel, gbc);
 
         // Facture header
-        JLabel factureLabel = label("code facture"+code, JLabel.LEFT, 16);
+        JLabel factureLabel = label("code facture" + code, JLabel.LEFT, 16);
         gbc.gridy++;
         mainPanel.add(factureLabel, gbc);
 
@@ -135,10 +136,10 @@ public class FacturePanel extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         JButton validerButton = new JButton("Valider");
-        JButton pdfButton = new JButton("Exporter en PDF");
+        JButton pdfButton = new JButton("Envoyer par mail");
 
         validerButton.addActionListener(e -> afficherFacture());
-        pdfButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "PDF généré avec succès "));
+        pdfButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "La facture a bien été envoyé avec succès!"));
 
         buttonPanel.add(validerButton);
         buttonPanel.add(pdfButton);
@@ -157,7 +158,7 @@ public class FacturePanel extends JPanel {
     }
 
     private void afficherFacture() {
-        String codeFacture =code;
+        String codeFacture = code;
         String montant = totalLabel.getText();
         String methode = (String) paiementBox.getSelectedItem();
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -168,7 +169,7 @@ public class FacturePanel extends JPanel {
                 Montant total : %s
                 Méthode de paiement : %s
                 Date de règlement : %s
-
+                
                 Note du client :
                 %s
                 """, codeFacture, montant, methode, date, note);
@@ -177,28 +178,12 @@ public class FacturePanel extends JPanel {
     }
 
 
-
-
-
-        public static String genererCode(int idClient, LocalDate dateReglement) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM_dd");
-            String datePart = dateReglement.format(formatter);
-            return "#" + idClient + "_" + datePart;
-        }
-
-
-
-
-
-    // Main pour affichage
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Facture Hôtel");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setContentPane(new FacturePanel());
-            frame.setSize(600, 800);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
+    public static String genererCode(int idClient, LocalDate dateReglement) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM_dd");
+        String datePart = dateReglement.format(formatter);
+        return "#" + idClient + "_" + datePart;
     }
+
+
+
 }
