@@ -35,6 +35,11 @@ public class Main {
         hotel.ajouterChambre(new ChambreSimple(106, 2, hotel, 141));
         hotel.ajouterChambre(new ChambreSimple(107, 2, hotel, 182));
         hotel.ajouterChambre(new ChambreSimple(108, 2, hotel, 158));
+        hotel.ajouterProduit(new Produit("Eau minérale", 2.5));
+        hotel.ajouterProduit(new Produit("Jus d'orange", 3.0));
+        hotel.ajouterProduit(new Produit("Chocolat", 1.5));
+        hotel.ajouterProduit(new Produit("Bière", 4.0));
+        hotel.ajouterProduit(new Produit("Chips", 2.0));
         // Ajouter le panneau Accueil à la fenêtre
         frame.setContentPane(new Accueil(frame , hotel));
 

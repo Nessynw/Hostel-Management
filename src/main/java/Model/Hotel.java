@@ -5,7 +5,8 @@ import java.time.*;
 /**
  *
  */
-public class Hotel {
+public class
+Hotel {
 
     private String nom;
     private String adresse;
@@ -16,7 +17,7 @@ public class Hotel {
     private Vector<Client> listClient = new Vector<Client>();
     private Vector<Produit> listProduit = new Vector<Produit>();
     private Vector<Employe> listEmploye = new Vector<Employe>();
-    private List<Employe> listeEmployes;
+    private Vector<Sejour>listSejours = new Vector<>();
 
 
     public Hotel(String n, String adrs, String tel, String eml, int nbrEt) {
@@ -144,9 +145,11 @@ public class Hotel {
         return listChambre;
     }
 
-    public List<Employe> getListeEmployes() {
-        return listeEmployes;
+    public Vector<Employe> getListeEmployes() {
+        return listEmploye;
     }
+    public void ajouterSejour(Sejour s) { listSejours.add(s);}
+    public Vector<Sejour> getListSejour() { return listSejours;}
     /** Renvoie la chambre dont le numéro est num, ou null si non trouvée. */
     public Chambre getChambreParNumero(int num) {
         for (Chambre c : listChambre) {

@@ -1,240 +1,157 @@
 package Vue;
 
-import Model.Produit;
-
+import Model.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Panel des consommations mini-bar, style GridBag & BoxLayout
+ */
 public class MiniBarPanel extends JPanel {
-    private JComboBox<String> sejour_box;
-    private Produit[] produits;
+    private JComboBox<Sejour> sejourBox;
     private JLabel totalLabel;
-    private Map<String, JSpinner> quantitesSpinners;
-    private Map<String, Double> produitsprix;
+    private Map<Produit, JSpinner> quantitesSpinners = new HashMap<>();
+    private Hotel hotel;
 
-    public MiniBarPanel() {
-        // Initialisation du GridBagConstraints
+    public MiniBarPanel(Hotel hotel) {
+        this.hotel = hotel;
+        setBackground(AppColors.MAIN_COLOR);
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(450, 580));
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Espace entre les composants
-        setBackground(AppColors.MAIN_COLOR); // Fond du JPanel
-        setLayout(new BorderLayout()); // Layout principal BorderLayout
-        setPreferredSize(new Dimension(450, 580)); // Taille préférée du JPanel
+        gbc.insets = new Insets(5,5,5,5);
 
-        // Initialise les produits
-        produits = new Produit[]{
-                new Produit("Pomme", 2.5),
-                new Produit("Banane", 1.2),
-                new Produit("Orange", 3.0),
-                new Produit("Poire", 2.0),
-                new Produit("Raisin", 4.5),
-                new Produit("Mangue", 5.0),
-                new Produit("Pêche", 3.5),
-                new Produit("Cerise", 6.0),
-                new Produit("Fraise", 4.2),
-                new Produit("Ananas", 6.5),
-                new Produit("Pastèque", 7.0),
-                new Produit("Kiwi", 2.8),
-                new Produit("Grenade", 3.8),
-                new Produit("Abricot", 2.4),
-                new Produit("Cantaloup", 3.2),
-                new Produit("Prune", 2.9),
-                new Produit("Pomelo", 3.7),
-                new Produit("Litchi", 5.5),
-                new Produit("Figues", 4.0)
-        };
-
-        // Initialise la Map des prix
-        produitsprix = new HashMap<>();
-        for (Produit p : produits) {
-            produitsprix.put(p.getNom(), p.getPrix());
-        }
-
-        quantitesSpinners = new HashMap<>();
-
-        JPanel mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(AppColors.MAIN_COLOR);
-        mainPanel.setLayout(new GridBagLayout()); // Utilisation de GridBagLayout
-        mainPanel.setBorder(new EmptyBorder(15, 20, 20, 20)); // Bordure vide
+        mainPanel.setBorder(new EmptyBorder(15,20,20,20));
         add(mainPanel, BorderLayout.CENTER);
 
-        // Label "Séjour"
-        JLabel sejour = new JLabel("Séjour");
-        sejour.setForeground(Color.white);
-        sejour.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 3; // Largeur du label
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        gbc.fill = GridBagConstraints.NONE;
-        mainPanel.add(sejour, gbc);
+        // Label séjour
+        gbc.gridx=0; gbc.gridy=0; gbc.gridwidth=3; gbc.fill=GridBagConstraints.NONE;
+        JLabel lblSej = new JLabel("Séjour");
+        lblSej.setForeground(Color.WHITE);
+        lblSej.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        mainPanel.add(lblSej, gbc);
 
-        // JComboBox "Séjour"
-        sejour_box = new JComboBox<>(new String[]{"Sélectionner un séjour"});
-        sejour_box.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // Largeur du JComboBox
+        // Combo séjour
+        sejourBox = new JComboBox<>();
+        for (Sejour s: hotel.getListSejour()) sejourBox.addItem(s);
+        sejourBox.setOpaque(true);
+        sejourBox.setForeground(Color.WHITE);
+        sejourBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        sejourBox.setBorder(BorderFactory.createLineBorder(new Color(50,50,100),1,true));
+        gbc.gridy=1; gbc.gridwidth=3; gbc.fill=GridBagConstraints.HORIZONTAL;
+        mainPanel.add(sejourBox, gbc);
 
-        sejour_box.setOpaque(true);
-        sejour_box.setForeground(Color.white);
-        sejour_box.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        sejour_box.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 3; // Réinitialisation de la largeur du composant
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Remplir horizontalement
-        mainPanel.add(sejour_box, gbc);
-
-        // miniBarPanel pour les articles
+        // Panel mini-bar
         JPanel miniBarPanel = new JPanel();
-        miniBarPanel.setBackground(new Color(20, 20, 70));
-        miniBarPanel.setLayout(new BoxLayout(miniBarPanel, BoxLayout.Y_AXIS)); // Utilisation de BoxLayout
-        miniBarPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        miniBarPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Alignement à gauche
+        miniBarPanel.setBackground(new Color(20,20,70));
+        miniBarPanel.setLayout(new BoxLayout(miniBarPanel, BoxLayout.Y_AXIS));
+        miniBarPanel.setBorder(new EmptyBorder(15,15,15,15));
+        miniBarPanel.add(Box.createRigidArea(new Dimension(0,10)));
 
-        // Titre "Articles du mini bar"
-        JLabel miniBarTitle = new JLabel("Articles du mini bar");
-        miniBarTitle.setForeground(Color.WHITE);
-        miniBarTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        miniBarTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        miniBarPanel.add(miniBarTitle);
+        JLabel title = new JLabel("Articles du mini bar");
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
+        miniBarPanel.add(title);
+        miniBarPanel.add(Box.createRigidArea(new Dimension(0,15)));
 
-        // Ajout d'un espacement rigide entre le titre et les articles
-        miniBarPanel.add(Box.createRigidArea(new Dimension(0, 15)));
-
-        // Ajout des produits et quantités
-        for (Produit produit : produits) {
-            miniBarPanel.add(createProduitRow(produit));
-            miniBarPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        // Produits dynamiques
+        for (Produit p: hotel.getListProduit()) {
+            miniBarPanel.add(createProduitRow(p));
+            miniBarPanel.add(Box.createRigidArea(new Dimension(0,10)));
         }
 
-        // Ajout d'un JScrollPane autour du miniBarPanel pour gérer les produits défilants
-        JScrollPane scrollPane = new JScrollPane(miniBarPanel);
+        JScrollPane scroll = new JScrollPane(miniBarPanel);
+        scroll.setBackground(AppColors.Box_Color);
+        scroll.setOpaque(true);
+        gbc.gridy=2; gbc.weightx=1; gbc.weighty=1; gbc.fill=GridBagConstraints.BOTH;
+        mainPanel.add(scroll, gbc);
 
-        scrollPane.setBackground(AppColors.Box_Color);
-     scrollPane.setOpaque(true);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        mainPanel.add(scrollPane, gbc);
+        // Footer: total + bouton valider
+        gbc.gridy=3; gbc.weighty=0; gbc.gridwidth=3; gbc.fill=GridBagConstraints.HORIZONTAL;
+        JPanel footer = new JPanel(new BorderLayout());
+        footer.setBackground(AppColors.Box_Color);
+        footer.setBorder(new EmptyBorder(10,15,10,15));
 
-        // Panneau du total
-        JLabel totalTextLabel = new JLabel("Total");
-        totalTextLabel.setForeground(Color.WHITE);
-        totalTextLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-
+        JPanel totalP = new JPanel(new BorderLayout());
+        totalP.setBackground(AppColors.Box_Color);
+        totalP.setBorder(new EmptyBorder(0,15,10,15));
+        JLabel lblTotal = new JLabel("Total");
+        lblTotal.setForeground(Color.WHITE);
+        lblTotal.setFont(new Font("Segoe UI", Font.BOLD, 16));
         totalLabel = new JLabel("0.00€");
         totalLabel.setForeground(Color.WHITE);
         totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        totalP.add(lblTotal, BorderLayout.WEST);
+        totalP.add(totalLabel, BorderLayout.EAST);
 
-        JPanel totalPanel = new JPanel(new BorderLayout());
-        totalPanel.setBackground(AppColors.Box_Color);
-        totalPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 10, 15));
-        totalPanel.add(totalTextLabel, BorderLayout.WEST);
-        totalPanel.add(totalLabel, BorderLayout.EAST);
+        JButton btnValider = new JButton("Valider");
+        btnValider.setBackground(new Color(86,112,178));
+        btnValider.setForeground(Color.WHITE);
+        btnValider.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnValider.setBorder(BorderFactory.createLineBorder(new Color(50,50,100),1,true));
+        btnValider.setPreferredSize(new Dimension(100,30));
+        btnValider.addActionListener(e -> JOptionPane.showMessageDialog(this,
+                "Total des consommations : " + totalLabel.getText(),
+                "Total", JOptionPane.INFORMATION_MESSAGE));
 
-        // Footer Panel
-        JPanel footerPanel = new JPanel(new BorderLayout());
-        footerPanel.setBackground(AppColors.Box_Color);
-        footerPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        footer.add(totalP, BorderLayout.NORTH);
+        footer.add(btnValider, BorderLayout.SOUTH);
+        mainPanel.add(footer, gbc);
 
-        // Ajouter le bouton "Valider"
-        JButton validateButton = new JButton("Valider");
-        validateButton.setBackground(new Color(86,112,178,255));
-        validateButton.setForeground(Color.WHITE);
-        validateButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        validateButton.setBorder(BorderFactory.createLineBorder(new Color(50, 50, 100), 1, true));
-        validateButton.addActionListener(e -> showTotalMessage());
-        validateButton.setPreferredSize(new Dimension(100, 30));
-
-        footerPanel.add(totalPanel, BorderLayout.NORTH);
-        footerPanel.add(validateButton, BorderLayout.SOUTH);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 3;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(footerPanel, gbc);
+        // Liaisons
+        sejourBox.addActionListener(e -> updateTotal());
     }
 
     private JPanel createProduitRow(Produit produit) {
         JPanel row = new JPanel(new BorderLayout());
-        row.setBackground(new Color(20, 20, 70));
+        row.setBackground(new Color(20,20,70));
 
-        // Nom + prix
-        JPanel labelPanel = new JPanel();
-        labelPanel.setBackground(new Color(20, 20, 70));
-        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.X_AXIS));
+        JPanel labelP = new JPanel();
+        labelP.setBackground(new Color(20,20,70));
+        labelP.setLayout(new BoxLayout(labelP, BoxLayout.X_AXIS));
+        JLabel nom = new JLabel(produit.getNom());
+        nom.setForeground(Color.WHITE);
+        nom.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JLabel prix = new JLabel(String.format(" %.2f€", produit.getPrix()));
+        prix.setForeground(new Color(180,180,180));
+        prix.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        labelP.add(nom);
+        labelP.add(Box.createRigidArea(new Dimension(5,0)));
+        labelP.add(prix);
+        row.add(labelP, BorderLayout.WEST);
 
-        JLabel nomLabel = new JLabel(produit.getNom());
-        nomLabel.setForeground(Color.WHITE);
-        nomLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        labelPanel.add(nomLabel);
-
-        JLabel prixLabel = new JLabel(String.format(" %.2f€", produit.getPrix()));
-        prixLabel.setForeground(new Color(180, 180, 180));
-        prixLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        labelPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-        labelPanel.add(prixLabel);
-
-        row.add(labelPanel, BorderLayout.WEST);
-
-        // Spinner quantite
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 100, 1);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        spinner.setPreferredSize(new Dimension(70, 28));
-        spinner.setMaximumSize(new Dimension(70, 28));
+        SpinnerNumberModel model = new SpinnerNumberModel(0,0,100,1);
+        JSpinner spinner = new JSpinner(model);
+        spinner.setPreferredSize(new Dimension(70,28));
+        spinner.setMaximumSize(new Dimension(70,28));
         spinner.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-
-        quantitesSpinners.put(produit.getNom(), spinner);
-
+        quantitesSpinners.put(produit, spinner);
         spinner.addChangeListener(e -> updateTotal());
 
-        JPanel spinPanel = new JPanel();
-        spinPanel.setBackground(new Color(20, 20, 70));
-        spinPanel.setLayout(new BoxLayout(spinPanel, BoxLayout.X_AXIS));
-
-        spinPanel.add(spinner);
-
-        row.add(spinPanel, BorderLayout.EAST);
+        JPanel spinP = new JPanel();
+        spinP.setBackground(new Color(20,20,70));
+        spinP.setLayout(new BoxLayout(spinP, BoxLayout.X_AXIS));
+        spinP.add(spinner);
+        row.add(spinP, BorderLayout.EAST);
 
         return row;
     }
 
     private void updateTotal() {
-        double total = 0.0;
-        for (Produit produit : produits) {
-            int quantity = (int) quantitesSpinners.get(produit.getNom()).getValue();
-            total += produit.getPrix() * quantity;
+        Sejour s = (Sejour) sejourBox.getSelectedItem();
+        double sum = 0;
+        if (s != null) sum += s.getChambre().getPrix() + s.calculerConsommation();
+        for (Map.Entry<Produit,JSpinner> entry : quantitesSpinners.entrySet()) {
+            sum += entry.getKey().getPrix() * (int)entry.getValue().getValue();
         }
-        totalLabel.setText(String.format("%.2f€", total));
-    }
-
-    private void showTotalMessage() {
-        double total = 0.0;
-        for (Produit produit : produits) {
-            int quantity = (int) quantitesSpinners.get(produit.getNom()).getValue();
-            total += produit.getPrix() * quantity;
-        }
-        JOptionPane.showMessageDialog(this, "Le total des consommations est : " + String.format("%.2f€", total), "Total", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Mini Bar");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.setSize(500, 650);
-        frame.setLocationRelativeTo(null);
-
-        MiniBarPanel panel = new MiniBarPanel();
-        frame.setContentPane(panel);
-
-        frame.setVisible(true);
+        totalLabel.setText(String.format("%.2f€", sum));
     }
 }

@@ -155,7 +155,7 @@ public class InterfaceClient extends JPanel {
                 mainPanel.add(reservationForm, BorderLayout.CENTER);
                 break;
             case "Gérer Séjours":
-                SejourForm sejourForm = new SejourForm();
+                SejourForm sejourForm = new SejourForm(hotel);
                 mainPanel.add(sejourForm, BorderLayout.CENTER);
                 break;
 
