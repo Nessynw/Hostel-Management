@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+import java.time.LocalDate;
 
 /**
  * Formulaire de création de séjour
@@ -29,18 +29,16 @@ public class SejourForm extends JPanel {
         setLayout(new BorderLayout());
         setBackground(AppColors.MAIN_COLOR);
 
-        // Création des onglets
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setBackground(AppColors.MAIN_COLOR);
         tabbedPane.setForeground(AppColors.TEXT_COLOR);
 
-        // Onglet 1 : Création de séjour
         JPanel sejourPanel = new JPanel();
         sejourPanel.setLayout(new BoxLayout(sejourPanel, BoxLayout.Y_AXIS));
         sejourPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         sejourPanel.setBackground(AppColors.MAIN_COLOR);
 
-        // Ligne 1 : Client et chambre réservée
+        // Ligne 1 : Client et chambre
         JPanel ligne1 = new JPanel(new GridLayout(1,2,20,10));
         ligne1.setBackground(AppColors.MAIN_COLOR);
         clientCombo = new JComboBox<>();
@@ -50,12 +48,12 @@ public class SejourForm extends JPanel {
         clientCombo.addActionListener(e -> afficherReservations());
         chambreCombo = new JComboBox<>();
         styleCombo(chambreCombo);
-        chambreCombo.setEnabled(false); // lecture seule
+        chambreCombo.setEnabled(false);
         ligne1.add(clientCombo);
         ligne1.add(chambreCombo);
         sejourPanel.add(ligne1);
 
-        // Ligne 2 : Dates auto-remplies
+        // Ligne 2 : Dates
         JPanel ligne2 = new JPanel(new GridLayout(1,2,20,10));
         ligne2.setBackground(AppColors.MAIN_COLOR);
         dateArrivee = new JTextField(); dateArrivee.setEditable(false);
@@ -93,7 +91,7 @@ public class SejourForm extends JPanel {
         sejourPanel.add(resLabel);
         sejourPanel.add(scrollRes);
 
-        // Notes spéciales
+        // Notes
         sejourPanel.add(Box.createVerticalStrut(10));
         JLabel notesLabel = new JLabel("Notes spéciales :");
         notesLabel.setForeground(AppColors.TEXT_COLOR);
@@ -104,7 +102,7 @@ public class SejourForm extends JPanel {
         sejourPanel.add(notesLabel);
         sejourPanel.add(scrollNotes);
 
-        // Bouton créer séjour
+        // Bouton
         sejourPanel.add(Box.createVerticalStrut(15));
         JButton creer = new JButton("Créer le séjour");
         creer.setBackground(new Color(90,86,190)); creer.setForeground(AppColors.TEXT_COLOR);
@@ -113,54 +111,115 @@ public class SejourForm extends JPanel {
         sejourPanel.add(creer);
 
         tabbedPane.addTab("Créer un séjour", sejourPanel);
-        // Onglet mini-bar
         tabbedPane.addTab("Consommations mini bar", new MiniBarPanel(hotel));
-        // Onglet facturation
         tabbedPane.addTab("Facturation", new FacturePanel());
+
         add(tabbedPane, BorderLayout.CENTER);
     }
 
-    /** Récupère et affiche la première réservation du client */
     private void afficherReservations() {
         reservationsTextArea.setText("");
         chambreCombo.removeAllItems();
-        dateArrivee.setText(""); dateDepart.setText("");
+        dateArrivee.setText("");
+        dateDepart.setText("");
+
         Client client = (Client) clientCombo.getSelectedItem();
-        if (client==null) return;
+        if (client == null) return;
+
         List<Reservation> list = client.getListReservation();
-        if (list!=null && !list.isEmpty()) {
-            Reservation r0 = list.get(0);
-            // affichage zone texte
-            for (Reservation r: list) {
-                reservationsTextArea.append(
-                        r.getDate_deb().format(DATE_FORMAT)+" → "+
-                                r.getDate_fin().format(DATE_FORMAT)+
-                                " (Chambre "+r.getChambre().getNumero()+")\n"
-                );
+        if (list == null || list.isEmpty()) {
+            reservationsTextArea.setText("Aucune réservation trouvée pour ce client.");
+            return;
+        }
+
+        // Afficher toutes les réservations du client dans le textArea
+        for (Reservation r : list) {
+            reservationsTextArea.append(
+                    r.getDate_deb().format(DATE_FORMAT) + " → " +
+                            r.getDate_fin().format(DATE_FORMAT) +
+                            " (Chambre " + r.getChambre().getNumero() + ")\n"
+            );
+        }
+
+        // Trouver la prochaine réservation à venir (la plus proche)
+        LocalDate aujourdHui = LocalDate.now();
+        Reservation prochaine = null;
+
+        for (Reservation r : list) {
+            if (r.getDate_deb().isAfter(aujourdHui)) {
+                if (prochaine == null || r.getDate_deb().isBefore(prochaine.getDate_deb())) {
+                    prochaine = r;
+                }
             }
-            // remplir chambre et dates
-            chambreCombo.addItem(r0.getChambre());
-            dateArrivee.setText(r0.getDate_deb().format(DATE_FORMAT));
-            dateDepart .setText(r0.getDate_fin().format(DATE_FORMAT));
+        }
+
+        // Si aucune réservation à venir, on prend la première
+        if (prochaine == null) {
+            prochaine = list.get(0);
+        }
+
+        // Afficher la réservation sélectionnée dans les champs
+        if (prochaine != null) {
+            chambreCombo.addItem(prochaine.getChambre());
+            chambreCombo.setSelectedItem(prochaine.getChambre());
+            dateArrivee.setText(prochaine.getDate_deb().format(DATE_FORMAT));
+            dateDepart.setText(prochaine.getDate_fin().format(DATE_FORMAT));
         }
     }
 
-    /** Crée un séjour à partir de la réservation affichée */
+
     private void creerSejour() {
         Client client = (Client) clientCombo.getSelectedItem();
-        if (client==null || client.getListReservation().isEmpty()) {
-            JOptionPane.showMessageDialog(this,"Aucune réservation sélectionnée."); return;
+        if (client == null || client.getListReservation().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Aucune réservation sélectionnée.");
+            return;
         }
-        Reservation r0 = client.getListReservation().get(0);
-        Sejour s = new Sejour(client, r0.getChambre(), r0.getDate_deb(), r0.getDate_fin());
-        s.setRes(r0);
+
+        List<Reservation> list = client.getListReservation();
+        Reservation prochaine = null;
+        LocalDate aujourdHui = LocalDate.now();
+
+        for (Reservation r : list) {
+            if (r.getDate_deb().isAfter(aujourdHui)) {
+                if (prochaine == null || r.getDate_deb().isBefore(prochaine.getDate_deb())) {
+                    prochaine = r;
+                }
+            }
+        }
+
+        if (prochaine == null) {
+            prochaine = list.get(0);
+        }
+
+        Sejour s = new Sejour(client, prochaine.getChambre(), prochaine.getDate_deb(), prochaine.getDate_fin());
+        s.setRes(prochaine);
         hotel.ajouterSejour(s);
-        JOptionPane.showMessageDialog(this,"Séjour créé pour la réservation #"+r0.getId_res());
+
+        JOptionPane.showMessageDialog(this, "Séjour créé pour la réservation #" + prochaine.getId_res());
     }
 
+    // === Méthodes de style ===
+    private void styleCombo(JComboBox<?> combo) {
+        combo.setBackground(FIELD_COLOR);
+        combo.setForeground(AppColors.TEXT_COLOR);
+        combo.setPreferredSize(new Dimension(200,30));
+    }
 
-    private JPanel createEmptyPanel() { JPanel p=new JPanel(); p.setBackground(AppColors.MAIN_COLOR); return p; }
-    private void styleCombo(JComboBox<?> combo) { combo.setBackground(FIELD_COLOR); combo.setForeground(AppColors.TEXT_COLOR); combo.setPreferredSize(new Dimension(200,30)); }
-    private void styleField(JTextField field) { field.setBackground(FIELD_COLOR); field.setForeground(AppColors.TEXT_COLOR); field.setCaretColor(AppColors.TEXT_COLOR); field.setPreferredSize(new Dimension(200,30)); }
-    private void styleCheck(JCheckBox cb) { cb.setBackground(AppColors.MAIN_COLOR); cb.setForeground(AppColors.TEXT_COLOR); }
+    private void styleField(JTextField field) {
+        field.setBackground(FIELD_COLOR);
+        field.setForeground(AppColors.TEXT_COLOR);
+        field.setCaretColor(AppColors.TEXT_COLOR);
+        field.setPreferredSize(new Dimension(200,30));
+    }
+
+    private void styleCheck(JCheckBox cb) {
+        cb.setBackground(AppColors.MAIN_COLOR);
+        cb.setForeground(AppColors.TEXT_COLOR);
+    }
+
+    private JPanel createEmptyPanel() {
+        JPanel p = new JPanel();
+        p.setBackground(AppColors.MAIN_COLOR);
+        return p;
+    }
 }
