@@ -16,15 +16,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(int id_res, LocalDate date_deb, LocalDate date_fin, Chambre chambre, Client client, Sejour sej, Receptionniste recept) {
-        this.id_res = id_res;
-        this.date_deb = date_deb;
-        this.date_fin = date_fin;
-        this.chambre = chambre;
-        this.client = client;
-        this.sej = sej;
-        this.recept = recept;
-    }
+
     public Reservation(Client client, Chambre chambre, LocalDate date_deb, LocalDate date_fin) {
         this.id_res = compteur++;
         this.client = client;
