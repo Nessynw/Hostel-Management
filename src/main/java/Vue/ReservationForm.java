@@ -88,7 +88,6 @@ public class ReservationForm extends JPanel {
         table.setGridColor(new Color(70, 70, 70));
         table.setRowHeight(40);
 
-        // Création du renderer pour la colonne Actions
         TableColumn actionColumn = table.getColumnModel().getColumn(5);
         actionColumn.setCellRenderer(new ButtonsRenderer());
         actionColumn.setCellEditor(new ButtonsEditor(table));
@@ -109,7 +108,7 @@ public class ReservationForm extends JPanel {
 
         this.add(wrapperPanel, BorderLayout.CENTER);
 
-        // Ajouter un écouteur pour la recherche en temps réel
+        // la recherche en temps réel
         searchField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 filterTable();
