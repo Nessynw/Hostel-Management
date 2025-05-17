@@ -12,8 +12,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.FlowLayout;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import javax.swing.table.TableColumn;
 
 public class ListClient extends JPanel {
@@ -44,15 +43,12 @@ public class ListClient extends JPanel {
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         searchPanel.setBackground(AppColors.MAIN_COLOR);
 
-        // Créer le menu déroulant pour les critères de recherche
         String[] criteria = {"Nom", "Prénom", "Email", "Téléphone"};
         searchCriteria = new JComboBox<>(criteria);
         searchCriteria.setPreferredSize(new Dimension(100, 30));
 
-        // Créer le champ de recherche
         searchField = new JTextField(15);
         searchField.setPreferredSize(new Dimension(150, 30));
-        // Ajouter ceci après la configuration du searchField
         searchField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 filterTable();
@@ -76,9 +72,7 @@ public class ListClient extends JPanel {
         topPanel.add(searchPanel, BorderLayout.EAST);
         this.add(topPanel, BorderLayout.NORTH);
 
-// Dans la méthode constructor de ListClient, remplacez la partie de configuration de la table par :
 
-// Configuration de la table
 String[] colonnes = {"ID", "Nom", "Prénom", "Email", "Téléphone", "Adresse", "Actions"};
 tableModel = new DefaultTableModel(colonnes, 0) {
     @Override
@@ -108,8 +102,8 @@ table.setRowHeight(40);
 TableColumn actionColumn = table.getColumnModel().getColumn(6);
 actionColumn.setCellRenderer(new ButtonsRenderer());
 actionColumn.setCellEditor(new ButtonsEditor(table));
+actionColumn.setPreferredWidth(200); // Ajustez cette valeur selon vos besoins
 
-// ScrollPane avec marges
 JScrollPane scrollPane = new JScrollPane(table);
 scrollPane.setBackground(AppColors.MAIN_COLOR);
 scrollPane.getViewport().setBackground(AppColors.MAIN_COLOR);
@@ -141,7 +135,6 @@ this.add(wrapperPanel, BorderLayout.CENTER);
         }
     }
 
-    // Méthode pour filtrer les données du tableau
 private void filterTable() {
     String searchText = searchField.getText().toLowerCase();
     String selectedCriteria = (String) searchCriteria.getSelectedItem();
@@ -152,16 +145,16 @@ private void filterTable() {
         int columnIndex;
         switch (selectedCriteria) {
             case "Nom":
-                columnIndex = 1; // Index de la colonne Nom
+                columnIndex = 1;
                 break;
             case "Prénom":
-                columnIndex = 2; // Index de la colonne Prénom
+                columnIndex = 2;
                 break;
             case "Email":
-                columnIndex = 3; // Index de la colonne Email
+                columnIndex = 3;
                 break;
             case "Téléphone":
-                columnIndex = 4; // Index de la colonne Téléphone
+                columnIndex = 4;
                 break;
             default:
                 columnIndex = 1;
@@ -171,7 +164,6 @@ private void filterTable() {
     }
 }
 
-// Remplacez les classes ButtonRenderer et ButtonEditor existantes par celles-ci :
 
 class ButtonsRenderer implements TableCellRenderer {
     private JPanel panel;
@@ -179,16 +171,23 @@ class ButtonsRenderer implements TableCellRenderer {
     private JButton deleteButton;
 
     public ButtonsRenderer() {
-        panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        
         editButton = new JButton("Modifier");
         deleteButton = new JButton("Supprimer");
 
+        // Réduire la taille des boutons
+        editButton.setPreferredSize(new Dimension(80, 30));
+        deleteButton.setPreferredSize(new Dimension(80, 30));
+        
         editButton.setBackground(AppColors.BUTTON_COLOR);
         editButton.setForeground(Color.WHITE);
         deleteButton.setBackground(AppColors.ERROR_COLOR);
         deleteButton.setForeground(Color.WHITE);
 
         panel.add(editButton);
+        panel.add(Box.createHorizontalStrut(5));
         panel.add(deleteButton);
         panel.setBackground(AppColors.MAIN_COLOR);
     }
@@ -326,7 +325,6 @@ class ButtonsEditor extends DefaultCellEditor {
         }
     }
 
-    // Dans la classe ListClient, modifiez la méthode refreshData() comme suit :
     private void refreshData() {
         tableModel.setRowCount(0);
         Vector<Client> clients = hotel.getListClient();
@@ -375,7 +373,6 @@ class ButtonsEditor extends DefaultCellEditor {
             tableModel.addRow(row);
         }
 
-        // Configurer le rendu des boutons dans la dernière colonne
         table.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
@@ -387,7 +384,6 @@ class ButtonsEditor extends DefaultCellEditor {
             }
         });
 
-        // Configurer l'éditeur pour la colonne des boutons
         table.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(new JTextField()) {
             @Override
             public Component getTableCellEditorComponent(JTable table, Object value,

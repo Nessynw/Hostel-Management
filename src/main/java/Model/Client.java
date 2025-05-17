@@ -3,19 +3,19 @@ package Model;
 import java.util.*;
 
 public class Client extends Personne {
+    private int id_client;
+   private static   int compteur = 0;
+    private Vector<Reservation> listReservation = new Vector<>() ;
+   private Hotel hotel;
 
-    public static  int id_client=0;
-    public Vector<Reservation> listReservation = new Vector<>() ;
-    public Hotel hotel;
 
-    public Client() {
-    }
 
     public Client( String nom, String prenom, String email, String tel,String a , Hotel hotel) {
         super(nom, prenom, email, tel, a);
-        this.id_client ++;
+        this.id_client =compteur;
         this.hotel = hotel;
         this.listReservation= new Vector<>();
+        compteur++;
     }
 
     public int getId_client() {
