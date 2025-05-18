@@ -67,12 +67,12 @@ public class EtatChambres extends JPanel {
         };
 
         table = new JTable(tableModel);
-        // Permettre le tri des colonnes
+
 		table.setAutoCreateRowSorter(true);
         sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
 
-        // Configuration du tri pour la colonne "Prix"
+
         sorter.setComparator(3, (Comparator<String>) (price1, price2) -> {
             double p1 = Double.parseDouble(price1.replace(" €", ""));
             double p2 = Double.parseDouble(price2.replace(" €", ""));

@@ -39,7 +39,7 @@ public class SejourForm extends JPanel {
         sejourPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         sejourPanel.setBackground(AppColors.MAIN_COLOR);
 
-        // Ligne 1 : Client et chambre
+
         JPanel ligne1 = new JPanel(new GridLayout(1,2,20,10));
         ligne1.setBackground(AppColors.MAIN_COLOR);
         clientCombo = new JComboBox<>();
@@ -54,7 +54,7 @@ public class SejourForm extends JPanel {
         ligne1.add(chambreCombo);
         sejourPanel.add(ligne1);
 
-        // Ligne 2 : Dates
+
         JPanel ligne2 = new JPanel(new GridLayout(1,2,20,10));
         ligne2.setBackground(AppColors.MAIN_COLOR);
         dateArrivee = new JTextField(); dateArrivee.setEditable(false);
@@ -66,7 +66,7 @@ public class SejourForm extends JPanel {
         sejourPanel.add(Box.createVerticalStrut(15));
         sejourPanel.add(ligne2);
 
-        // Services additionnels
+
         sejourPanel.add(Box.createVerticalStrut(15));
         sejourPanel.add(new JLabel("Services additionnels :"){{ setForeground(AppColors.TEXT_COLOR); }});
         JPanel servicesPanel = new JPanel(new GridLayout(2,2,10,10));
@@ -79,7 +79,7 @@ public class SejourForm extends JPanel {
         servicesPanel.add(wifi); servicesPanel.add(blanchisserie);
         sejourPanel.add(servicesPanel);
 
-        // Réservations existantes
+
         sejourPanel.add(Box.createVerticalStrut(15));
         JLabel resLabel = new JLabel("Réservations existantes du client :");
         resLabel.setForeground(AppColors.TEXT_COLOR);
@@ -92,7 +92,7 @@ public class SejourForm extends JPanel {
         sejourPanel.add(resLabel);
         sejourPanel.add(scrollRes);
 
-        // Notes
+
         sejourPanel.add(Box.createVerticalStrut(10));
         JLabel notesLabel = new JLabel("Notes spéciales :");
         notesLabel.setForeground(AppColors.TEXT_COLOR);
@@ -103,7 +103,7 @@ public class SejourForm extends JPanel {
         sejourPanel.add(notesLabel);
         sejourPanel.add(scrollNotes);
 
-        // Bouton
+
         sejourPanel.add(Box.createVerticalStrut(15));
         JButton creer = new JButton("Créer le séjour");
         creer.setBackground(new Color(90,86,190)); creer.setForeground(AppColors.TEXT_COLOR);
@@ -117,7 +117,7 @@ public class SejourForm extends JPanel {
 
         add(tabbedPane, BorderLayout.CENTER);
 
-        // Remplir clients initialement
+
         afficherReservations();
     }
 
@@ -136,7 +136,7 @@ public class SejourForm extends JPanel {
             return;
         }
 
-        // Afficher toutes les réservations
+
         for (Reservation r : list) {
             reservationsTextArea.append(
                     r.getDate_deb().format(DATE_FORMAT) + " → " +
@@ -145,7 +145,7 @@ public class SejourForm extends JPanel {
             );
         }
 
-        // Choisir la réservation la plus proche
+
         LocalDate aujourdHui = LocalDate.now();
         Reservation prochaine = null;
         for (Reservation r : list) {
@@ -157,7 +157,7 @@ public class SejourForm extends JPanel {
         }
         if (prochaine == null) prochaine = list.get(0);
 
-        // Initialiser le combo chambre et dates
+
         chambreCombo.addItem(prochaine.getChambre());
         chambreCombo.setSelectedItem(prochaine.getChambre());
         dateArrivee.setText(prochaine.getDate_deb().format(DATE_FORMAT));
@@ -187,7 +187,7 @@ public class SejourForm extends JPanel {
         Sejour s = new Sejour(client, prochaine.getChambre(), prochaine.getDate_deb(), prochaine.getDate_fin());
         s.setRes(prochaine);
 
-// services cochés :
+
         if (parking.isSelected())       s.ajouterConsommation(new Consommation(1, new Produit("Parking",15), s));
         if (petitDej.isSelected())      s.ajouterConsommation(new Consommation(1, new Produit("Petit-déjeuner",12), s));
         if (wifi.isSelected())          s.ajouterConsommation(new Consommation(1, new Produit("WiFi Premium",8), s));
@@ -195,12 +195,11 @@ public class SejourForm extends JPanel {
 
         hotel.ajouterSejour(s);
 
-        // Empêcher réutilisation de la réservation
         client.getListReservation().remove(prochaine);
 
         JOptionPane.showMessageDialog(this, "Séjour créé pour la réservation #" + prochaine.getId_res());
 
-        // Réinitialiser l'interface sans fermer la fenêtre
+
         clientCombo.setSelectedIndex(0);
         reservationsTextArea.setText("");
         chambreCombo.removeAllItems();
@@ -211,7 +210,7 @@ public class SejourForm extends JPanel {
 
 
 
-// Styles
+
 private void styleCombo(JComboBox<?> combo) {
     combo.setBackground(FIELD_COLOR);
     combo.setForeground(AppColors.TEXT_COLOR);

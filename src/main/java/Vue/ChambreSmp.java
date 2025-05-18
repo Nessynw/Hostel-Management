@@ -30,16 +30,14 @@ public class ChambreSmp extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Créer le modèle de table avec uniquement les chambres simples disponibles
+
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"Num", "Étage", "Prix (€)", "Action"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 3; // Seule la colonne "Action" est éditable
+                return column == 3;
             }
         };
-
-        // Ajouter uniquement les chambres simples disponibles
         for (Chambre c : hotel.getListChambre()) {
             if (c.getType().equals("Simple") && c.isAvailable(debut, fin)) {
                 model.addRow(new Object[]{
@@ -51,7 +49,7 @@ public class ChambreSmp extends JFrame {
             }
         }
 
-        // Si aucune chambre n'est disponible
+
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this,
                 "Désolé, aucune chambre simple n'est disponible pour ces dates.",
@@ -86,7 +84,7 @@ public class ChambreSmp extends JFrame {
                         NewClient form = new NewClient(hotel, chambre, debut, fin);
                         JOptionPane.showMessageDialog(ChambreSmp.this, form,
                                 "Nouveau Client & Réservation", JOptionPane.PLAIN_MESSAGE);
-                        // Fermer la fenêtre après la réservation
+
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(ChambreSmp.this,

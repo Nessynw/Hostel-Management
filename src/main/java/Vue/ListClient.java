@@ -28,18 +28,18 @@ public class ListClient extends JPanel {
         this.setBackground(AppColors.MAIN_COLOR);
         this.setLayout(new BorderLayout(20, 20));
 
-        // Panel pour le titre et la recherche
+
         JPanel topPanel = new JPanel(new BorderLayout(20, 10));
         topPanel.setBackground(AppColors.MAIN_COLOR);
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Créer le titre
+
         JLabel titre = new JLabel("Liste des Clients", SwingConstants.CENTER);
         titre.setFont(new Font("Serif", Font.BOLD, 24));
         titre.setForeground(Color.WHITE);
         topPanel.add(titre, BorderLayout.WEST);
 
-        // Panel de recherche
+
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         searchPanel.setBackground(AppColors.MAIN_COLOR);
 
@@ -55,7 +55,7 @@ public class ListClient extends JPanel {
             }
         });
 
-        // Bouton de recherche
+
         JButton searchButton = new JButton("🔍");
         searchButton.setPreferredSize(new Dimension(40, 30));
         searchButton.addActionListener(e -> filterTable());
@@ -85,20 +85,20 @@ table = new JTable(tableModel);
 sorter = new TableRowSorter<>(tableModel);
 table.setRowSorter(sorter);
 
-// Style du header
+
 JTableHeader header = table.getTableHeader();
 header.setReorderingAllowed(false);
 header.setBackground(AppColors.MAIN_COLOR);
 header.setForeground(AppColors.MAIN_COLOR);
 header.setFont(new Font("Arial", Font.BOLD, 14));
 
-// Style de la table
+
 table.setBackground(AppColors.MAIN_COLOR);
 table.setForeground(Color.WHITE);
 table.setGridColor(new Color(70, 70, 70));
 table.setRowHeight(40);
 
-// Configuration de la colonne Actions
+
 TableColumn actionColumn = table.getColumnModel().getColumn(6);
 actionColumn.setCellRenderer(new ButtonsRenderer());
 actionColumn.setCellEditor(new ButtonsEditor(table));
@@ -129,7 +129,7 @@ this.add(wrapperPanel, BorderLayout.CENTER);
                     client.getEmail(),
                     client.getTel(),
                     client.getAdresse(),
-                    "" // La colonne Actions sera gérée par le renderer et l'editor
+                    ""
             };
             tableModel.addRow(rowData);
         }

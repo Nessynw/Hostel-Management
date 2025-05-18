@@ -138,12 +138,12 @@ public class InterfaceClient extends JPanel {
         switch (buttonText) {
 
             case "Liste des Clients":
-                // Afficher la liste des clients
+
                 ListClient clientList = new ListClient(hotel);
                 mainPanel.add(clientList, BorderLayout.CENTER);
                 break;
             case "Réservation":
-                // Afficher la gestion des chambres (garde la même fonctionnalité que "Chambres")
+
                 Chambres chambres = new Chambres(hotel);
                 mainPanel.add(chambres, BorderLayout.CENTER);
                 break;

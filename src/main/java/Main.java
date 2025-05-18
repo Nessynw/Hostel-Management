@@ -10,8 +10,8 @@ public class Main {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        } //
-        // Créer la fenêtre principale (JFrame)
+        }
+
         JFrame frame = new JFrame("Hôtel Blue Castle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -20,7 +20,7 @@ public class Main {
         Client client1 = new Client("Zitouni", "Ines", "ness@gmail.com", "0612345678", "12 rue des Fleurs", hotel);
         Client client2 = new Client("Ouallam", "Lina", "Lin@gmail.com", "0698765432", "45 avenue Victor Hugo", hotel);
         Client client3 = new Client("Benrabah", "Salah", "Sal@gmail.com", "0789456123", "78 boulevard Haussmann", hotel);
-        // Ajout des clients à l'hôtel
+
         hotel.ajouterClient(client1);
         hotel.ajouterClient(client2);
         hotel.ajouterClient(client3);
@@ -40,7 +40,7 @@ public class Main {
         hotel.ajouterProduit(new Produit("Chocolat", 1.5));
         hotel.ajouterProduit(new Produit("Bière", 4.0));
         hotel.ajouterProduit(new Produit("Chips", 2.0));
-        // Ajouter le panneau Accueil à la fenêtre
+
         frame.setContentPane(new Accueil(frame , hotel));
 
 

@@ -29,18 +29,18 @@ public class InterfacePersonnel extends JPanel {
         sidebar.setPreferredSize(new Dimension(300, getMaximumSize().height));
         sidebar.setBackground(AppColors.SIDE_COLOR);
 
-        // Nom de l'hôtel
+
         JLabel nomHotel = new JLabel("<html><div style='text-align: center;'>" +
                 "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
                 "<span style='color: rgb(171,169,192);'>Blue Castel</span>" +
                 "</div></html>");
         nomHotel.setFont(new Font("Serif", Font.BOLD, 30));
 
-        // Ajout du MouseListener pour la navigation et les effets de survol
+
         nomHotel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Navigation vers la page d'accueil
+
                 JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(InterfacePersonnel.this);
                 parentFrame.getContentPane().removeAll();
                 parentFrame.getContentPane().add(new Accueil(parentFrame, hotel));
@@ -50,7 +50,7 @@ public class InterfacePersonnel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                // Effet de survol - changement de couleur
+
                 nomHotel.setForeground(new Color(255, 255, 255));
                 nomHotel.setText("<html><div style='text-align: center;'>" +
                         "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
@@ -60,7 +60,7 @@ public class InterfacePersonnel extends JPanel {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // Retour à la couleur originale
+
                 nomHotel.setForeground(new Color(171, 169, 192));
                 nomHotel.setText("<html><div style='text-align: center;'>" +
                         "<span style='color: rgb(255,255,255);'>Hôtel </span><br>" +
@@ -76,7 +76,7 @@ public class InterfacePersonnel extends JPanel {
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.insets = new Insets(50, 0, 50, 0);
 
-        // Ajoutez le label au sidebar avec les contraintes GridBag appropriées
+
         sidebar.add(nomHotel, gbc);
         this.add(sidebar, BorderLayout.WEST);
     }

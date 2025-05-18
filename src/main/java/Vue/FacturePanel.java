@@ -36,7 +36,7 @@ public class FacturePanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Section Séjour
+
         JPanel topPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         topPanel.setOpaque(false);
 
@@ -91,7 +91,7 @@ public class FacturePanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         mainPanel.add(tableScrollPane, gbc);
 
-        // Totaux
+
         JPanel totalPanel = new JPanel(new GridLayout(3, 2));
         totalPanel.setOpaque(false);
         totalPanel.add(new JLabel());
@@ -110,7 +110,7 @@ public class FacturePanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(totalPanel, gbc);
 
-        // Paiement
+
         JPanel paymentPanel = new JPanel(new GridLayout(2, 1));
         paymentPanel.setOpaque(false);
         paiementBox = new JComboBox<>(new String[]{"Carte bancaire", "Espèces", "Chèque"});
@@ -120,7 +120,7 @@ public class FacturePanel extends JPanel {
         gbc.gridy++;
         mainPanel.add(paymentPanel, gbc);
 
-        // Notes
+
         JPanel notesPanel = new JPanel(new BorderLayout());
         notesPanel.setOpaque(false);
         notesArea = new JTextArea("Notes additionnelles pour la facture...");
@@ -149,7 +149,7 @@ public class FacturePanel extends JPanel {
         gbc.gridy++;
         mainPanel.add(buttonPanel, gbc);
 
-        // Action changement de séjour
+
         sejourBox.addActionListener(e -> {
             sejourActuel = (Sejour) sejourBox.getSelectedItem();
             if (sejourActuel != null) {
@@ -186,7 +186,7 @@ public class FacturePanel extends JPanel {
             });
         }
 
-        // Calcul total
+
         double totalHT = 0;
         for (int i = 0; i < model.getRowCount(); i++) {
             String montantStr = ((String) model.getValueAt(i, 3)).replace("€", "").replace(",", ".");

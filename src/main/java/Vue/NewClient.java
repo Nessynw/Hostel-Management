@@ -41,7 +41,7 @@ public class NewClient extends JPanel {
 
         int row = 0;
 
-        // Label + ComboBox pour anciens clients
+
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Clients existants :"), gbc);
 
@@ -52,7 +52,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(anciensClientsCombo, gbc);
 
-        // Listener pour remplir automatiquement les champs lors de la sélection
+
         anciensClientsCombo.addActionListener(e -> {
             Client selected = (Client) anciensClientsCombo.getSelectedItem();
             if (selected != null) {
@@ -72,7 +72,7 @@ public class NewClient extends JPanel {
 
         row++;
 
-        // Date début
+
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Date début :"), gbc);
         debutField = new JTextField(20);
@@ -81,7 +81,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(debutField, gbc);
 
-        // Date fin
+
         row++;
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Date fin :"), gbc);
@@ -91,7 +91,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(finField, gbc);
 
-        // Nom
+
         row++;
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Nom :"), gbc);
@@ -99,7 +99,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(nomField, gbc);
 
-        // Prénom
+
         row++;
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Prénom :"), gbc);
@@ -107,7 +107,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(prenomField, gbc);
 
-        // Email
+
         row++;
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Email :"), gbc);
@@ -115,7 +115,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(emailField, gbc);
 
-        // Téléphone
+
         row++;
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Téléphone :"), gbc);
@@ -123,7 +123,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(phoneField, gbc);
 
-        // Adresse
+
         row++;
         gbc.gridx = 0; gbc.gridy = row;
         add(new JLabel("Adresse :"), gbc);
@@ -131,7 +131,7 @@ public class NewClient extends JPanel {
         gbc.gridx = 1;
         add(adresseField, gbc);
 
-        // Bouton Valider
+
         row++;
         JButton valider = new JButton("Valider");
         ButtonEnregistrement controller = new ButtonEnregistrement(

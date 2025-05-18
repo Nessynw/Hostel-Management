@@ -29,14 +29,14 @@ public class MiniBarPanel extends JPanel {
         mainPanel.setBorder(new EmptyBorder(15,20,20,20));
         add(mainPanel, BorderLayout.CENTER);
 
-        // Label séjour
+
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.NONE;
         JLabel lblSej = new JLabel("Séjour");
         lblSej.setForeground(Color.WHITE);
         lblSej.setFont(new Font("Segoe UI", Font.BOLD, 14));
         mainPanel.add(lblSej, gbc);
 
-        // Combo séjour
+
         gbc.gridy = 1; gbc.gridwidth = 3; gbc.fill = GridBagConstraints.HORIZONTAL;
         Vector<Sejour> sejours = new Vector<>(hotel.getListSejour());
         sejours.add(0, null);  // première option vide
@@ -61,7 +61,7 @@ public class MiniBarPanel extends JPanel {
         sejourBox.addActionListener(e -> updateTotal());
         mainPanel.add(sejourBox, gbc);
 
-        // Panel mini-bar (inchangé)...
+
         JPanel miniBarPanel = new JPanel();
         miniBarPanel.setBackground(new Color(20,20,70));
         miniBarPanel.setLayout(new BoxLayout(miniBarPanel, BoxLayout.Y_AXIS));
@@ -124,7 +124,7 @@ public class MiniBarPanel extends JPanel {
         footer.add(btnValider, BorderLayout.SOUTH);
         mainPanel.add(footer, gbc);
 
-        // mise à jour initiale
+
         updateTotal();
     }
 

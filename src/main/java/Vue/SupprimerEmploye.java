@@ -22,17 +22,17 @@ public class SupprimerEmploye extends JPanel {
         setLayout(new BorderLayout());
         setBackground(AppColors.MAIN_COLOR);
         
-        // Création du panneau principal
+
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(AppColors.MAIN_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         
-        // Label pour sélectionner l'employé
+
         JLabel lblEmploye = new JLabel("Sélectionner l'employé :");
         lblEmploye.setForeground(AppColors.TEXT_COLOR);
         lblEmploye.setFont(new Font("Arial", Font.BOLD, 14));
         
-        // ComboBox avec taille personnalisée
+
         comboEmployes = new JComboBox<>();
         comboEmployes.setPreferredSize(new Dimension(300, 40));
         comboEmployes.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -40,43 +40,43 @@ public class SupprimerEmploye extends JPanel {
         comboEmployes.setForeground(Color.WHITE);
         ((JComponent) comboEmployes.getRenderer()).setOpaque(true);
         
-        // Boutons avec taille réduite
+
         btnSupprimer = new StyledButton("Supprimer");
         btnRetour = new StyledButton("Retour");
         
-        // Définir la taille des boutons
+
         Dimension buttonSize = new Dimension(200, 40);
         btnSupprimer.setPreferredSize(buttonSize);
         btnRetour.setPreferredSize(buttonSize);
         
-        // Configuration du layout
+
         gbc.insets = new Insets(20, 20, 20, 20);
         
-        // Ajout du label
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(lblEmploye, gbc);
         
-        // Ajout de la combobox
+
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 20, 30, 20); // Plus d'espace en bas
         mainPanel.add(comboEmployes, gbc);
         
-        // Panel pour les boutons
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         buttonPanel.setBackground(AppColors.MAIN_COLOR);
         buttonPanel.add(btnSupprimer);
         buttonPanel.add(btnRetour);
         
-        // Ajout du panel de boutons
+
         gbc.gridy = 2;
         mainPanel.add(buttonPanel, gbc);
         
         add(mainPanel, BorderLayout.CENTER);
         
-        // Ajout des listeners (le reste du code reste identique)
+
         btnSupprimer.addActionListener(e -> supprimerEmploye());
         btnRetour.addActionListener(new retourBtnControler(() -> {
             parentFrame.getContentPane().removeAll();
@@ -89,7 +89,7 @@ public class SupprimerEmploye extends JPanel {
     private void supprimerEmploye() {
         Employe selectedEmploye = (Employe) comboEmployes.getSelectedItem();
         if (selectedEmploye != null) {
-        // Créer un array d'options en français
+
         Object[] options = {"Oui", "Non"};
         
         int confirmation = JOptionPane.showOptionDialog(
@@ -100,13 +100,13 @@ public class SupprimerEmploye extends JPanel {
             JOptionPane.QUESTION_MESSAGE,
             null,
             options,
-            options[1] // option "Non" par défaut
+            options[1]
         );
         
-        if (confirmation == 0) { // 0 correspond à "Oui"
+        if (confirmation == 0) {
             listeEmployes.remove(selectedEmploye);
             comboEmployes.removeItem(selectedEmploye);
-            // Supprimer l'employé de l'hôtel aussi
+
             hotel.getListEmploye().remove(selectedEmploye);
             
             JOptionPane.showMessageDialog(
