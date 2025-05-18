@@ -70,7 +70,7 @@ public class FacturePanel extends JPanel {
         gbc.gridy++;
         mainPanel.add(factureLabel, gbc);
 
-        JLabel hotelInfo = label("<html>Hôtel Lina OUALLAM<br/>123 Avenue des Hôtels<br/>75008 Paris, France</html>", JLabel.LEFT, 12);
+        JLabel hotelInfo = label("<html><br/>123 Avenue des Hôtels<br/>75008 Paris, France</html>", JLabel.LEFT, 12);
         gbc.gridy++;
         mainPanel.add(hotelInfo, gbc);
 
