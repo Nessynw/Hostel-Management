@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Vector;
 import java.time.LocalDateTime;
-import javax.swing.table.JTableHeader;
 
 public class AfficherEmploye extends JPanel {
     private JTable tableEmployes;
@@ -24,35 +23,28 @@ public class AfficherEmploye extends JPanel {
         setLayout(new BorderLayout());
         setBackground(AppColors.MAIN_COLOR);
 
-        // En-tête avec titre
         JLabel titleLabel = new JLabel("Liste des Employés", SwingConstants.CENTER);
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Configuration du tableau
-        String[] colonnes = {"Nom", "Prénom", "Email", "Adresse", "Poste", "Salaire", "Chambre assignée", "Status"};
+        String[] colonnes = {"Nom", "Prénom", "Email", "Adresse", "Poste", "Chambre assignée", "Status"};
         DefaultTableModel model = new DefaultTableModel(colonnes, 0);
         tableEmployes = new JTable(model);
 
-        // Style du tableau
         styleTable(tableEmployes);
 
-        // Remplir le tableau avec les employés
         remplirTableau();
 
-        // Ajouter le tableau dans un ScrollPane
         JScrollPane scrollPane = new JScrollPane(tableEmployes);
         scrollPane.getViewport().setBackground(backgroundColor);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         add(scrollPane, BorderLayout.CENTER);
 
-        // Panel pour les boutons
         JPanel panelBoutons = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         panelBoutons.setBackground(AppColors.MAIN_COLOR);
 
-        // Création des boutons
         JButton btnAssigner = new JButton("Assigner Chambre");
         JButton btnTerminer = new JButton("Terminer Intervention");
         btnRetour = new JButton("Retour");
@@ -61,18 +53,16 @@ public class AfficherEmploye extends JPanel {
             btn.setForeground(Color.WHITE);
             btn.setFont(new Font("Arial", Font.BOLD, 18));
             btn.setPreferredSize(new Dimension(250, 40));
-            btn.setBorderPainted(false);  // Optionnel : pour enlever la bordure
-            btn.setFocusPainted(false);   // Optionnel : pour enlever l'effet de focus
+            btn.setBorderPainted(false);
+            btn.setFocusPainted(false);
         }
 
 
-        // Ajout des boutons au panel
         panelBoutons.add(btnAssigner);
         panelBoutons.add(btnTerminer);
         panelBoutons.add(btnRetour);
         add(panelBoutons, BorderLayout.SOUTH);
 
-        // Actions des boutons
         btnRetour.addActionListener(new retourBtnControler(() -> {
             parentFrame.getContentPane().removeAll();
             parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame, hotel));
@@ -129,26 +119,22 @@ public class AfficherEmploye extends JPanel {
         table.getTableHeader().setForeground(Color.black);
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
-        // Centrer le texte dans les cellules
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        // Ajuster la taille des colonnes
         table.getColumnModel().getColumn(0).setPreferredWidth(100); // Nom
         table.getColumnModel().getColumn(1).setPreferredWidth(100); // Prénom
         table.getColumnModel().getColumn(2).setPreferredWidth(150); // Email
         table.getColumnModel().getColumn(3).setPreferredWidth(150); // Adresse
         table.getColumnModel().getColumn(4).setPreferredWidth(100); // Poste
-        table.getColumnModel().getColumn(5).setPreferredWidth(100); // Salaire
-        table.getColumnModel().getColumn(6).setPreferredWidth(150); // Chambre assignée
-        table.getColumnModel().getColumn(7).setPreferredWidth(150); // Status
+        table.getColumnModel().getColumn(5).setPreferredWidth(100);
+        table.getColumnModel().getColumn(6).setPreferredWidth(150);
 
         // Rendre le tableau non éditable
         table.setDefaultEditor(Object.class, null);
-        // Après la création de votre table
         table.getTableHeader().setReorderingAllowed(false);
     }
 
@@ -208,14 +194,12 @@ public class AfficherEmploye extends JPanel {
         comboChambre.setFont(new Font("Arial", Font.PLAIN, 14));
         comboChambre.setBackground(Color.WHITE);
 
-        // Remplir le ComboBox
         for (Chambre chambre : hotel.getListChambre()) {
             if (chambre.getAgentAssigne() == null) {
                 comboChambre.addItem("Chambre " + chambre.getNumero());
             }
         }
 
-        // Panel pour les contrôles avec GridBagLayout
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.WEST;
@@ -225,7 +209,6 @@ public class AfficherEmploye extends JPanel {
         gbc.insets = new Insets(10, 0, 15, 0);
         mainPanel.add(comboChambre, gbc);
 
-        // Panel pour les boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         buttonPanel.setBackground(AppColors.MAIN_COLOR);
 
@@ -248,7 +231,6 @@ public class AfficherEmploye extends JPanel {
         buttonPanel.add(btnValider);
         buttonPanel.add(btnAnnuler);
 
-        // Action listeners
         btnValider.addActionListener(e -> {
             String selection = (String) comboChambre.getSelectedItem();
             if (selection != null) {

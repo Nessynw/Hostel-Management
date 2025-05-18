@@ -32,7 +32,7 @@ public class ButtonEnregistrement implements ActionListener {
                               JTextField startField,
                               JTextField endField,
                               Chambre chambre,
-                              NewClient newClientPanel) {  // Correction du nom du paramètre
+                              NewClient newClientPanel) {
         this.hotel = hotel;
         this.nameField = nameField;
         this.prenomField = prenomField;
@@ -42,7 +42,7 @@ public class ButtonEnregistrement implements ActionListener {
         this.startField = startField;
         this.endField = endField;
         this.chambre = chambre;
-        this.newClientPanel = newClientPanel;  // Correction de l'assignation
+        this.newClientPanel = newClientPanel;
     }
 
     @Override
@@ -57,7 +57,6 @@ public class ButtonEnregistrement implements ActionListener {
 
         boolean valid = true;
 
-        // Vérifie les champs vides
         for (JTextField f : new JTextField[]{
                 nameField, prenomField, emailField,
                 phoneField, adresseField, startField, endField
@@ -70,7 +69,6 @@ public class ButtonEnregistrement implements ActionListener {
             }
         }
 
-        // Vérifie le format du numéro de téléphone
         if (!phone.matches("\\d{10}")) {
             valid = false;
             phoneField.setBackground(Color.PINK);
@@ -82,7 +80,7 @@ public class ButtonEnregistrement implements ActionListener {
             );
         }
 
-        // Vérifie les dates
+        //  check les dates
         LocalDate dateDebut = null;
         LocalDate dateFin   = null;
         try {

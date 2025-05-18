@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class Chambre {
     private int numero;
-    private int num_etage;  // Ajouter cet attribut
+    private int num_etage;
     private boolean estOccupee;
     private boolean estNettoyee;
     private AgentE agentAssigne;
@@ -13,9 +13,9 @@ public class Chambre {
     private double prix;
     private Vector<Reservation> listReservation;
 
-    public Chambre(int numero, int num_etage, String type, double prix) {  // Modifier le constructeur
+    public Chambre(int numero, int num_etage, String type, double prix) {
         this.numero = numero;
-        this.num_etage = num_etage;  // Initialiser num_etage
+        this.num_etage = num_etage;
         this.type = type;
         this.prix = prix;
         this.estOccupee = false;
@@ -24,13 +24,11 @@ public class Chambre {
         this.listReservation = new Vector<>();
     }
 
-    // Getters
 
     public int getNum_chambre() {
-        return numero;  // Retourne la même valeur que getNumero()
+        return numero;
     }
 
-    // Ajouter cette méthode getter
     public int getNum_etage() {
         return num_etage;
     }
@@ -70,13 +68,7 @@ public class Chambre {
         this.agentAssigne = agent;
     }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
 
 
@@ -112,14 +104,14 @@ public void afficherDetails() {
 
     public void ajouterReservation(Reservation reservation) {
         listReservation.add(reservation);
-        this.estOccupee = true;  // Maj le statut de la chambre
+        this.estOccupee = true;
     }
 
     public void supprimerReservation(Reservation reservation) {
         listReservation.remove(reservation);
         if (listReservation.isEmpty()) {
-            this.estOccupee = false;  // Si plus de réservations, la chambre n'est plus occupée
-            this.estNettoyee = false; // La chambre doit être nettoyée
+            this.estOccupee = false;
+            this.estNettoyee = false;
         }
     }
 }

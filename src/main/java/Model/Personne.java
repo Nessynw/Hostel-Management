@@ -8,12 +8,7 @@ public class Personne {
         private String email;
        private String tel;
        private String  adresse ;
-        public Personne() {
-            this.nom = "";
-            this.prenom = "";
-            this.email = "";
-            this.tel = "";
-        }
+
     public Personne( String n, String pr , String eml, String tl,String adr) {
         nom = n;
 

@@ -25,7 +25,7 @@ public class ClientButtonControleur implements ActionListener {
                 parentFrame.revalidate();
                 parentFrame.repaint();
             }
-        }, hotel);  // Ajout du paramètre hotel ici
+        }, hotel);
         authentification.setVisible(true);
     }
 }

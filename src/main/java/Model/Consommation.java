@@ -7,8 +7,7 @@ public class Consommation {
         public Produit produit;
         public Sejour sej;
 
-        public Consommation() {
-        }
+
 
         public Consommation(int quantite, Produit produit, Sejour sej) {
             this.quantite = quantite;
@@ -20,20 +19,10 @@ public class Consommation {
             return quantite;
         }
 
-        public void setQuantite(int quantite) {
-            this.quantite = quantite;
-        }
+
 
         public Produit getProduit() {
             return produit;
         }
 
-        public void setProduit(Produit produit) {
-            this.produit = produit;
-        }
-
-        public Sejour getSej() {
-            return sej;
-        }
-        public void setSej(Sejour sej) {}
     }

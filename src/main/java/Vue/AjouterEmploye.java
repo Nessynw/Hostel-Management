@@ -50,7 +50,7 @@ public class AjouterEmploye extends JPanel {
         txtPrenom = createStyledTextField();
         txtEmail = createStyledTextField();
         txtTel = createStyledTextField();
-        txtAdresse = createStyledTextField(); // Champ adresse
+        txtAdresse = createStyledTextField();
         String[] postes = {"Réceptionniste", "Agent d'entretien"};
         comboPoste = new JComboBox<>(postes);
         styleComboBox(comboPoste);
@@ -58,7 +58,6 @@ public class AjouterEmploye extends JPanel {
         btnAjouter = new StyledButton("Ajouter");
         btnRetour = new StyledButton("Retour");
 
-        // Ajout des composants avec leurs labels
         addFormField(mainPanel, "Nom:", txtNom, gbc, 0);
         addFormField(mainPanel, "Prénom:", txtPrenom, gbc, 1);
         addFormField(mainPanel, "Email:", txtEmail, gbc, 2);
@@ -68,7 +67,6 @@ public class AjouterEmploye extends JPanel {
 
 
 
-        // Panel pour les boutons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
         buttonPanel.setBackground(AppColors.MAIN_COLOR);
         buttonPanel.add(btnAjouter);
@@ -81,7 +79,6 @@ public class AjouterEmploye extends JPanel {
                     txtNom, txtPrenom, txtEmail, txtTel, txtAdresse);
                 
                 if (validateur.valider()) {
-                    // Création de l'employé et ajout à l'hôtel
                     String nom = getNom();
                     String prenom = getPrenom();
                     String email = getEmail();
@@ -105,7 +102,6 @@ public class AjouterEmploye extends JPanel {
             }
         });
 
-        // Code du bouton retour
         btnRetour.addActionListener(new retourBtnControler(() -> {
             parentFrame.getContentPane().removeAll();
             parentFrame.getContentPane().add(new InterfacePersonnel(parentFrame, hotel));
@@ -113,11 +109,9 @@ public class AjouterEmploye extends JPanel {
             parentFrame.repaint();
         }));
 
-        // Ajout des panels au panel principal
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Ajout des tooltips
         addTooltips();
         
     }
@@ -135,20 +129,6 @@ public class AjouterEmploye extends JPanel {
         return textField;
     }
 
-    private JTextArea createStyledTextArea() {
-        JTextArea textArea = new JTextArea(4, 20);
-        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        textArea.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(Color.WHITE, 1),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
-        textArea.setForeground(Color.WHITE);
-        textArea.setBackground(new Color(30, 30, 70));
-        textArea.setCaretColor(Color.WHITE);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        return textArea;
-    }
 
     private void styleComboBox(JComboBox<String> comboBox) {
         comboBox.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -185,7 +165,6 @@ public class AjouterEmploye extends JPanel {
         comboPoste.setToolTipText("Sélectionnez le poste de l'employé");
     }
 
-    // Getters pour les champs
     public String getNom() {
         return txtNom.getText().trim();
     }
@@ -206,7 +185,6 @@ public class AjouterEmploye extends JPanel {
     }
 
 
-    // Méthode pour vider les champs
     public void clearFields() {
         txtNom.setText("");
         txtPrenom.setText("");

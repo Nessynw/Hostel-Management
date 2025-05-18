@@ -27,7 +27,6 @@ public class ValidateurEmploye {
         boolean valide = true;
         StringBuilder erreurs = new StringBuilder();
 
-        // Vérification des champs vides
         JTextField[] champsObligatoires = {
             txtNom, txtPrenom, txtEmail, txtTel, txtAdresse
         };
@@ -49,7 +48,6 @@ public class ValidateurEmploye {
             return false;
         }
 
-        // Si les champs sont remplis, on vérifie leur format
         if (!txtEmail.getText().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             txtEmail.setBackground(COULEUR_ERREUR);
             erreurs.append("Format d'email invalide.\n");

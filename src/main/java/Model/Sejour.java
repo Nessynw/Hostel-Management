@@ -27,15 +27,7 @@ import java.util.*;
             return listCons;
         }
 
-        public void setListCons(Vector<Consommation> listCons) {
-            this.listCons = listCons;
-        }
 
-
-        public void afficherDetails() {
-            System.out.println("Réservation ID: " + this.res.getId_res());
-            System.out.println("Nombre de consommations: " + this.listCons.size());
-        }
 
         public void ajouterConsommation(Consommation c) {
             listCons.add(c);
@@ -49,16 +41,8 @@ import java.util.*;
             return total;
         }
 
-        public double calculerPrixTotal() {
-            double total = 0;
-            total = chambre.getPrix();  // Au lieu de getTarif()
-            total += calculerConsommation();
-            return total;
-        }
         public String toString() {
-            // Retourner les informations pertinentes du séjour
             return "- Chambre " + chambre.getNumero();
-            // Adaptez cet exemple selon vos besoins
         }
 
     }

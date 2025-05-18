@@ -19,10 +19,9 @@ public class Chambres extends JPanel {
         this.setLayout(new GridBagLayout());
 
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1, 2, 20, 20)); // 1 row, 2 columns with spacing
+        mainPanel.setLayout(new GridLayout(1, 2, 20, 20));
         mainPanel.setBackground(AppColors.MAIN_COLOR);
 
-        // Create room panels
         JPanel simplePanel = createChambrePanel(
                 "Chambre Simple",
                 new ImageIcon("src/main/resources/simpleRoom.jpg"),
@@ -55,7 +54,7 @@ public class Chambres extends JPanel {
         JPanel chambrePanel = new JPanel();
         chambrePanel.setLayout(new BoxLayout(chambrePanel, BoxLayout.Y_AXIS));
         chambrePanel.setBackground(AppColors.MAIN_COLOR);
-        chambrePanel.setBorder(BorderFactory.createLineBorder(new Color(29, 42, 97), 0)); // Blue border
+        chambrePanel.setBorder(BorderFactory.createLineBorder(new Color(29, 42, 97), 0));
 
         JLabel typeLabel = new JLabel(type, SwingConstants.CENTER);
         typeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

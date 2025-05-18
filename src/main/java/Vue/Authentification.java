@@ -8,28 +8,24 @@ import java.awt.event.*;
 public class Authentification extends JDialog {
     private Runnable onSuccess;
     private Hotel hotel;
-    private JTextField txtIdentifiant;
     private JPasswordField txtMotDePasse;
 
     public Authentification(Runnable onSuccess, Hotel hotel) {
         this.onSuccess = onSuccess;
         this.hotel = hotel;
         
-        // Configuration de base du dialogue
         setTitle("Authentification");
         setModal(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(300, 200);
         setLocationRelativeTo(null);
         
-        // Configuration du panneau principal
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(AppColors.MAIN_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        // Création des composants
 
         JLabel lblMotDePasse = new JLabel("Mot de passe :");
         lblMotDePasse.setForeground(AppColors.TEXT_COLOR);
@@ -37,7 +33,6 @@ public class Authentification extends JDialog {
         txtMotDePasse = new JPasswordField(15);
         JButton btnConnexion = new JButton("Se connecter");
         
-        // Ajout des composants
 
         
         gbc.gridx = 0; gbc.gridy = 1;
@@ -50,10 +45,8 @@ public class Authentification extends JDialog {
         gbc.gridwidth = 2;
         mainPanel.add(btnConnexion, gbc);
         
-        // Action du bouton
         btnConnexion.addActionListener(e -> verifierMotDePasse());
         
-        // Action sur la touche Entrée
         txtMotDePasse.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {

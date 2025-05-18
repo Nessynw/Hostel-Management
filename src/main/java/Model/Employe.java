@@ -15,15 +15,7 @@ public class Employe extends Personne {
 
         hotel = h;
     }
-        public int getId_Emp() {
-            return id_Emp;
-        }
 
-
-
-        public void setId_Emp(int id_Emp) {
-            this.id_Emp = id_Emp;
-        }
 
 
 

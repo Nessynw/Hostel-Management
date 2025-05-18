@@ -32,16 +32,14 @@ public class ChambresDouble extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Créer le modèle de table avec uniquement les chambres doubles disponibles
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"Num", "Étage", "Prix (€)", "Action"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 3; // Seule la colonne "Action" est éditable
+                return column == 3;
             }
         };
 
-        // Ajouter uniquement les chambres doubles disponibles
         for (Chambre c : hotel.getListChambre()) {
             if (c.getType().equals("Double") && c.isAvailable(debut, fin)) {
                 model.addRow(new Object[]{
@@ -53,7 +51,6 @@ public class ChambresDouble extends JFrame {
             }
         }
 
-        // Si aucune chambre n'est disponible
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this,
                 "Désolé, aucune chambre double n'est disponible pour ces dates.",
@@ -94,7 +91,6 @@ public class ChambresDouble extends JFrame {
                         JOptionPane.showMessageDialog(ChambresDouble.this,
                                 "Cette chambre n'est plus disponible.", "Erreur",
                                 JOptionPane.ERROR_MESSAGE);
-                        // Rafraîchir la liste
                         dispose();
                         new ChambresDouble(hotel, debut, fin).setVisible(true);
                     }
@@ -124,14 +120,13 @@ public class ChambresDouble extends JFrame {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
         
-        // Style spécial pour la colonne "Action"
         table.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
                                                          boolean isSelected, boolean hasFocus,
                                                          int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setBackground(AppColors.libreColor);  // Toutes les chambres affichées sont disponibles
+                c.setBackground(AppColors.libreColor);
                 c.setForeground(Color.WHITE);
                 setHorizontalAlignment(SwingConstants.CENTER);
                 return c;

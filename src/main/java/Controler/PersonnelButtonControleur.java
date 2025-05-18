@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// Le nom de la classe correspond maintenant au nom du fichier
 public class PersonnelButtonControleur implements ActionListener {
     private JFrame parentFrame;
     private Hotel hotel;

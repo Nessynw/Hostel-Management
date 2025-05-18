@@ -13,8 +13,7 @@ public class Reservation {
     public Receptionniste recept;
     private static int compteur = 1;
 
-    public Reservation() {
-    }
+
 
 
     public Reservation(Client client, Chambre chambre, LocalDate date_deb, LocalDate date_fin) {
@@ -29,9 +28,6 @@ public class Reservation {
         return id_res;
     }
 
-    public void setId_res(int id_res) {
-        this.id_res = id_res;
-    }
 
     public LocalDate getDate_deb() {
         return date_deb;
@@ -65,30 +61,4 @@ public class Reservation {
         this.client = client;
     }
 
-    public Sejour getSej() {
-        return sej;
-    }
-
-    public void setSej(Sejour sej) {
-        this.sej = sej;
-    }
-
-    public Receptionniste getRecept() {
-        return recept;
-    }
-
-    public void setRecept(Receptionniste recept) {
-        this.recept = recept;
-    }
-
-    public void afficherDetails() {
-        System.out.println("ID Réservation: " + this.id_res);
-        System.out.println("Date de début: " + this.date_deb);
-        System.out.println("Date de fin: " + this.date_fin);
-        System.out.println("Chambre réservée: " + (this.chambre != null ? this.chambre.getNum_chambre() : "Aucune chambre"));
-        System.out.println("Client: " + (this.client != null ? this.client.getNom() : "Aucun client"));
-    }
-    public boolean estConfirmee() {
-        return sej != null;
-    }
 }

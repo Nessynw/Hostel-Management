@@ -17,7 +17,6 @@ public class PersonnelController {
     }
 
     private void initializeListeners() {
-        // Gestion des employés
         vue.getBtnTousEmployes().addActionListener(e -> afficherEmployes());
         vue.getBtnAjouterEmploye().addActionListener(e -> afficherFormulaireAjout());
         vue.getBtnSupprimerEmploye().addActionListener(e -> afficherFormulaireSuppression());
