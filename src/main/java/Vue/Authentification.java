@@ -44,13 +44,16 @@ public class Authentification extends JDialog {
         gbc.gridx = 0; gbc.gridy = 2;
         gbc.gridwidth = 2;
         mainPanel.add(btnConnexion, gbc);
-        
+        //Passer à la méthode vérifierMdp quand je clique sur le bouton connecter
         btnConnexion.addActionListener(e -> verifierMotDePasse());
-        
+        //passer à la méthode vérifierMdp quand je clique sur la toucher Entrer dans clavier
         txtMotDePasse.addKeyListener(new KeyAdapter() {
+        //KeyAdapter est une classe d'adaptation qui permet donc d'écouter les événements du clavier
+            //En gros pour écouter les clavier events on utilise keyListener avec trois méthodes Key Pressed, Keyreleased,KeyTyped, ces trois sont implémentés dans KeyAdapter
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) //Vk_ENTER: touche entré du clavier
+                     {
                     verifierMotDePasse();
                 }
             }
@@ -63,9 +66,9 @@ public class Authentification extends JDialog {
         String motDePasse = new String(txtMotDePasse.getPassword());
         
         if (motDePasse.equals("1234")) {
-            dispose();
+            dispose();//fermer la fenetre d'authentification
             if (onSuccess != null) {
-                onSuccess.run();
+                onSuccess.run();//appeller run() dans le controleur
             }
         } else {
             JOptionPane.showMessageDialog(this,

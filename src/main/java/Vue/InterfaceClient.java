@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.LocalDate;
+
 public class InterfaceClient extends JPanel {
     private static final Color hover = new Color(58, 90, 153);
     private JPanel mainPanel;
@@ -104,7 +104,6 @@ public class InterfaceClient extends JPanel {
         button.setMinimumSize(buttonSize);
         button.setMaximumSize(buttonSize);
 
-        // Le reste du code reste identique...
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(hover);

@@ -1,7 +1,6 @@
 package Vue;
 
-import Model.Hotel;
-import Model.Client;
+import Model.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -321,75 +320,8 @@ class ButtonsEditor extends DefaultCellEditor {
 
         if (option == JOptionPane.YES_OPTION) {
             hotel.getListClient().remove(client);
-            loadData(); // Refresh the table
+            loadData();
         }
     }
 
-    private void refreshData() {
-        tableModel.setRowCount(0);
-        Vector<Client> clients = hotel.getListClient();
-        for (Client c : clients) {
-            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-            buttonPanel.setBackground(AppColors.MAIN_COLOR);
-
-            JButton editBtn = new JButton("Modifier");
-            editBtn.setBackground(AppColors.BUTTON_COLOR);
-            editBtn.setForeground(Color.WHITE);
-            editBtn.addActionListener(e -> openEditDialog(c));
-
-            JButton delBtn = new JButton("Supprimer");
-            delBtn.setBackground(AppColors.ERROR_COLOR);
-            delBtn.setForeground(Color.WHITE);
-            delBtn.addActionListener(e -> {
-                UIManager.put("OptionPane.yesButtonText", "Oui");
-                UIManager.put("OptionPane.noButtonText", "Non");
-
-                int option = JOptionPane.showConfirmDialog(
-                    SwingUtilities.getWindowAncestor(this),
-                    "Êtes-vous sûr de vouloir supprimer ce client ?",
-                    "Confirmation de suppression",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE
-                );
-
-                if (option == JOptionPane.YES_OPTION) {
-                    hotel.getListClient().remove(c);
-                    refreshData();
-                }
-            });
-
-            buttonPanel.add(editBtn);
-            buttonPanel.add(delBtn);
-
-            Object[] row = {
-                c.getId_client(),
-                c.getNom(),
-                c.getPrenom(),
-                c.getEmail(),
-                c.getTel(),
-                c.getAdresse(),
-                buttonPanel
-            };
-            tableModel.addRow(row);
-        }
-
-        table.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                    boolean isSelected, boolean hasFocus, int row, int column) {
-                if (value instanceof JPanel) {
-                    return (JPanel) value;
-                }
-                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            }
-        });
-
-        table.getColumnModel().getColumn(6).setCellEditor(new DefaultCellEditor(new JTextField()) {
-            @Override
-            public Component getTableCellEditorComponent(JTable table, Object value,
-                    boolean isSelected, int row, int column) {
-                return (Component) value;
-            }
-        });
-    }
 }
