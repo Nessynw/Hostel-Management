@@ -71,10 +71,10 @@ public class SejourForm extends JPanel {
         sejourPanel.add(new JLabel("Services additionnels :"){{ setForeground(AppColors.TEXT_COLOR); }});
         JPanel servicesPanel = new JPanel(new GridLayout(2,2,10,10));
         servicesPanel.setBackground(AppColors.MAIN_COLOR);
-        parking = new JCheckBox("Parking (15€/jour)"); styleCheck(parking);
+        parking = new JCheckBox("Parking (15€)"); styleCheck(parking);
         petitDej = new JCheckBox("Petit-déjeuner (12€/pers)"); styleCheck(petitDej);
-       wifi = new JCheckBox("WiFi Premium (8€/jour)"); styleCheck(wifi);
-         blanchisserie = new JCheckBox("Blanchisserie"); styleCheck(blanchisserie);
+        wifi = new JCheckBox("WiFi Premium (8€/jour)"); styleCheck(wifi);
+        blanchisserie = new JCheckBox("Blanchisserie"); styleCheck(blanchisserie);
         servicesPanel.add(parking); servicesPanel.add(petitDej);
         servicesPanel.add(wifi); servicesPanel.add(blanchisserie);
         sejourPanel.add(servicesPanel);

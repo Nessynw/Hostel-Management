@@ -1,8 +1,7 @@
 package Vue;
 
 import com.toedter.calendar.JCalendar;
-import Model.Hotel;
-import Model.Chambre;
+import Model.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;

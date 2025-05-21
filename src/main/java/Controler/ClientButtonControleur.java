@@ -17,14 +17,12 @@ public class ClientButtonControleur implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Authentification authentification = new Authentification(new Runnable() {
-            @Override
-            public void run() {
-                parentFrame.getContentPane().removeAll();
+        Authentification authentification = new Authentification(()-> {
+             parentFrame.getContentPane().removeAll();
                 parentFrame.getContentPane().add(new InterfaceClient(hotel));
                 parentFrame.revalidate();
                 parentFrame.repaint();
-            }
+
         }, hotel);
         authentification.setVisible(true);
     }

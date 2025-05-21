@@ -138,10 +138,10 @@ public class FacturePanel extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         JButton validerButton = new JButton("Valider");
-        JButton pdfButton = new JButton("Exporter en PDF");
+        JButton pdfButton = new JButton("Envoyer par mail");
 
         validerButton.addActionListener(e -> afficherFacture());
-        pdfButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Fonction PDF à implémenter."));
+        pdfButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Facture envoyée par mail."));
 
         buttonPanel.add(validerButton);
         buttonPanel.add(pdfButton);

@@ -1,8 +1,6 @@
 package Vue;
 
-import Model.Chambre;
-import Model.ChambreDouble;
-import Model.Hotel;
+import Model.*;
 import java.time.LocalDate;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -10,8 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Vector;
+
 
 public class ChambresDouble extends JFrame {
     private static final Color backgroundColor = new Color(18, 11, 61);

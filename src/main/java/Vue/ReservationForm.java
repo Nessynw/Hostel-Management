@@ -199,7 +199,7 @@ public class ReservationForm extends JPanel {
         }
     }
     private void filterTable() {
-        String searchText = searchField.getText().toLowerCase();
+        String searchText = searchField.getText();
         String selectedCriteria = (String) searchCriteria.getSelectedItem();
 
         if (searchText.trim().length() == 0) {
