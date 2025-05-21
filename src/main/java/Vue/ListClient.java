@@ -8,7 +8,6 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.util.Vector;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.FlowLayout;
 import java.awt.Component;
 
@@ -101,7 +100,7 @@ table.setRowHeight(40);
 TableColumn actionColumn = table.getColumnModel().getColumn(6);
 actionColumn.setCellRenderer(new ButtonsRenderer());
 actionColumn.setCellEditor(new ButtonsEditor(table));
-actionColumn.setPreferredWidth(200); // Ajustez cette valeur selon vos besoins
+actionColumn.setPreferredWidth(200);
 
 JScrollPane scrollPane = new JScrollPane(table);
 scrollPane.setBackground(AppColors.MAIN_COLOR);
@@ -176,7 +175,6 @@ class ButtonsRenderer implements TableCellRenderer {
         editButton = new JButton("Modifier");
         deleteButton = new JButton("Supprimer");
 
-        // Réduire la taille des boutons
         editButton.setPreferredSize(new Dimension(80, 30));
         deleteButton.setPreferredSize(new Dimension(80, 30));
         
@@ -281,7 +279,6 @@ class ButtonsEditor extends DefaultCellEditor {
 
         JButton saveButton = new JButton("Enregistrer");
         saveButton.addActionListener(e -> {
-            // Validation du numéro de téléphone
             if (!telField.getText().matches("\\d{10}")) {
                 JOptionPane.showMessageDialog(dialog,
                         "Le numéro de téléphone doit contenir exactement 10 chiffres.",
@@ -296,7 +293,7 @@ class ButtonsEditor extends DefaultCellEditor {
             client.setTel(telField.getText());
             client.setAdresse(adresseField.getText());
 
-            loadData(); // Refresh the table
+            loadData();
             dialog.dispose();
         });
 

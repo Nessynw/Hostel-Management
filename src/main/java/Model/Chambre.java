@@ -53,12 +53,6 @@ public class Chambre {
         return prix;
     }
 
-    public Vector<Reservation> getListReservation() {
-        return listReservation;
-    }
-
-
-
 
     public void setEstNettoyee(boolean estNettoyee) {
         this.estNettoyee = estNettoyee;
@@ -76,14 +70,13 @@ public class Chambre {
     public String toString() {
         return "Chambre " + numero + " (" + type + ")";
     }
-public boolean isAvailable(LocalDate debut, LocalDate fin) {
+    public boolean isAvailable(LocalDate debut, LocalDate fin) {
     if (listReservation.isEmpty()) {
         return true;
     }
     
     for (Reservation reservation : listReservation) {
-        // Vérifie si les périodes se chevauchent
-        if (!(fin.isBefore(reservation.getDate_deb()) || 
+        if (!(fin.isBefore(reservation.getDate_deb()) ||
               debut.isAfter(reservation.getDate_fin()))) {
             return false;
         }

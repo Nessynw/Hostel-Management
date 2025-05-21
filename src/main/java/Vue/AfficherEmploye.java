@@ -125,15 +125,14 @@ public class AfficherEmploye extends JPanel {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        table.getColumnModel().getColumn(0).setPreferredWidth(100); // Nom
-        table.getColumnModel().getColumn(1).setPreferredWidth(100); // Prénom
-        table.getColumnModel().getColumn(2).setPreferredWidth(150); // Email
-        table.getColumnModel().getColumn(3).setPreferredWidth(150); // Adresse
-        table.getColumnModel().getColumn(4).setPreferredWidth(100); // Poste
+        table.getColumnModel().getColumn(0).setPreferredWidth(100);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(3).setPreferredWidth(150);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
         table.getColumnModel().getColumn(5).setPreferredWidth(100);
         table.getColumnModel().getColumn(6).setPreferredWidth(150);
 
-        // Rendre le tableau non éditable
         table.setDefaultEditor(Object.class, null);
         table.getTableHeader().setReorderingAllowed(false);
     }
@@ -241,7 +240,7 @@ public class AfficherEmploye extends JPanel {
                         .orElse(null);
 
                 if (chambre != null) {
-                    agent.assignerChambre(chambre, LocalDateTime.now(), hotel); // Ajout de l'hôtel
+                    agent.assignerChambre(chambre, LocalDateTime.now(),hotel);
                     dialog.dispose();
                     refreshTable();
                 }

@@ -66,9 +66,9 @@ public class Authentification extends JDialog {
         String motDePasse = new String(txtMotDePasse.getPassword());
         
         if (motDePasse.equals("1234")) {
-            dispose();//fermer la fenetre d'authentification
+            dispose();
             if (onSuccess != null) {
-                onSuccess.run();//appeller run() dans le controleur
+                onSuccess.run();
             }
         } else {
             JOptionPane.showMessageDialog(this,
